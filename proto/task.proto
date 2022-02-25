@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+//python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. task.proto
+
+service TaskService{
+  rpc task_service_1(TaskRequest)returns(CommonReply){}
+  rpc send_file(FileRequest)returns(CommonReply){}
+  rpc send_resource(ResourceRequest)returns(CommonReply){}
+  rpc send_image(ImageRequest)returns(CommonReply){}
+}
+
+
+message ImageRequest{
+  bytes img = 1;
+}
+
+message TaskRequest{
+  int32 task_id = 1;
+  string task_name = 2;
+}
+
+message CommonReply{
+  bool success = 1;
+}
+
+message FileRequest{
+  //
+  string file_name = 1;
+  bytes file_data = 2;
+}
+
+
+message ResourceRequest{
+  Addr addr = 1;
+  Resource resource = 2;
+}
+
+message Addr{
+  string ip = 1;
+  int32 port = 2;
+}
+
+// 所有硬件资源
+message Resource{
+  CPU cpu = 1;
+  Memory mem = 2;
+  Disc disc = 3;
+}
+
+message CPU{
+  float use_ratio = 1;
+  int32 real_num = 2;
+  int32 logic_num = 3;
+}
+
+message Memory{
+  int64 total = 1;
+  int64 used = 2;
+  int64 available = 3;
+}
+
+message Disc{
+  int64 total = 1;
+  int64 used = 2;
+  int64 available = 3;
+}
