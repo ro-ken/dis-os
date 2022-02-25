@@ -7,8 +7,12 @@ service TaskService{
   rpc send_file(FileRequest)returns(CommonReply){}
   rpc send_resource(ResourceRequest)returns(CommonReply){}
   rpc send_image(ImageRequest)returns(CommonReply){}
+  rpc send_ai(AIRequesst)returns(CommonReply){}
 }
 
+message AIRequesst{
+
+}
 
 message ImageRequest{
   bytes img = 1;

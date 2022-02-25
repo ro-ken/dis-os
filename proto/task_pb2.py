@@ -19,10 +19,35 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\ntask.proto\"\x1b\n\x0cImageRequest\x12\x0b\n\x03img\x18\x01 \x01(\x0c\"1\n\x0bTaskRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\x05\x12\x11\n\ttask_name\x18\x02 \x01(\t\"\x1e\n\x0b\x43ommonReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\"3\n\x0b\x46ileRequest\x12\x11\n\tfile_name\x18\x01 \x01(\t\x12\x11\n\tfile_data\x18\x02 \x01(\x0c\"C\n\x0fResourceRequest\x12\x13\n\x04\x61\x64\x64r\x18\x01 \x01(\x0b\x32\x05.Addr\x12\x1b\n\x08resource\x18\x02 \x01(\x0b\x32\t.Resource\" \n\x04\x41\x64\x64r\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\"H\n\x08Resource\x12\x11\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x04.CPU\x12\x14\n\x03mem\x18\x02 \x01(\x0b\x32\x07.Memory\x12\x13\n\x04\x64isc\x18\x03 \x01(\x0b\x32\x05.Disc\"=\n\x03\x43PU\x12\x11\n\tuse_ratio\x18\x01 \x01(\x02\x12\x10\n\x08real_num\x18\x02 \x01(\x05\x12\x11\n\tlogic_num\x18\x03 \x01(\x05\"8\n\x06Memory\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\"6\n\x04\x44isc\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\x32\xc8\x01\n\x0bTaskService\x12.\n\x0etask_service_1\x12\x0c.TaskRequest\x1a\x0c.CommonReply\"\x00\x12)\n\tsend_file\x12\x0c.FileRequest\x1a\x0c.CommonReply\"\x00\x12\x31\n\rsend_resource\x12\x10.ResourceRequest\x1a\x0c.CommonReply\"\x00\x12+\n\nsend_image\x12\r.ImageRequest\x1a\x0c.CommonReply\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\ntask.proto\"\x0c\n\nAIRequesst\"\x1b\n\x0cImageRequest\x12\x0b\n\x03img\x18\x01 \x01(\x0c\"1\n\x0bTaskRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\x05\x12\x11\n\ttask_name\x18\x02 \x01(\t\"\x1e\n\x0b\x43ommonReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\"3\n\x0b\x46ileRequest\x12\x11\n\tfile_name\x18\x01 \x01(\t\x12\x11\n\tfile_data\x18\x02 \x01(\x0c\"C\n\x0fResourceRequest\x12\x13\n\x04\x61\x64\x64r\x18\x01 \x01(\x0b\x32\x05.Addr\x12\x1b\n\x08resource\x18\x02 \x01(\x0b\x32\t.Resource\" \n\x04\x41\x64\x64r\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\"H\n\x08Resource\x12\x11\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x04.CPU\x12\x14\n\x03mem\x18\x02 \x01(\x0b\x32\x07.Memory\x12\x13\n\x04\x64isc\x18\x03 \x01(\x0b\x32\x05.Disc\"=\n\x03\x43PU\x12\x11\n\tuse_ratio\x18\x01 \x01(\x02\x12\x10\n\x08real_num\x18\x02 \x01(\x05\x12\x11\n\tlogic_num\x18\x03 \x01(\x05\"8\n\x06Memory\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\"6\n\x04\x44isc\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\x32\xf0\x01\n\x0bTaskService\x12.\n\x0etask_service_1\x12\x0c.TaskRequest\x1a\x0c.CommonReply\"\x00\x12)\n\tsend_file\x12\x0c.FileRequest\x1a\x0c.CommonReply\"\x00\x12\x31\n\rsend_resource\x12\x10.ResourceRequest\x1a\x0c.CommonReply\"\x00\x12+\n\nsend_image\x12\r.ImageRequest\x1a\x0c.CommonReply\"\x00\x12&\n\x07send_ai\x12\x0b.AIRequesst\x1a\x0c.CommonReply\"\x00\x62\x06proto3'
 )
 
 
+
+
+_AIREQUESST = _descriptor.Descriptor(
+  name='AIRequesst',
+  full_name='AIRequesst',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=14,
+  serialized_end=26,
+)
 
 
 _IMAGEREQUEST = _descriptor.Descriptor(
@@ -52,8 +77,8 @@ _IMAGEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14,
-  serialized_end=41,
+  serialized_start=28,
+  serialized_end=55,
 )
 
 
@@ -91,8 +116,8 @@ _TASKREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=43,
-  serialized_end=92,
+  serialized_start=57,
+  serialized_end=106,
 )
 
 
@@ -123,8 +148,8 @@ _COMMONREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=94,
-  serialized_end=124,
+  serialized_start=108,
+  serialized_end=138,
 )
 
 
@@ -162,8 +187,8 @@ _FILEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=126,
-  serialized_end=177,
+  serialized_start=140,
+  serialized_end=191,
 )
 
 
@@ -201,8 +226,8 @@ _RESOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=179,
-  serialized_end=246,
+  serialized_start=193,
+  serialized_end=260,
 )
 
 
@@ -240,8 +265,8 @@ _ADDR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=248,
-  serialized_end=280,
+  serialized_start=262,
+  serialized_end=294,
 )
 
 
@@ -286,8 +311,8 @@ _RESOURCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=282,
-  serialized_end=354,
+  serialized_start=296,
+  serialized_end=368,
 )
 
 
@@ -332,8 +357,8 @@ _CPU = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=356,
-  serialized_end=417,
+  serialized_start=370,
+  serialized_end=431,
 )
 
 
@@ -378,8 +403,8 @@ _MEMORY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=419,
-  serialized_end=475,
+  serialized_start=433,
+  serialized_end=489,
 )
 
 
@@ -424,8 +449,8 @@ _DISC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=477,
-  serialized_end=531,
+  serialized_start=491,
+  serialized_end=545,
 )
 
 _RESOURCEREQUEST.fields_by_name['addr'].message_type = _ADDR
@@ -433,6 +458,7 @@ _RESOURCEREQUEST.fields_by_name['resource'].message_type = _RESOURCE
 _RESOURCE.fields_by_name['cpu'].message_type = _CPU
 _RESOURCE.fields_by_name['mem'].message_type = _MEMORY
 _RESOURCE.fields_by_name['disc'].message_type = _DISC
+DESCRIPTOR.message_types_by_name['AIRequesst'] = _AIREQUESST
 DESCRIPTOR.message_types_by_name['ImageRequest'] = _IMAGEREQUEST
 DESCRIPTOR.message_types_by_name['TaskRequest'] = _TASKREQUEST
 DESCRIPTOR.message_types_by_name['CommonReply'] = _COMMONREPLY
@@ -444,6 +470,13 @@ DESCRIPTOR.message_types_by_name['CPU'] = _CPU
 DESCRIPTOR.message_types_by_name['Memory'] = _MEMORY
 DESCRIPTOR.message_types_by_name['Disc'] = _DISC
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+AIRequesst = _reflection.GeneratedProtocolMessageType('AIRequesst', (_message.Message,), {
+  'DESCRIPTOR' : _AIREQUESST,
+  '__module__' : 'task_pb2'
+  # @@protoc_insertion_point(class_scope:AIRequesst)
+  })
+_sym_db.RegisterMessage(AIRequesst)
 
 ImageRequest = _reflection.GeneratedProtocolMessageType('ImageRequest', (_message.Message,), {
   'DESCRIPTOR' : _IMAGEREQUEST,
@@ -524,8 +557,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=534,
-  serialized_end=734,
+  serialized_start=548,
+  serialized_end=788,
   methods=[
   _descriptor.MethodDescriptor(
     name='task_service_1',
@@ -563,6 +596,16 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     index=3,
     containing_service=None,
     input_type=_IMAGEREQUEST,
+    output_type=_COMMONREPLY,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='send_ai',
+    full_name='TaskService.send_ai',
+    index=4,
+    containing_service=None,
+    input_type=_AIREQUESST,
     output_type=_COMMONREPLY,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

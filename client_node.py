@@ -7,7 +7,6 @@ import psutil
 from cv2 import cv2
 
 from proto import task_pb2,task_pb2_grpc
-from model.ai import ai
 
 # client线程
 class ClientThread(threading.Thread):
@@ -59,7 +58,10 @@ class ClientThread(threading.Thread):
         print("send_img.reply:", reply)
 
     def send_ai(self,data):
-        ai.run()
+        ai_req = task_pb2.AIRequesst()
+        reply = self.stub.send_ai(ai_req)
+        # ai.run()
+        return reply
 
     # 启动client发送任务
     def run(self) -> None:
@@ -70,7 +72,7 @@ class ClientThread(threading.Thread):
             # self.send_resource()
             # self.send_file('abc.txt')
             # self.send_image(os.path.split(os.path.realpath(__file__))[0] + '/01.jpg')
-            # self.send_ai('data.csv')
+            self.send_ai('data.csv')
 
 def start(host,port):
     client = ClientThread("client",host,port,None)

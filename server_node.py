@@ -1,7 +1,7 @@
 import threading
 import time
 from concurrent import futures
-
+from model.ai import ai
 
 import grpc
 import numpy as np
@@ -50,6 +50,10 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         img_res = demo.start(img_decode)
         cv2.imshow('img', img_res)
         cv2.waitKey()
+        return task_pb2.CommonReply(success=True)
+
+    def send_ai(self, request, context):
+        ai.run()
         return task_pb2.CommonReply(success=True)
 
 # 服务器线程

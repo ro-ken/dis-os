@@ -36,6 +36,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.ImageRequest.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
+        self.send_ai = channel.unary_unary(
+                '/TaskService/send_ai',
+                request_serializer=task__pb2.AIRequesst.SerializeToString,
+                response_deserializer=task__pb2.CommonReply.FromString,
+                )
 
 
 class TaskServiceServicer(object):
@@ -67,6 +72,12 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def send_ai(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TaskServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -88,6 +99,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
             'send_image': grpc.unary_unary_rpc_method_handler(
                     servicer.send_image,
                     request_deserializer=task__pb2.ImageRequest.FromString,
+                    response_serializer=task__pb2.CommonReply.SerializeToString,
+            ),
+            'send_ai': grpc.unary_unary_rpc_method_handler(
+                    servicer.send_ai,
+                    request_deserializer=task__pb2.AIRequesst.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
     }
@@ -166,6 +182,23 @@ class TaskService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/send_image',
             task__pb2.ImageRequest.SerializeToString,
+            task__pb2.CommonReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def send_ai(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/send_ai',
+            task__pb2.AIRequesst.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
