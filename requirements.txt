@@ -1,6 +1,6 @@
 
 # grpc
-grpc
+grpcio
 opencv_python
 
 # ai 
