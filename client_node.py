@@ -71,8 +71,8 @@ class ClientThread(threading.Thread):
             # self.send_task()
             # self.send_resource()
             # self.send_file('abc.txt')
-            # self.send_image(os.path.split(os.path.realpath(__file__))[0] + '/01.jpg')
-            self.send_ai('data.csv')
+            self.send_image(os.path.split(os.path.realpath(__file__))[0] + '/01.jpg')
+            # self.send_ai('data.csv')
 
 def start(host,port):
     client = ClientThread("client",host,port,None)

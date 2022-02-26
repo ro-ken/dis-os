@@ -1,0 +1,28 @@
+
+# grpc
+grpc
+opencv_python
+
+# ai 
+pandas
+seaborn
+sklearn
+matplotlib
+
+#yolox
+
+numpy
+torch>=1.7
+loguru
+scikit-image
+tqdm
+torchvision
+Pillow
+thop
+ninja
+tabulate
+tensorboard
+
+pycocotools>=2.0.2
+
+
