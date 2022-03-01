@@ -319,8 +319,6 @@ def main(exp, args,img):
         imageflow_demo(predictor, vis_folder, current_time, args)
 
 def start(img):
-    # 改变当前工作路径到 yolox
-    os.chdir(os.path.split(os.path.realpath(__file__))[0] + '/../')
     # vedio
     # args = 'video -f ./exps/yolox_tiny.py -c ./weights/coco.pth --path ./datasets/test1.mp4 --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'.split(' ')
     # image

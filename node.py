@@ -3,39 +3,7 @@ import time
 import server_node
 import client_node
 from proto import task_pb2, task_pb2_grpc
-
-
-def calc_weight(resource):
-    cpu = resource.cpu
-    mem = resource.mem
-    cpu_weight = cpu.logic_num * cpu.use_ratio
-    mem_weight = mem.available
-    weight = cpu_weight * 0.8 + mem_weight * 0.2
-    return weight
-
-
-def select_max_weight(weights):
-    key = None
-    max_weight = 0
-    for item in weights:
-        if weights[item] > max_weight:
-            key = item
-    return key
-
-
-def select_by_resource(node_resources):
-    weights = {}
-    for item in node_resources:
-        weight = calc_weight(node_resources[item])
-        weights[item] = weight
-
-    key = select_max_weight(weights)
-    ip = key.split(':')[0]
-    port = key.split(':')[1]
-
-    addr = task_pb2.Addr(ip=ip, port=port)
-    return addr
-
+import my_tools
 
 class Node:
     # all available nodes
@@ -90,13 +58,11 @@ class Node:
             port = self.server_t.addr.port
             return ip, port
         else:
-            addr = select_by_resource(self.node_resources)
+            addr = my_tools.select_by_resource(self.node_resources)
             return addr.ip, addr.port
 
 
 if __name__ == '__main__':
-    # server_node.start('50051')
-    # client_node.start('localhost','50051')
     server_t = server_node.ServerThread("server", 50051)
     node = Node(server_t)
     node.start()

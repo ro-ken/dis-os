@@ -9,10 +9,8 @@ from cv2 import cv2
 
 from proto import task_pb2_grpc, task_pb2
 from model.yolox.tools import demo
-
-def addr2key(addr):
-    return addr.ip + ":" + str(addr.port)
-
+import my_tools
+# from demo01 import tools
 
 # 实现服务
 class TaskService(task_pb2_grpc.TaskServiceServicer):
@@ -38,23 +36,44 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         addr = request.addr
         resource = request.resource
         # 把资源放入节点资源表中
-        self.node.node_resources[addr2key(addr)] = resource
+        self.node.node_resources[my_tools.addr2key(addr)] = resource
         print(self.node.node_resources)
         reply = task_pb2.CommonReply(success=True)
         return reply
 
     def send_image(self, request, context):
         str_encode = request.img
-        nparr = np.frombuffer(str_encode, np.uint8)
-        img_decode = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-        img_res = demo.start(img_decode)
+        img = my_tools.img_decode(str_encode)
+        img_res = demo.start(img)
         cv2.imshow('img', img_res)
         cv2.waitKey()
         return task_pb2.CommonReply(success=True)
 
+
+    def send_image_2(self, request, context):
+        str_encode = request.img
+        img = my_tools.img_decode(str_encode)
+        img_res = demo.start(img)
+        str_encode = my_tools.img_encode(img_res, '.jpg')
+        reply = task_pb2.Image(img=str_encode)
+        return reply
+
+    def send_vedio(self, request_iterator, context):
+        for image in request_iterator:
+            str_encode = image.img
+            img = my_tools.img_decode(str_encode)
+            img_res = demo.start(img)
+            cv2.imshow('img', img_res)
+            cv2.waitKey(1)
+            str_encode = my_tools.img_encode(img_res, '.jpg')
+            reply = task_pb2.Image(img=str_encode)
+            yield reply
+
     def send_ai(self, request, context):
         ai.run()
         return task_pb2.CommonReply(success=True)
+
+
 
 # 服务器线程
 class ServerThread(threading.Thread):
