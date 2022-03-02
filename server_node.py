@@ -12,6 +12,7 @@ from proto import task_pb2_grpc, task_pb2
 from model.yolox.tools import demo
 from model.yolo5 import detect
 from model.face_ai.faceai import compose
+from model.lic_detect import detect_rec_img
 import my_tools
 
 
@@ -81,6 +82,16 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def send_ai(self, request, context):
         ai.run()
         return task_pb2.CommonReply(success=True)
+
+    def send_lic_detect(self, request, context):
+        print('--------------------start deal with lic detect request-----------')
+        str_encode = request.img
+        img = my_tools.img_decode(str_encode)
+        img_res = detect_rec_img.start(img)
+        str_encode = my_tools.img_encode(img_res, '.jpg')
+        reply = task_pb2.Image(img=str_encode)
+        print('--------------------finish deal with lic detect request-----------')
+        return reply
 
     def send_face_ai(self, request, context):
         print('--------------------start deal with face_ai request-----------')

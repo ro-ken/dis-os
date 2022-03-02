@@ -41,6 +41,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.Image.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
+        self.send_lic_detect = channel.unary_unary(
+                '/TaskService/send_lic_detect',
+                request_serializer=task__pb2.Image.SerializeToString,
+                response_deserializer=task__pb2.Image.FromString,
+                )
         self.send_vedio = channel.stream_stream(
                 '/TaskService/send_vedio',
                 request_serializer=task__pb2.Image.SerializeToString,
@@ -98,6 +103,12 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def send_lic_detect(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def send_vedio(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -147,6 +158,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
             ),
             'send_image_2': grpc.unary_unary_rpc_method_handler(
                     servicer.send_image_2,
+                    request_deserializer=task__pb2.Image.FromString,
+                    response_serializer=task__pb2.Image.SerializeToString,
+            ),
+            'send_lic_detect': grpc.unary_unary_rpc_method_handler(
+                    servicer.send_lic_detect,
                     request_deserializer=task__pb2.Image.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
@@ -262,6 +278,23 @@ class TaskService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/send_image_2',
+            task__pb2.Image.SerializeToString,
+            task__pb2.Image.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def send_lic_detect(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/send_lic_detect',
             task__pb2.Image.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,

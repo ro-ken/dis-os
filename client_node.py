@@ -35,7 +35,8 @@ class ClientThread(threading.Thread):
             # self.send_vedio(ROOT + '/dataset/test2.mp4')
             # self.send_ai('data.csv')
             # self.send_yolo5(ROOT + 'dataset/001.jpg')
-            self.send_face_ai()
+            # self.send_face_ai()
+            self.send_lic_detect(ROOT + 'dataset/lic/02.jpg')
 
     def send_task(self):
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
@@ -132,6 +133,14 @@ class ClientThread(threading.Thread):
         img_compose = my_tools.get_image_req(img_compose_path, '.png').img
         img_2_req = task_pb2.Image_x2(img=img, img_compose=img_compose)
         reply = self.stub.send_face_ai(img_2_req)
+        str_encode = reply.img
+        img_res = my_tools.img_decode(str_encode)
+        cv2.imshow('img', img_res)
+        cv2.waitKey()
+
+    def send_lic_detect(self, img_path):
+        img_req = my_tools.get_image_req(img_path)
+        reply = self.stub.send_lic_detect(img_req)
         str_encode = reply.img
         img_res = my_tools.img_decode(str_encode)
         cv2.imshow('img', img_res)
