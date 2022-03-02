@@ -19,10 +19,49 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\ntask.proto\"\x0c\n\nAIRequesst\"\x14\n\x05Image\x12\x0b\n\x03img\x18\x01 \x01(\x0c\"1\n\x0bTaskRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\x05\x12\x11\n\ttask_name\x18\x02 \x01(\t\"\x1e\n\x0b\x43ommonReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\",\n\x04\x46ile\x12\x11\n\tfile_name\x18\x01 \x01(\t\x12\x11\n\tfile_data\x18\x02 \x01(\x0c\"C\n\x0fResourceRequest\x12\x13\n\x04\x61\x64\x64r\x18\x01 \x01(\x0b\x32\x05.Addr\x12\x1b\n\x08resource\x18\x02 \x01(\x0b\x32\t.Resource\" \n\x04\x41\x64\x64r\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\"H\n\x08Resource\x12\x11\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x04.CPU\x12\x14\n\x03mem\x18\x02 \x01(\x0b\x32\x07.Memory\x12\x13\n\x04\x64isc\x18\x03 \x01(\x0b\x32\x05.Disc\"=\n\x03\x43PU\x12\x11\n\tuse_ratio\x18\x01 \x01(\x02\x12\x10\n\x08real_num\x18\x02 \x01(\x05\x12\x11\n\tlogic_num\x18\x03 \x01(\x05\"8\n\x06Memory\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\"6\n\x04\x44isc\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\x32\xc7\x02\n\x0bTaskService\x12.\n\x0etask_service_1\x12\x0c.TaskRequest\x1a\x0c.CommonReply\"\x00\x12\"\n\tsend_file\x12\x05.File\x1a\x0c.CommonReply\"\x00\x12\x31\n\rsend_resource\x12\x10.ResourceRequest\x1a\x0c.CommonReply\"\x00\x12$\n\nsend_image\x12\x06.Image\x1a\x0c.CommonReply\"\x00\x12 \n\x0csend_image_2\x12\x06.Image\x1a\x06.Image\"\x00\x12\"\n\nsend_vedio\x12\x06.Image\x1a\x06.Image\"\x00(\x01\x30\x01\x12&\n\x07send_ai\x12\x0b.AIRequesst\x1a\x0c.CommonReply\"\x00\x12\x1d\n\nsend_yolo5\x12\x05.File\x1a\x06.Image\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\ntask.proto\",\n\x08Image_x2\x12\x0b\n\x03img\x18\x01 \x01(\x0c\x12\x13\n\x0bimg_compose\x18\x02 \x01(\x0c\"\x0c\n\nAIRequesst\"\x14\n\x05Image\x12\x0b\n\x03img\x18\x01 \x01(\x0c\"1\n\x0bTaskRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\x05\x12\x11\n\ttask_name\x18\x02 \x01(\t\"\x1e\n\x0b\x43ommonReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\",\n\x04\x46ile\x12\x11\n\tfile_name\x18\x01 \x01(\t\x12\x11\n\tfile_data\x18\x02 \x01(\x0c\"C\n\x0fResourceRequest\x12\x13\n\x04\x61\x64\x64r\x18\x01 \x01(\x0b\x32\x05.Addr\x12\x1b\n\x08resource\x18\x02 \x01(\x0b\x32\t.Resource\" \n\x04\x41\x64\x64r\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\"H\n\x08Resource\x12\x11\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x04.CPU\x12\x14\n\x03mem\x18\x02 \x01(\x0b\x32\x07.Memory\x12\x13\n\x04\x64isc\x18\x03 \x01(\x0b\x32\x05.Disc\"=\n\x03\x43PU\x12\x11\n\tuse_ratio\x18\x01 \x01(\x02\x12\x10\n\x08real_num\x18\x02 \x01(\x05\x12\x11\n\tlogic_num\x18\x03 \x01(\x05\"8\n\x06Memory\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\"6\n\x04\x44isc\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\x32\xec\x02\n\x0bTaskService\x12.\n\x0etask_service_1\x12\x0c.TaskRequest\x1a\x0c.CommonReply\"\x00\x12\"\n\tsend_file\x12\x05.File\x1a\x0c.CommonReply\"\x00\x12\x31\n\rsend_resource\x12\x10.ResourceRequest\x1a\x0c.CommonReply\"\x00\x12$\n\nsend_image\x12\x06.Image\x1a\x0c.CommonReply\"\x00\x12 \n\x0csend_image_2\x12\x06.Image\x1a\x06.Image\"\x00\x12\"\n\nsend_vedio\x12\x06.Image\x1a\x06.Image\"\x00(\x01\x30\x01\x12&\n\x07send_ai\x12\x0b.AIRequesst\x1a\x0c.CommonReply\"\x00\x12\x1d\n\nsend_yolo5\x12\x05.File\x1a\x06.Image\"\x00\x12#\n\x0csend_face_ai\x12\t.Image_x2\x1a\x06.Image\"\x00\x62\x06proto3'
 )
 
 
+
+
+_IMAGE_X2 = _descriptor.Descriptor(
+  name='Image_x2',
+  full_name='Image_x2',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='img', full_name='Image_x2.img', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='img_compose', full_name='Image_x2.img_compose', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=14,
+  serialized_end=58,
+)
 
 
 _AIREQUESST = _descriptor.Descriptor(
@@ -45,8 +84,8 @@ _AIREQUESST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14,
-  serialized_end=26,
+  serialized_start=60,
+  serialized_end=72,
 )
 
 
@@ -77,8 +116,8 @@ _IMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=28,
-  serialized_end=48,
+  serialized_start=74,
+  serialized_end=94,
 )
 
 
@@ -116,8 +155,8 @@ _TASKREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=50,
-  serialized_end=99,
+  serialized_start=96,
+  serialized_end=145,
 )
 
 
@@ -148,8 +187,8 @@ _COMMONREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=101,
-  serialized_end=131,
+  serialized_start=147,
+  serialized_end=177,
 )
 
 
@@ -187,8 +226,8 @@ _FILE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=133,
-  serialized_end=177,
+  serialized_start=179,
+  serialized_end=223,
 )
 
 
@@ -226,8 +265,8 @@ _RESOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=179,
-  serialized_end=246,
+  serialized_start=225,
+  serialized_end=292,
 )
 
 
@@ -265,8 +304,8 @@ _ADDR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=248,
-  serialized_end=280,
+  serialized_start=294,
+  serialized_end=326,
 )
 
 
@@ -311,8 +350,8 @@ _RESOURCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=282,
-  serialized_end=354,
+  serialized_start=328,
+  serialized_end=400,
 )
 
 
@@ -357,8 +396,8 @@ _CPU = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=356,
-  serialized_end=417,
+  serialized_start=402,
+  serialized_end=463,
 )
 
 
@@ -403,8 +442,8 @@ _MEMORY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=419,
-  serialized_end=475,
+  serialized_start=465,
+  serialized_end=521,
 )
 
 
@@ -449,8 +488,8 @@ _DISC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=477,
-  serialized_end=531,
+  serialized_start=523,
+  serialized_end=577,
 )
 
 _RESOURCEREQUEST.fields_by_name['addr'].message_type = _ADDR
@@ -458,6 +497,7 @@ _RESOURCEREQUEST.fields_by_name['resource'].message_type = _RESOURCE
 _RESOURCE.fields_by_name['cpu'].message_type = _CPU
 _RESOURCE.fields_by_name['mem'].message_type = _MEMORY
 _RESOURCE.fields_by_name['disc'].message_type = _DISC
+DESCRIPTOR.message_types_by_name['Image_x2'] = _IMAGE_X2
 DESCRIPTOR.message_types_by_name['AIRequesst'] = _AIREQUESST
 DESCRIPTOR.message_types_by_name['Image'] = _IMAGE
 DESCRIPTOR.message_types_by_name['TaskRequest'] = _TASKREQUEST
@@ -470,6 +510,13 @@ DESCRIPTOR.message_types_by_name['CPU'] = _CPU
 DESCRIPTOR.message_types_by_name['Memory'] = _MEMORY
 DESCRIPTOR.message_types_by_name['Disc'] = _DISC
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+Image_x2 = _reflection.GeneratedProtocolMessageType('Image_x2', (_message.Message,), {
+  'DESCRIPTOR' : _IMAGE_X2,
+  '__module__' : 'task_pb2'
+  # @@protoc_insertion_point(class_scope:Image_x2)
+  })
+_sym_db.RegisterMessage(Image_x2)
 
 AIRequesst = _reflection.GeneratedProtocolMessageType('AIRequesst', (_message.Message,), {
   'DESCRIPTOR' : _AIREQUESST,
@@ -557,8 +604,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=534,
-  serialized_end=861,
+  serialized_start=580,
+  serialized_end=944,
   methods=[
   _descriptor.MethodDescriptor(
     name='task_service_1',
@@ -636,6 +683,16 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     index=7,
     containing_service=None,
     input_type=_FILE,
+    output_type=_IMAGE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='send_face_ai',
+    full_name='TaskService.send_face_ai',
+    index=8,
+    containing_service=None,
+    input_type=_IMAGE_X2,
     output_type=_IMAGE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

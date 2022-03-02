@@ -11,7 +11,15 @@ service TaskService{
   rpc send_vedio(stream Image)returns(stream Image){}
   rpc send_ai(AIRequesst)returns(CommonReply){}
   rpc send_yolo5(File)returns(Image){}
+  rpc send_face_ai(Image_x2)returns(Image){}
 }
+
+message Image_x2{
+  bytes img = 1;
+  bytes img_compose = 2;
+}
+
+
 
 message AIRequesst{
 

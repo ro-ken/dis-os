@@ -63,9 +63,9 @@ def get_file_req(file_path) -> object:
     file_req = task_pb2.File(file_name=get_file_name(file_path), file_data=file_data)
     return file_req
 
-def get_image_req(img_path):
+def get_image_req(img_path,type = '.jpg'):
     img = cv2.imread(img_path)
-    str_encode = img_encode(img, '.jpg')
+    str_encode = img_encode(img, type)
     img_req = task_pb2.Image(img=str_encode)
     return img_req
 

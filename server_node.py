@@ -11,7 +11,9 @@ from my_tools import ROOT
 from proto import task_pb2_grpc, task_pb2
 from model.yolox.tools import demo
 from model.yolo5 import detect
+from model.face_ai.faceai import compose
 import my_tools
+
 
 # 实现服务
 class TaskService(task_pb2_grpc.TaskServiceServicer):
@@ -26,7 +28,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
     def send_file(self, request, context):
         path = ROOT + request.file_name + '.bak'
-        my_tools.write_file(path,request.file_data)
+        my_tools.write_file(path, request.file_data)
         reply = task_pb2.CommonReply(success=True)
         return reply
 
@@ -46,7 +48,6 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         cv2.imshow('img', img_res)
         cv2.waitKey()
         return task_pb2.CommonReply(success=True)
-
 
     def send_image_2(self, request, context):
         str_encode = request.img
@@ -81,6 +82,17 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         ai.run()
         return task_pb2.CommonReply(success=True)
 
+    def send_face_ai(self, request, context):
+        print('--------------------start deal with face_ai request-----------')
+        str_encode = request.img
+        img = my_tools.img_decode(str_encode)
+        str_encode = request.img_compose
+        img_compose = my_tools.img_decode(str_encode)
+        img_out = compose.start(img, img_compose)
+        str_encode = my_tools.img_encode(img_out, '.png')
+        reply = task_pb2.Image(img=str_encode)
+        print('--------------------finish deal with face_ai request-----------')
+        return reply
 
 
 # 服务器线程
@@ -109,6 +121,7 @@ class ServerThread(threading.Thread):
         self.addr = task_pb2.Addr(ip='localhost', port=self.port)
         print("server start... port = " + str(self.port))
         server.wait_for_termination()
+
 
 def start(port):
     server = ServerThread("server", port)

@@ -10,6 +10,7 @@ from my_tools import ROOT
 
 from proto import task_pb2, task_pb2_grpc
 
+
 # client线程
 class ClientThread(threading.Thread):
     stub = None
@@ -20,6 +21,21 @@ class ClientThread(threading.Thread):
         self.host = host
         self.port = port
         self.addr = addr  # 节点地址
+
+    # 启动client发送任务
+    def run(self) -> None:
+        with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
+            stub = task_pb2_grpc.TaskServiceStub(channel)
+            self.stub = stub
+            # self.send_task()
+            # self.send_resource()
+            # self.send_file(ROOT + 'README.md')
+            # self.send_image(ROOT + 'dataset/01.jpg')
+            # self.send_image_2(ROOT + '/dataset/001.jpg')
+            # self.send_vedio(ROOT + '/dataset/test2.mp4')
+            # self.send_ai('data.csv')
+            # self.send_yolo5(ROOT + 'dataset/001.jpg')
+            self.send_face_ai()
 
     def send_task(self):
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
@@ -74,7 +90,7 @@ class ClientThread(threading.Thread):
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
-    def get_img_iter(self,vedio):
+    def get_img_iter(self, vedio):
         cap = cv2.VideoCapture(vedio)
         img_width = 360
         img_height = 640
@@ -83,9 +99,9 @@ class ClientThread(threading.Thread):
         # print(cap.set(4,360.0))
         # cap.set(10, 130)
         while True:
-            ret, frame = self.read_times(cap,5)
+            ret, frame = self.read_times(cap, 5)
             if ret:
-                frame = cv2.resize(frame,(img_height,img_width))
+                frame = cv2.resize(frame, (img_height, img_width))
                 str_encode = my_tools.img_encode(frame, '.jpg')
                 request = task_pb2.Image(img=str_encode)
                 yield request
@@ -104,24 +120,22 @@ class ClientThread(threading.Thread):
         print("vedio play finished")
         cv2.destroyAllWindows()
 
-    def read_times(self,cap, times):
-        for _ in range (times):
+    def read_times(self, cap, times):
+        for _ in range(times):
             cap.read()
         return cap.read()
 
-    # 启动client发送任务
-    def run(self) -> None:
-        with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
-            stub = task_pb2_grpc.TaskServiceStub(channel)
-            self.stub = stub
-            # self.send_task()
-            # self.send_resource()
-            # self.send_file(ROOT + 'README.md')
-            # self.send_image(ROOT + 'README.md')
-            # self.send_image_2(ROOT + '/dataset/001.jpg')
-            # self.send_vedio(ROOT + '/dataset/test2.mp4')
-            # self.send_ai('data.csv')
-            self.send_yolo5(ROOT + 'dataset/001.jpg')
+    def send_face_ai(self):
+        img_path = ROOT + 'dataset/face_ai/ag-3.png'
+        img_compose_path = ROOT + 'dataset/face_ai/compose/maozi-1.png'
+        img = my_tools.get_image_req(img_path, '.png').img
+        img_compose = my_tools.get_image_req(img_compose_path, '.png').img
+        img_2_req = task_pb2.Image_x2(img=img, img_compose=img_compose)
+        reply = self.stub.send_face_ai(img_2_req)
+        str_encode = reply.img
+        img_res = my_tools.img_decode(str_encode)
+        cv2.imshow('img', img_res)
+        cv2.waitKey()
 
 
 def start(host, port):
