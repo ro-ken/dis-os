@@ -1,4 +1,4 @@
 
-from b import a
+from model.yolov5 import detect
 
-a.main()
+detect.start('01.jpg')

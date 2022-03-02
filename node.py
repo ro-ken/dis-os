@@ -4,6 +4,7 @@ import server_node
 import client_node
 from proto import task_pb2, task_pb2_grpc
 import my_tools
+import os
 
 class Node:
     # all available nodes

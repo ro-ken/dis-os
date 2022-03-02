@@ -7,10 +7,11 @@ import grpc
 import numpy as np
 from cv2 import cv2
 
+from my_tools import ROOT
 from proto import task_pb2_grpc, task_pb2
 from model.yolox.tools import demo
+from model.yolo5 import detect
 import my_tools
-# from demo01 import tools
 
 # 实现服务
 class TaskService(task_pb2_grpc.TaskServiceServicer):
@@ -24,11 +25,8 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         return reply
 
     def send_file(self, request, context):
-        file_name = request.file_name
-        file_data = request.file_data
-        f = open(file_name + '.bak', 'wb')
-        f.write(file_data)
-        f.close()
+        path = ROOT + request.file_name + '.bak'
+        my_tools.write_file(path,request.file_data)
         reply = task_pb2.CommonReply(success=True)
         return reply
 
@@ -68,6 +66,16 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
             str_encode = my_tools.img_encode(img_res, '.jpg')
             reply = task_pb2.Image(img=str_encode)
             yield reply
+
+    def send_yolo5(self, request, context):
+        print('--------------------start deal with yolo5 request-----------')
+        in_path = ROOT + 'model/yolo5/input/' + request.file_name
+        my_tools.write_file(in_path, request.file_data)
+        detect.start(in_path)
+        out_path = ROOT + 'model/yolo5/output/' + request.file_name
+        img_req = my_tools.get_image_req(out_path)
+        print('--------------------finish deal with yolo5 request-----------')
+        return img_req
 
     def send_ai(self, request, context):
         ai.run()

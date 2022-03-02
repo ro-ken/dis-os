@@ -6,9 +6,9 @@ import numpy as np
 import psutil
 from cv2 import cv2
 import my_tools
+from my_tools import ROOT
 
 from proto import task_pb2, task_pb2_grpc
-
 
 # client线程
 class ClientThread(threading.Thread):
@@ -27,9 +27,7 @@ class ClientThread(threading.Thread):
         print(reply)
 
     def send_file(self, file_name):
-        f = open(file_name, 'rb')
-        file_data = f.read()
-        req = task_pb2.FileRequest(file_name=file_name, file_data=file_data)
+        req = my_tools.get_file_req(file_name)
         reply = self.stub.send_file(req)
         print(reply)
 
@@ -50,18 +48,14 @@ class ClientThread(threading.Thread):
 
         print("send_resource.reply:", reply)
 
-    def send_image(self, img_name):
-        img = cv2.imread(img_name)
-        str_encode = my_tools.img_encode(img, '.jpg')
-        request = task_pb2.ImageRequest(img=str_encode)
-        reply = self.stub.send_image(request)
+    def send_image(self, img_path):
+        img_req = my_tools.get_image_req(img_path)
+        reply = self.stub.send_image(img_req)
         print("send_img.reply:", reply)
 
-    def send_image_2(self, img_name):
-        img = cv2.imread(img_name)
-        str_encode = my_tools.img_encode(img, '.jpg')
-        request = task_pb2.Image(img=str_encode)
-        reply = self.stub.send_image_2(request)
+    def send_image_2(self, img_path):
+        img_req = my_tools.get_image_req(img_path)
+        reply = self.stub.send_image_2(img_req)
         str_encode = reply.img
         img_res = my_tools.img_decode(str_encode)
         cv2.imshow('img', img_res)
@@ -71,6 +65,14 @@ class ClientThread(threading.Thread):
         ai_req = task_pb2.AIRequesst()
         reply = self.stub.send_ai(ai_req)
         return reply
+
+    def send_yolo5(self, file_name):
+        req = my_tools.get_file_req(file_name)
+        reply = self.stub.send_yolo5(req)
+        str_encode = reply.img
+        img_res = my_tools.img_decode(str_encode)
+        cv2.imshow('img', img_res)
+        cv2.waitKey()
 
     def get_img_iter(self,vedio):
         cap = cv2.VideoCapture(vedio)
@@ -114,11 +116,13 @@ class ClientThread(threading.Thread):
             self.stub = stub
             # self.send_task()
             # self.send_resource()
-            # self.send_file('abc.txt')
-            # self.send_image(os.path.split(os.path.realpath(__file__))[0] + '/dataset/01.jpg')
-            # self.send_image_2(os.path.split(os.path.realpath(__file__))[0] + '/dataset/001.jpg')
-            self.send_vedio(os.path.split(os.path.realpath(__file__))[0] + '/dataset/test2.mp4')
+            # self.send_file(ROOT + 'README.md')
+            # self.send_image(ROOT + 'README.md')
+            # self.send_image_2(ROOT + '/dataset/001.jpg')
+            # self.send_vedio(ROOT + '/dataset/test2.mp4')
             # self.send_ai('data.csv')
+            self.send_yolo5(ROOT + 'dataset/001.jpg')
+
 
 def start(host, port):
     client = ClientThread("client", host, port, None)

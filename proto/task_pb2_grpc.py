@@ -23,7 +23,7 @@ class TaskServiceStub(object):
                 )
         self.send_file = channel.unary_unary(
                 '/TaskService/send_file',
-                request_serializer=task__pb2.FileRequest.SerializeToString,
+                request_serializer=task__pb2.File.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
         self.send_resource = channel.unary_unary(
@@ -33,7 +33,7 @@ class TaskServiceStub(object):
                 )
         self.send_image = channel.unary_unary(
                 '/TaskService/send_image',
-                request_serializer=task__pb2.ImageRequest.SerializeToString,
+                request_serializer=task__pb2.Image.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
         self.send_image_2 = channel.unary_unary(
@@ -50,6 +50,11 @@ class TaskServiceStub(object):
                 '/TaskService/send_ai',
                 request_serializer=task__pb2.AIRequesst.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
+                )
+        self.send_yolo5 = channel.unary_unary(
+                '/TaskService/send_yolo5',
+                request_serializer=task__pb2.File.SerializeToString,
+                response_deserializer=task__pb2.Image.FromString,
                 )
 
 
@@ -100,6 +105,12 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def send_yolo5(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TaskServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -110,7 +121,7 @@ def add_TaskServiceServicer_to_server(servicer, server):
             ),
             'send_file': grpc.unary_unary_rpc_method_handler(
                     servicer.send_file,
-                    request_deserializer=task__pb2.FileRequest.FromString,
+                    request_deserializer=task__pb2.File.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
             'send_resource': grpc.unary_unary_rpc_method_handler(
@@ -120,7 +131,7 @@ def add_TaskServiceServicer_to_server(servicer, server):
             ),
             'send_image': grpc.unary_unary_rpc_method_handler(
                     servicer.send_image,
-                    request_deserializer=task__pb2.ImageRequest.FromString,
+                    request_deserializer=task__pb2.Image.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
             'send_image_2': grpc.unary_unary_rpc_method_handler(
@@ -137,6 +148,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     servicer.send_ai,
                     request_deserializer=task__pb2.AIRequesst.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
+            ),
+            'send_yolo5': grpc.unary_unary_rpc_method_handler(
+                    servicer.send_yolo5,
+                    request_deserializer=task__pb2.File.FromString,
+                    response_serializer=task__pb2.Image.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -179,7 +195,7 @@ class TaskService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/send_file',
-            task__pb2.FileRequest.SerializeToString,
+            task__pb2.File.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -213,7 +229,7 @@ class TaskService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/send_image',
-            task__pb2.ImageRequest.SerializeToString,
+            task__pb2.Image.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -266,5 +282,22 @@ class TaskService(object):
         return grpc.experimental.unary_unary(request, target, '/TaskService/send_ai',
             task__pb2.AIRequesst.SerializeToString,
             task__pb2.CommonReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def send_yolo5(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/send_yolo5',
+            task__pb2.File.SerializeToString,
+            task__pb2.Image.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
