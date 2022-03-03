@@ -66,6 +66,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.Image_x2.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
+        self.send_style_transfer = channel.unary_unary(
+                '/TaskService/send_style_transfer',
+                request_serializer=task__pb2.File_x2.SerializeToString,
+                response_deserializer=task__pb2.Image.FromString,
+                )
 
 
 class TaskServiceServicer(object):
@@ -133,6 +138,12 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def send_style_transfer(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TaskServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -184,6 +195,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
             'send_face_ai': grpc.unary_unary_rpc_method_handler(
                     servicer.send_face_ai,
                     request_deserializer=task__pb2.Image_x2.FromString,
+                    response_serializer=task__pb2.Image.SerializeToString,
+            ),
+            'send_style_transfer': grpc.unary_unary_rpc_method_handler(
+                    servicer.send_style_transfer,
+                    request_deserializer=task__pb2.File_x2.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
     }
@@ -364,6 +380,23 @@ class TaskService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/send_face_ai',
             task__pb2.Image_x2.SerializeToString,
+            task__pb2.Image.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def send_style_transfer(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/send_style_transfer',
+            task__pb2.File_x2.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

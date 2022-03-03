@@ -36,7 +36,8 @@ class ClientThread(threading.Thread):
             # self.send_ai('data.csv')
             # self.send_yolo5(ROOT + 'dataset/001.jpg')
             # self.send_face_ai()
-            self.send_lic_detect(ROOT + 'dataset/lic/02.jpg')
+            # self.send_lic_detect(ROOT + 'dataset/lic/02.jpg')
+            self.send_style_transfer()
 
     def send_task(self):
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
@@ -90,6 +91,19 @@ class ClientThread(threading.Thread):
         img_res = my_tools.img_decode(str_encode)
         cv2.imshow('img', img_res)
         cv2.waitKey()
+
+    def send_style_transfer(self):
+        content_path = ROOT + 'dataset/style-transfer/content.jpg'
+        style_path = ROOT + 'dataset/style-transfer/style.jpg'
+        content_img = my_tools.get_file_req(content_path)
+        style_img = my_tools.get_file_req(style_path)
+        file_req = task_pb2.File_x2(content=content_img, style=style_img)
+        reply = self.stub.send_style_transfer(file_req)
+        str_encode = reply.img
+        img_res = my_tools.img_decode(str_encode)
+        cv2.imshow('img', img_res)
+        cv2.waitKey()
+
 
     def get_img_iter(self, vedio):
         cap = cv2.VideoCapture(vedio)

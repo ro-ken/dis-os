@@ -13,6 +13,7 @@ from model.yolox.tools import demo
 from model.yolo5 import detect
 from model.face_ai.faceai import compose
 from model.lic_detect import detect_rec_img
+from model.style_transfer import train
 import my_tools
 
 
@@ -78,6 +79,19 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         img_req = my_tools.get_image_req(out_path)
         print('--------------------finish deal with yolo5 request-----------')
         return img_req
+
+    def send_style_transfer(self, request, context):
+        print('--------------------start deal with style_transfer request-----------')
+        content_path = ROOT + 'model/style_transfer/input/' + request.content.file_name
+        my_tools.write_file(content_path, request.content.file_data)
+        style_path = ROOT + 'model/style_transfer/input/' + request.style.file_name
+        my_tools.write_file(style_path, request.style.file_data)
+        train.start(content_path,style_path)
+        out_path = ROOT + 'model/style_transfer/output/' + 'out.jpg'
+        img_req = my_tools.get_image_req(out_path)
+        print('--------------------finish deal with style_transfer request-----------')
+        return img_req
+
 
     def send_ai(self, request, context):
         ai.run()

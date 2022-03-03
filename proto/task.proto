@@ -13,7 +13,13 @@ service TaskService{
   rpc send_ai(AIRequesst)returns(CommonReply){}
   rpc send_yolo5(File)returns(Image){}
   rpc send_face_ai(Image_x2)returns(Image){}
+  rpc send_style_transfer(File_x2)returns(Image){}
 
+}
+
+message File_x2{
+  File content=1;
+  File style=2;
 }
 
 message Image_x2{
