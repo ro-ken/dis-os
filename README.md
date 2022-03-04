@@ -20,7 +20,6 @@
 
 ### face_ai
 
-- **修改xml文件路径 15行**
 - faceai/compose.py
 - 直接显示结果
 
@@ -49,7 +48,6 @@
 - tools/demo.py
 - 可直接运行 demo.sh
 - 直接显示结果
-
 
 ## 系统结构图
 

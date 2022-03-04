@@ -184,7 +184,7 @@ class lprnet:
 
 def start(img=None):
     parser = argparse.ArgumentParser(description='RetinaPL')
-    parser.add_argument('--imgpath', default='D:/Project/python/grpc/dis-os/model/lic_detect/02.jpg', type=str,
+    parser.add_argument('--imgpath', default=os.path.split(os.path.realpath(__file__))[0] + '/03.jpg', type=str,
                         help='show detection results')
     parser.add_argument('--confidence_threshold', default=0.02, type=float, help='confidence_threshold')
     parser.add_argument('--top_k', default=1000, type=int, help='top_k')
