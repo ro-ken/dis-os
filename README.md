@@ -24,7 +24,7 @@
 
 ### face_ai
 
-- ""修改xml文件路径""
+- **修改xml文件路径**
 - faceai/compose.py
 - 直接显示结果
 
