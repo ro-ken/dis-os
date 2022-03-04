@@ -328,4 +328,6 @@ def start(img):
     return main(exp, args , img)
 
 if __name__ == "__main__":
-    start(None)
+    img_res = start(None)
+    cv2.imshow('img', img_res)
+    cv2.waitKey()
