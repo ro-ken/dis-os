@@ -130,6 +130,7 @@ class detect_plate_recognition:
         # landms = landms.astype(np.int32)
         for i in indices:
             idx = i[0]
+            # idx = i
             if scores[idx] < self.vis_thres:
                 continue
             xmin, ymin, width, height = boxes[idx, :]
