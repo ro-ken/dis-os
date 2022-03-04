@@ -52,14 +52,17 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         return task_pb2.CommonReply(success=True)
 
     def send_image_2(self, request, context):
+        print('--------------------start deal with yolox image request-----------')
         str_encode = request.img
         img = my_tools.img_decode(str_encode)
         img_res = demo.start(img)
         str_encode = my_tools.img_encode(img_res, '.jpg')
         reply = task_pb2.Image(img=str_encode)
+        print('--------------------finish deal with yolox image request-----------')
         return reply
 
     def send_vedio(self, request_iterator, context):
+        print('--------------------start deal with yolox vedio request-----------')
         for image in request_iterator:
             str_encode = image.img
             img = my_tools.img_decode(str_encode)
@@ -69,6 +72,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
             str_encode = my_tools.img_encode(img_res, '.jpg')
             reply = task_pb2.Image(img=str_encode)
             yield reply
+        print('--------------------finish deal with yolox vedio request-----------')
 
     def send_yolo5(self, request, context):
         print('--------------------start deal with yolo5 request-----------')

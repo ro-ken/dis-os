@@ -28,16 +28,16 @@ class ClientThread(threading.Thread):
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.stub = stub
             # self.send_task()
+            # self.send_ai('data.csv')
             # self.send_resource()
             # self.send_file(ROOT + 'README.md')
             # self.send_image(ROOT + 'dataset/01.jpg')
-            # self.send_image_2(ROOT + '/dataset/001.jpg')
+            self.send_image_2(ROOT + '/dataset/001.jpg')
             # self.send_vedio(ROOT + '/dataset/test2.mp4')
-            # self.send_ai('data.csv')
             # self.send_yolo5(ROOT + 'dataset/001.jpg')
             # self.send_face_ai()
             # self.send_lic_detect(ROOT + 'dataset/lic/02.jpg')
-            self.send_style_transfer()
+            # self.send_style_transfer()
 
     def send_task(self):
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
@@ -93,6 +93,7 @@ class ClientThread(threading.Thread):
         cv2.waitKey()
 
     def send_style_transfer(self):
+        # content_path = ROOT + 'dataset/style-transfer/content.jpg'
         content_path = ROOT + 'dataset/style-transfer/content.jpg'
         style_path = ROOT + 'dataset/style-transfer/style.jpg'
         content_img = my_tools.get_file_req(content_path)

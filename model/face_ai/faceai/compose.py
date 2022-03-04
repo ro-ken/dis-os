@@ -5,9 +5,6 @@ import cv2
 
 def start(img, img_compose):
     img_out = main(img, img_compose)
-    # cv2.imshow("image", img_out)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
     return img_out
 
 
@@ -60,4 +57,7 @@ def main(img, imgCompose):
 
 
 if __name__ == '__main__':
-    start(None, None)
+    img_out = start(None, None)
+    cv2.imshow("image", img_out)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()

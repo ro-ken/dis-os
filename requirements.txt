@@ -25,4 +25,5 @@ tensorboard
 
 pycocotools>=2.0.2
 
-
+# tensorflow
+tensorflow
