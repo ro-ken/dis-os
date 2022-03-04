@@ -1,5 +1,7 @@
 # coding=utf-8
 # 头像特效合成
+import os
+
 import cv2
 
 
@@ -12,7 +14,8 @@ def main(img, imgCompose):
     # OpenCV人脸识别分类器
     classifier = cv2.CascadeClassifier(
         # "C:\Python36\Lib\site-packages\opencv-master\data\haarcascades\haarcascade_frontalface_default.xml"
-        "C:/Users/ro_ken/AppData/Local/Programs/Python/Python39/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml")
+        # "C:/Users/ro_ken/AppData/Local/Programs/Python/Python39/Lib/site-packages/cv2/data/haarcascade_frontalface_default.xml")
+        os.path.split(os.path.realpath(__file__))[0] + "/haarcascade_frontalface_default.xml")
 
     if img is None or imgCompose is None:
         img = cv2.imread("img/ag-3.png")  # 读取图片
