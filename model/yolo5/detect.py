@@ -252,8 +252,9 @@ def parse_opt():
 
 
 def main(opt, img_path):
-    source = WindowsPath(img_path)
-    opt.source = source
+    if img_path is not None:
+        source = WindowsPath(img_path)
+        opt.source = source
     check_requirements(exclude=('tensorboard', 'thop'))
     run(**vars(opt))
 
@@ -266,4 +267,4 @@ def start(img_path):
 if __name__ == "__main__":
     opt = parse_opt()
     path = os.path.split(os.path.realpath(__file__))[0] + '/input'
-    main(opt, path)
+    main(opt, None)
