@@ -27,7 +27,7 @@ Usage - formats:
 import argparse
 import os
 import sys
-from pathlib import Path,WindowsPath
+from pathlib import Path, WindowsPath
 
 import cv2
 import torch
@@ -85,7 +85,7 @@ def run(weights=ROOT / 'yolov5l.pt',  # model.pt path(s)
 
     # Directories
     # save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
-    save_dir = ROOT / 'output'   # increment run
+    save_dir = ROOT / 'output'  # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Load model
@@ -251,7 +251,7 @@ def parse_opt():
     return opt
 
 
-def main(opt,img_path):
+def main(opt, img_path):
     source = WindowsPath(img_path)
     opt.source = source
     check_requirements(exclude=('tensorboard', 'thop'))
@@ -260,8 +260,10 @@ def main(opt,img_path):
 
 def start(img_path):
     opt = parse_opt()
-    main(opt,img_path)
+    main(opt, img_path)
+
 
 if __name__ == "__main__":
     opt = parse_opt()
-    main(opt,'./input')
+    path = os.path.split(os.path.realpath(__file__))[0] + '/input'
+    main(opt, path)

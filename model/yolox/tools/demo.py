@@ -192,6 +192,8 @@ def image_demo(predictor, vis_folder, path, current_time, save_result):
         # files = [path]
         outputs, img_info = predictor.inference(path)
         result_image = predictor.visual(outputs[0], img_info, predictor.confthre)
+        # cv2.imshow('img', result_image)
+        # cv2.waitKey()
         return result_image
     files.sort()
     for image_name in files:
@@ -312,7 +314,7 @@ def main(exp, args,img):
     current_time = time.localtime()
     if args.demo == "image":
         if img is None:
-            image_demo(predictor, vis_folder, args.path, current_time, args.save_result)
+            return image_demo(predictor, vis_folder, args.path, current_time, args.save_result)
         else:
             return image_demo(predictor, vis_folder, img, current_time, args.save_result)
     elif args.demo == "video" or args.demo == "webcam":
@@ -322,7 +324,13 @@ def start(img):
     # vedio
     # args = 'video -f ./exps/yolox_tiny.py -c ./weights/coco.pth --path ./datasets/test1.mp4 --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'.split(' ')
     # image
-    args = 'image -f ./exps/yolox_tiny.py -c ./weights/coco.pth --path ./datasets/001.jpg --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'.split(' ')
+    ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
+    EXP = ROOT + "exps/yolox_tiny.py"
+    WEIGHT = ROOT + "weights/coco.pth"
+    PATH = ROOT + "datasets/001.jpg"
+    # args = 'image -f ./exps/yolox_tiny.py -c ./weights/coco.pth --path ./datasets/001.jpg --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'.split(' ')
+    args = 'image -f '+EXP+' -c ' +WEIGHT +' --path ' +PATH+' --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'
+    args = args.split(' ')
     args = make_parser().parse_args(args)
     exp = get_exp(args.exp_file, args.name)
     return main(exp, args , img)
