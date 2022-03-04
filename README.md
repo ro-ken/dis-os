@@ -24,7 +24,7 @@
 
 ### face_ai
 
-- compose.py
+- faceai/compose.py
 - 直接显示结果
 
 
