@@ -1,9 +1,5 @@
 # dis-os
 
-## 系统结构图
-
-![交互模型](https://user-images.githubusercontent.com/56027589/155711621-9426b534-ae68-4fb4-b740-144cdedc914a.png)
-
 ## 目录结构
 
 - model：任务模型
@@ -24,7 +20,8 @@
 
 ### face_ai
 
-- compose.py
+- **修改xml文件路径 15行**
+- faceai/compose.py
 - 直接显示结果
 
 
@@ -53,5 +50,9 @@
 - 可直接运行 demo.sh
 - 直接显示结果
 
+
+## 系统结构图
+
+![交互模型](https://user-images.githubusercontent.com/56027589/155711621-9426b534-ae68-4fb4-b740-144cdedc914a.png)
 
 
