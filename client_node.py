@@ -15,6 +15,8 @@ from proto import task_pb2, task_pb2_grpc
 class ClientThread(threading.Thread):
     stub = None
 
+    show_result = False     # 是否输出结果
+
     def __init__(self, name, host, port, addr):
         threading.Thread.__init__(self)
         self.name = name
@@ -27,7 +29,7 @@ class ClientThread(threading.Thread):
         with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.stub = stub
-            # self.task_test()
+            self.task_test()
             # self.task_ai()
             self.task_get_res()
             self.task_transfer_file()
@@ -39,17 +41,28 @@ class ClientThread(threading.Thread):
             # self.task_yolox_vedio()
 
     def task_test(self):
+        utils.client_task_start("task_test")
+
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
         reply = self.stub.task_test(req)
         print(reply)
 
+        utils.client_task_end("task_test")
+
     def task_transfer_file(self):
+        utils.client_task_start("task_transfer_file")
+
         file_name = ROOT + 'README.md'
         req = utils.get_file_req(file_name)
         reply = self.stub.task_transfer_file(req)
-        print(reply)
+        if self.show_result:
+            print(reply)
+
+        utils.client_task_end("task_transfer_file")
 
     def task_get_res(self):
+        utils.client_task_start("task_get_res")
+
         cpu = task_pb2.CPU(use_ratio=psutil.cpu_percent(0),
                            real_num=psutil.cpu_count(logical=False),
                            logic_num=psutil.cpu_count())
@@ -63,39 +76,60 @@ class ClientThread(threading.Thread):
         resource = task_pb2.Resource(cpu=cpu, mem=mem, disc=disc)
         request = task_pb2.ResourceRequest(addr=self.addr, resource=resource)
         reply = self.stub.task_get_res(request)
+        if self.show_result:
+            print("send_resource.reply:", reply)
 
-        print("send_resource.reply:", reply)
+        utils.client_task_end("task_get_res")
 
-    def send_image(self, img_path):
-        img_req = utils.get_image_req(img_path)
-        reply = self.stub.send_image(img_req)
-        print("send_img.reply:", reply)
+    # def send_image(self, img_path):
+    #     utils.client_task_start("task_test")
+    #
+    #     img_req = utils.get_image_req(img_path)
+    #     reply = self.stub.send_image(img_req)
+    #     print("send_img.reply:", reply)
+    #
+    #     utils.client_task_end("task_test")
 
     def task_yolox_image(self):
+        utils.client_task_start("task_yolox_image")
+
         img_path = ROOT + '/dataset/001.jpg'
         img_req = utils.get_image_req(img_path)
         reply = self.stub.task_yolox_image(img_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
-        cv2.imshow('img', img_res)
-        cv2.waitKey()
+
+        utils.client_task_end("task_yolox_image")
+
+        if self.show_result:
+            utils.imshow("task_yolox_image", img_res)
 
     def task_ai(self):
+        utils.client_task_start("task_ai")
+
         ai_req = task_pb2.AIRequesst()
         reply = self.stub.task_ai(ai_req)
+
+        utils.client_task_end("task_ai")
         return reply
 
     def task_yolo5(self):
+        utils.client_task_start("task_yolo5")
+
         file_name = ROOT + 'dataset/001.jpg'
         req = utils.get_file_req(file_name)
         reply = self.stub.task_yolo5(req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
-        cv2.imshow('img', img_res)
-        cv2.waitKey(0)
+
+        utils.client_task_end("task_yolo5")
+
+        if self.show_result:
+            utils.imshow("task_yolo5", img_res)
 
     def task_style_transfer(self):
-        # content_path = ROOT + 'dataset/style-transfer/content.jpg'
+        utils.client_task_start("task_style_transfer")
+
         content_path = ROOT + 'dataset/style-transfer/content.jpg'
         style_path = ROOT + 'dataset/style-transfer/style.jpg'
         content_img = utils.get_file_req(content_path)
@@ -104,11 +138,14 @@ class ClientThread(threading.Thread):
         reply = self.stub.task_style_transfer(file_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
-        cv2.imshow('img', img_res)
-        cv2.waitKey()
 
+        utils.client_task_end("task_style_transfer")
+
+        if self.show_result:
+            utils.imshow("task_style_transfer", img_res)
 
     def get_img_iter(self, vedio):
+
         cap = cv2.VideoCapture(vedio)
         img_width = 360
         img_height = 640
@@ -128,6 +165,8 @@ class ClientThread(threading.Thread):
         cap.release()
 
     def task_yolox_vedio(self):
+        utils.client_task_start("task_yolox_vedio")
+
         vedio_name = ROOT + '/dataset/test2.mp4'
         req_iter = self.get_img_iter(vedio_name)
         reply = self.stub.task_yolox_vedio(req_iter)
@@ -136,15 +175,19 @@ class ClientThread(threading.Thread):
             img_res = utils.img_decode(str_encode)
             cv2.imshow('img', img_res)
             cv2.waitKey(1)
-        print("vedio play finished")
         cv2.destroyAllWindows()
 
+        utils.client_task_end("task_yolox_vedio")
+
     def read_times(self, cap, times):
+
         for _ in range(times):
             cap.read()
         return cap.read()
 
     def task_face_ai(self):
+        utils.client_task_start("task_face_ai")
+
         img_path = ROOT + 'dataset/face_ai/ag-3.png'
         img_compose_path = ROOT + 'dataset/face_ai/compose/maozi-1.png'
         img = utils.get_image_req(img_path, '.png').img
@@ -153,17 +196,25 @@ class ClientThread(threading.Thread):
         reply = self.stub.task_face_ai(img_2_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
-        cv2.imshow('img', img_res)
-        cv2.waitKey()
+
+        utils.client_task_end("task_face_ai")
+
+        if self.show_result:
+            utils.imshow("task_face_ai", img_res)
 
     def task_lic_detect(self):
+        utils.client_task_start("task_lic_detect")
+
         img_path = ROOT + 'dataset/lic/02.jpg'
         img_req = utils.get_image_req(img_path)
         reply = self.stub.task_lic_detect(img_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
-        cv2.imshow('img', img_res)
-        cv2.waitKey()
+
+        utils.client_task_end("task_lic_detect")
+
+        if self.show_result:
+            utils.imshow("task_lic_detect", img_res)
 
 
 def start(host, port):

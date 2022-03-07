@@ -8,6 +8,22 @@ from proto import task_pb2, task_pb2_grpc
 ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
 
 
+def server_task_start(task_name):
+    print('--------------{} server start'.format(task_name))
+
+
+def server_task_end(task_name):
+    print('--------------{} server end'.format(task_name))
+
+
+def client_task_start(task_name):
+    print('--------{} client start'.format(task_name))
+
+
+def client_task_end(task_name):
+    print('--------{} client end'.format(task_name))
+
+
 def calc_weight(resource):
     cpu = resource.cpu
     mem = resource.mem
@@ -63,11 +79,13 @@ def get_file_req(file_path) -> object:
     file_req = task_pb2.File(file_name=get_file_name(file_path), file_data=file_data)
     return file_req
 
-def get_image_req(img_path,type = '.jpg'):
+
+def get_image_req(img_path, type='.jpg'):
     img = cv2.imread(img_path)
     str_encode = img_encode(img, type)
     img_req = task_pb2.Image(img=str_encode)
     return img_req
+
 
 def get_file_name(path):
     return os.path.split(os.path.realpath(path))[1]
@@ -77,3 +95,8 @@ def write_file(path, data):
     f = open(path, 'wb')
     f.write(data)
     f.close()
+
+
+def imshow(title, image):
+    cv2.imshow(title, image)
+    cv2.waitKey()

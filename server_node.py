@@ -24,45 +24,64 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         self.node = node
 
     def task_test(self, request, context):
+        utils.server_task_start("task_test")
+
         print("收到请求：", request)
         reply = task_pb2.CommonReply(success=True)
+
+        utils.server_task_end("task_test")
         return reply
 
     def task_transfer_file(self, request, context):
+        utils.server_task_start("task_transfer_file")
+
         path = ROOT + request.file_name + '.bak'
-        utils.write_file(path, request.file_data)
+        # utils.write_file(path, request.file_data)
         reply = task_pb2.CommonReply(success=True)
+
+        utils.server_task_end("task_transfer_file")
         return reply
 
     def task_get_res(self, request, context):
+        utils.server_task_start("task_get_res")
+
         addr = request.addr
         resource = request.resource
         # 把资源放入节点资源表中
         self.node.node_resources[utils.addr2key(addr)] = resource
         print(self.node.node_resources)
         reply = task_pb2.CommonReply(success=True)
+
+        utils.server_task_end("task_get_res")
         return reply
 
     def send_image(self, request, context):
+        utils.server_task_start("send_image")
+
         str_encode = request.img
         img = utils.img_decode(str_encode)
         img_res = demo.start(img)
         cv2.imshow('img', img_res)
         cv2.waitKey()
+
+        utils.server_task_end("send_image")
         return task_pb2.CommonReply(success=True)
 
     def task_yolox_image(self, request, context):
-        print('--------------------start deal with yolox image request-----------')
+        utils.server_task_start("task_yolox_image")
+
         str_encode = request.img
         img = utils.img_decode(str_encode)
         img_res = demo.start(img)
         str_encode = utils.img_encode(img_res, '.jpg')
         reply = task_pb2.Image(img=str_encode)
-        print('--------------------finish deal with yolox image request-----------')
+
+        utils.server_task_end("task_yolox_image")
         return reply
 
     def task_yolox_vedio(self, request_iterator, context):
-        print('--------------------start deal with yolox vedio request-----------')
+        utils.server_task_start("task_yolox_vedio")
+
         for image in request_iterator:
             str_encode = image.img
             img = utils.img_decode(str_encode)
@@ -72,20 +91,24 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
             str_encode = utils.img_encode(img_res, '.jpg')
             reply = task_pb2.Image(img=str_encode)
             yield reply
-        print('--------------------finish deal with yolox vedio request-----------')
+
+        utils.server_task_end("task_yolox_vedio")
 
     def task_yolo5(self, request, context):
-        print('--------------------start deal with yolo5 request-----------')
+        utils.server_task_start("task_yolo5")
+
         in_path = ROOT + 'model/yolo5/input/' + request.file_name
         utils.write_file(in_path, request.file_data)
         detect.start(in_path)
         out_path = ROOT + 'model/yolo5/output/' + request.file_name
         img_req = utils.get_image_req(out_path)
-        print('--------------------finish deal with yolo5 request-----------')
+
+        utils.server_task_end("task_yolo5")
         return img_req
 
     def task_style_transfer(self, request, context):
-        print('--------------------start deal with style_transfer request-----------')
+        utils.server_task_start("task_style_transfer")
+
         content_path = ROOT + 'model/style_transfer/input/' + request.content.file_name
         utils.write_file(content_path, request.content.file_data)
         style_path = ROOT + 'model/style_transfer/input/' + request.style.file_name
@@ -93,26 +116,34 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         train.start(content_path,style_path)
         out_path = ROOT + 'model/style_transfer/output/' + 'out.jpg'
         img_req = utils.get_image_req(out_path)
-        print('--------------------finish deal with style_transfer request-----------')
+
+        utils.server_task_end("task_style_transfer")
         return img_req
 
 
     def task_ai(self, request, context):
+        utils.server_task_start("task_ai")
+
         ai.run()
+
+        utils.server_task_end("task_ai")
         return task_pb2.CommonReply(success=True)
 
     def task_lic_detect(self, request, context):
-        print('--------------------start deal with lic detect request-----------')
+        utils.server_task_start("task_lic_detect")
+
         str_encode = request.img
         img = utils.img_decode(str_encode)
         img_res = detect_rec_img.start(img)
         str_encode = utils.img_encode(img_res, '.jpg')
         reply = task_pb2.Image(img=str_encode)
-        print('--------------------finish deal with lic detect request-----------')
+
+        utils.server_task_end("task_lic_detect")
         return reply
 
     def task_face_ai(self, request, context):
-        print('--------------------start deal with face_ai request-----------')
+        utils.server_task_start("task_face_ai")
+
         str_encode = request.img
         img = utils.img_decode(str_encode)
         str_encode = request.img_compose
@@ -120,7 +151,8 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         img_out = compose.start(img, img_compose)
         str_encode = utils.img_encode(img_out, '.png')
         reply = task_pb2.Image(img=str_encode)
-        print('--------------------finish deal with face_ai request-----------')
+
+        utils.server_task_end("task_face_ai")
         return reply
 
 
