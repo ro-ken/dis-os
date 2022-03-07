@@ -16,18 +16,18 @@ class TaskServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.task_service_1 = channel.unary_unary(
-                '/TaskService/task_service_1',
+        self.task_test = channel.unary_unary(
+                '/TaskService/task_test',
                 request_serializer=task__pb2.TaskRequest.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
-        self.send_file = channel.unary_unary(
-                '/TaskService/send_file',
+        self.task_transfer_file = channel.unary_unary(
+                '/TaskService/task_transfer_file',
                 request_serializer=task__pb2.File.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
-        self.send_resource = channel.unary_unary(
-                '/TaskService/send_resource',
+        self.task_get_res = channel.unary_unary(
+                '/TaskService/task_get_res',
                 request_serializer=task__pb2.ResourceRequest.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
@@ -36,38 +36,38 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.Image.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
-        self.send_image_2 = channel.unary_unary(
-                '/TaskService/send_image_2',
+        self.task_yolox_image = channel.unary_unary(
+                '/TaskService/task_yolox_image',
                 request_serializer=task__pb2.Image.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
-        self.send_lic_detect = channel.unary_unary(
-                '/TaskService/send_lic_detect',
+        self.task_lic_detect = channel.unary_unary(
+                '/TaskService/task_lic_detect',
                 request_serializer=task__pb2.Image.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
-        self.send_vedio = channel.stream_stream(
-                '/TaskService/send_vedio',
+        self.task_yolox_vedio = channel.stream_stream(
+                '/TaskService/task_yolox_vedio',
                 request_serializer=task__pb2.Image.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
-        self.send_ai = channel.unary_unary(
-                '/TaskService/send_ai',
+        self.task_ai = channel.unary_unary(
+                '/TaskService/task_ai',
                 request_serializer=task__pb2.AIRequesst.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
-        self.send_yolo5 = channel.unary_unary(
-                '/TaskService/send_yolo5',
+        self.task_yolo5 = channel.unary_unary(
+                '/TaskService/task_yolo5',
                 request_serializer=task__pb2.File.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
-        self.send_face_ai = channel.unary_unary(
-                '/TaskService/send_face_ai',
+        self.task_face_ai = channel.unary_unary(
+                '/TaskService/task_face_ai',
                 request_serializer=task__pb2.Image_x2.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
-        self.send_style_transfer = channel.unary_unary(
-                '/TaskService/send_style_transfer',
+        self.task_style_transfer = channel.unary_unary(
+                '/TaskService/task_style_transfer',
                 request_serializer=task__pb2.File_x2.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
@@ -78,19 +78,19 @@ class TaskServiceServicer(object):
 
     """
 
-    def task_service_1(self, request, context):
+    def task_test(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_file(self, request, context):
+    def task_transfer_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_resource(self, request, context):
+    def task_get_res(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -102,43 +102,43 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_image_2(self, request, context):
+    def task_yolox_image(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_lic_detect(self, request, context):
+    def task_lic_detect(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_vedio(self, request_iterator, context):
+    def task_yolox_vedio(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_ai(self, request, context):
+    def task_ai(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_yolo5(self, request, context):
+    def task_yolo5(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_face_ai(self, request, context):
+    def task_face_ai(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def send_style_transfer(self, request, context):
+    def task_style_transfer(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -147,18 +147,18 @@ class TaskServiceServicer(object):
 
 def add_TaskServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'task_service_1': grpc.unary_unary_rpc_method_handler(
-                    servicer.task_service_1,
+            'task_test': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_test,
                     request_deserializer=task__pb2.TaskRequest.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
-            'send_file': grpc.unary_unary_rpc_method_handler(
-                    servicer.send_file,
+            'task_transfer_file': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_transfer_file,
                     request_deserializer=task__pb2.File.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
-            'send_resource': grpc.unary_unary_rpc_method_handler(
-                    servicer.send_resource,
+            'task_get_res': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_get_res,
                     request_deserializer=task__pb2.ResourceRequest.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
@@ -167,38 +167,38 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     request_deserializer=task__pb2.Image.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
-            'send_image_2': grpc.unary_unary_rpc_method_handler(
-                    servicer.send_image_2,
+            'task_yolox_image': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_yolox_image,
                     request_deserializer=task__pb2.Image.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
-            'send_lic_detect': grpc.unary_unary_rpc_method_handler(
-                    servicer.send_lic_detect,
+            'task_lic_detect': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_lic_detect,
                     request_deserializer=task__pb2.Image.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
-            'send_vedio': grpc.stream_stream_rpc_method_handler(
-                    servicer.send_vedio,
+            'task_yolox_vedio': grpc.stream_stream_rpc_method_handler(
+                    servicer.task_yolox_vedio,
                     request_deserializer=task__pb2.Image.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
-            'send_ai': grpc.unary_unary_rpc_method_handler(
-                    servicer.send_ai,
+            'task_ai': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_ai,
                     request_deserializer=task__pb2.AIRequesst.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
-            'send_yolo5': grpc.unary_unary_rpc_method_handler(
-                    servicer.send_yolo5,
+            'task_yolo5': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_yolo5,
                     request_deserializer=task__pb2.File.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
-            'send_face_ai': grpc.unary_unary_rpc_method_handler(
-                    servicer.send_face_ai,
+            'task_face_ai': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_face_ai,
                     request_deserializer=task__pb2.Image_x2.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
-            'send_style_transfer': grpc.unary_unary_rpc_method_handler(
-                    servicer.send_style_transfer,
+            'task_style_transfer': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_style_transfer,
                     request_deserializer=task__pb2.File_x2.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
@@ -215,7 +215,7 @@ class TaskService(object):
     """
 
     @staticmethod
-    def task_service_1(request,
+    def task_test(request,
             target,
             options=(),
             channel_credentials=None,
@@ -225,14 +225,14 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/task_service_1',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_test',
             task__pb2.TaskRequest.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_file(request,
+    def task_transfer_file(request,
             target,
             options=(),
             channel_credentials=None,
@@ -242,14 +242,14 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/send_file',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_transfer_file',
             task__pb2.File.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_resource(request,
+    def task_get_res(request,
             target,
             options=(),
             channel_credentials=None,
@@ -259,7 +259,7 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/send_resource',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_get_res',
             task__pb2.ResourceRequest.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
@@ -283,7 +283,7 @@ class TaskService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_image_2(request,
+    def task_yolox_image(request,
             target,
             options=(),
             channel_credentials=None,
@@ -293,14 +293,14 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/send_image_2',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_yolox_image',
             task__pb2.Image.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_lic_detect(request,
+    def task_lic_detect(request,
             target,
             options=(),
             channel_credentials=None,
@@ -310,14 +310,14 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/send_lic_detect',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_lic_detect',
             task__pb2.Image.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_vedio(request_iterator,
+    def task_yolox_vedio(request_iterator,
             target,
             options=(),
             channel_credentials=None,
@@ -327,14 +327,14 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/TaskService/send_vedio',
+        return grpc.experimental.stream_stream(request_iterator, target, '/TaskService/task_yolox_vedio',
             task__pb2.Image.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_ai(request,
+    def task_ai(request,
             target,
             options=(),
             channel_credentials=None,
@@ -344,14 +344,14 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/send_ai',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_ai',
             task__pb2.AIRequesst.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_yolo5(request,
+    def task_yolo5(request,
             target,
             options=(),
             channel_credentials=None,
@@ -361,14 +361,14 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/send_yolo5',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_yolo5',
             task__pb2.File.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_face_ai(request,
+    def task_face_ai(request,
             target,
             options=(),
             channel_credentials=None,
@@ -378,14 +378,14 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/send_face_ai',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_face_ai',
             task__pb2.Image_x2.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def send_style_transfer(request,
+    def task_style_transfer(request,
             target,
             options=(),
             channel_credentials=None,
@@ -395,7 +395,7 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/send_style_transfer',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_style_transfer',
             task__pb2.File_x2.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,

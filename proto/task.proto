@@ -3,18 +3,17 @@ syntax = "proto3";
 //python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. task.proto
 
 service TaskService{
-  rpc task_service_1(TaskRequest)returns(CommonReply){}
-  rpc send_file(File)returns(CommonReply){}
-  rpc send_resource(ResourceRequest)returns(CommonReply){}
+  rpc task_test(TaskRequest)returns(CommonReply){}
+  rpc task_transfer_file(File)returns(CommonReply){}
+  rpc task_get_res(ResourceRequest)returns(CommonReply){}
   rpc send_image(Image)returns(CommonReply){}
-  rpc send_image_2(Image)returns(Image){}
-  rpc send_lic_detect(Image)returns(Image){}
-  rpc send_vedio(stream Image)returns(stream Image){}
-  rpc send_ai(AIRequesst)returns(CommonReply){}
-  rpc send_yolo5(File)returns(Image){}
-  rpc send_face_ai(Image_x2)returns(Image){}
-  rpc send_style_transfer(File_x2)returns(Image){}
-
+  rpc task_yolox_image(Image)returns(Image){}
+  rpc task_lic_detect(Image)returns(Image){}
+  rpc task_yolox_vedio(stream Image)returns(stream Image){}
+  rpc task_ai(AIRequesst)returns(CommonReply){}
+  rpc task_yolo5(File)returns(Image){}
+  rpc task_face_ai(Image_x2)returns(Image){}
+  rpc task_style_transfer(File_x2)returns(Image){}
 }
 
 message File_x2{

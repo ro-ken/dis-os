@@ -27,29 +27,29 @@ class ClientThread(threading.Thread):
         with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.stub = stub
-            # self.send_task()
-            # self.send_ai('data.csv')
-            # self.send_resource()
-            # self.send_file(ROOT + 'README.md')
-            # self.send_image(ROOT + 'dataset/01.jpg')
-            # self.send_image_2(ROOT + '/dataset/001.jpg')
-            # self.send_vedio(ROOT + '/dataset/test2.mp4')
-            self.send_yolo5(ROOT + 'dataset/001.jpg')
-            self.send_face_ai()
-            self.send_lic_detect(ROOT + 'dataset/lic/02.jpg')
-            self.send_style_transfer()
+            # self.task_test()
+            # self.task_ai()
+            self.task_get_res()
+            self.task_transfer_file()
+            self.task_yolox_image()
+            self.task_yolo5()
+            self.task_face_ai()
+            self.task_lic_detect()
+            self.task_style_transfer()
+            # self.task_yolox_vedio()
 
-    def send_task(self):
+    def task_test(self):
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
-        reply = self.stub.task_service_1(req)
+        reply = self.stub.task_test(req)
         print(reply)
 
-    def send_file(self, file_name):
+    def task_transfer_file(self):
+        file_name = ROOT + 'README.md'
         req = utils.get_file_req(file_name)
-        reply = self.stub.send_file(req)
+        reply = self.stub.task_transfer_file(req)
         print(reply)
 
-    def send_resource(self):
+    def task_get_res(self):
         cpu = task_pb2.CPU(use_ratio=psutil.cpu_percent(0),
                            real_num=psutil.cpu_count(logical=False),
                            logic_num=psutil.cpu_count())
@@ -62,7 +62,7 @@ class ClientThread(threading.Thread):
 
         resource = task_pb2.Resource(cpu=cpu, mem=mem, disc=disc)
         request = task_pb2.ResourceRequest(addr=self.addr, resource=resource)
-        reply = self.stub.send_resource(request)
+        reply = self.stub.task_get_res(request)
 
         print("send_resource.reply:", reply)
 
@@ -71,35 +71,37 @@ class ClientThread(threading.Thread):
         reply = self.stub.send_image(img_req)
         print("send_img.reply:", reply)
 
-    def send_image_2(self, img_path):
+    def task_yolox_image(self):
+        img_path = ROOT + '/dataset/001.jpg'
         img_req = utils.get_image_req(img_path)
-        reply = self.stub.send_image_2(img_req)
+        reply = self.stub.task_yolox_image(img_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
-    def send_ai(self, data):
+    def task_ai(self):
         ai_req = task_pb2.AIRequesst()
-        reply = self.stub.send_ai(ai_req)
+        reply = self.stub.task_ai(ai_req)
         return reply
 
-    def send_yolo5(self, file_name):
+    def task_yolo5(self):
+        file_name = ROOT + 'dataset/001.jpg'
         req = utils.get_file_req(file_name)
-        reply = self.stub.send_yolo5(req)
+        reply = self.stub.task_yolo5(req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
         cv2.waitKey(0)
 
-    def send_style_transfer(self):
+    def task_style_transfer(self):
         # content_path = ROOT + 'dataset/style-transfer/content.jpg'
         content_path = ROOT + 'dataset/style-transfer/content.jpg'
         style_path = ROOT + 'dataset/style-transfer/style.jpg'
         content_img = utils.get_file_req(content_path)
         style_img = utils.get_file_req(style_path)
         file_req = task_pb2.File_x2(content=content_img, style=style_img)
-        reply = self.stub.send_style_transfer(file_req)
+        reply = self.stub.task_style_transfer(file_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
@@ -125,9 +127,10 @@ class ClientThread(threading.Thread):
                 break
         cap.release()
 
-    def send_vedio(self, vedio_name):
+    def task_yolox_vedio(self):
+        vedio_name = ROOT + '/dataset/test2.mp4'
         req_iter = self.get_img_iter(vedio_name)
-        reply = self.stub.send_vedio(req_iter)
+        reply = self.stub.task_yolox_vedio(req_iter)
         for image in reply:
             str_encode = image.img
             img_res = utils.img_decode(str_encode)
@@ -141,21 +144,22 @@ class ClientThread(threading.Thread):
             cap.read()
         return cap.read()
 
-    def send_face_ai(self):
+    def task_face_ai(self):
         img_path = ROOT + 'dataset/face_ai/ag-3.png'
         img_compose_path = ROOT + 'dataset/face_ai/compose/maozi-1.png'
         img = utils.get_image_req(img_path, '.png').img
         img_compose = utils.get_image_req(img_compose_path, '.png').img
         img_2_req = task_pb2.Image_x2(img=img, img_compose=img_compose)
-        reply = self.stub.send_face_ai(img_2_req)
+        reply = self.stub.task_face_ai(img_2_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
-    def send_lic_detect(self, img_path):
+    def task_lic_detect(self):
+        img_path = ROOT + 'dataset/lic/02.jpg'
         img_req = utils.get_image_req(img_path)
-        reply = self.stub.send_lic_detect(img_req)
+        reply = self.stub.task_lic_detect(img_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)

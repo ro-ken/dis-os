@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\ntask.proto\"7\n\x07\x46ile_x2\x12\x16\n\x07\x63ontent\x18\x01 \x01(\x0b\x32\x05.File\x12\x14\n\x05style\x18\x02 \x01(\x0b\x32\x05.File\",\n\x08Image_x2\x12\x0b\n\x03img\x18\x01 \x01(\x0c\x12\x13\n\x0bimg_compose\x18\x02 \x01(\x0c\"\x0c\n\nAIRequesst\"\x14\n\x05Image\x12\x0b\n\x03img\x18\x01 \x01(\x0c\"1\n\x0bTaskRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\x05\x12\x11\n\ttask_name\x18\x02 \x01(\t\"\x1e\n\x0b\x43ommonReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\",\n\x04\x46ile\x12\x11\n\tfile_name\x18\x01 \x01(\t\x12\x11\n\tfile_data\x18\x02 \x01(\x0c\"C\n\x0fResourceRequest\x12\x13\n\x04\x61\x64\x64r\x18\x01 \x01(\x0b\x32\x05.Addr\x12\x1b\n\x08resource\x18\x02 \x01(\x0b\x32\t.Resource\" \n\x04\x41\x64\x64r\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\"H\n\x08Resource\x12\x11\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x04.CPU\x12\x14\n\x03mem\x18\x02 \x01(\x0b\x32\x07.Memory\x12\x13\n\x04\x64isc\x18\x03 \x01(\x0b\x32\x05.Disc\"=\n\x03\x43PU\x12\x11\n\tuse_ratio\x18\x01 \x01(\x02\x12\x10\n\x08real_num\x18\x02 \x01(\x05\x12\x11\n\tlogic_num\x18\x03 \x01(\x05\"8\n\x06Memory\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\"6\n\x04\x44isc\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\x32\xbc\x03\n\x0bTaskService\x12.\n\x0etask_service_1\x12\x0c.TaskRequest\x1a\x0c.CommonReply\"\x00\x12\"\n\tsend_file\x12\x05.File\x1a\x0c.CommonReply\"\x00\x12\x31\n\rsend_resource\x12\x10.ResourceRequest\x1a\x0c.CommonReply\"\x00\x12$\n\nsend_image\x12\x06.Image\x1a\x0c.CommonReply\"\x00\x12 \n\x0csend_image_2\x12\x06.Image\x1a\x06.Image\"\x00\x12#\n\x0fsend_lic_detect\x12\x06.Image\x1a\x06.Image\"\x00\x12\"\n\nsend_vedio\x12\x06.Image\x1a\x06.Image\"\x00(\x01\x30\x01\x12&\n\x07send_ai\x12\x0b.AIRequesst\x1a\x0c.CommonReply\"\x00\x12\x1d\n\nsend_yolo5\x12\x05.File\x1a\x06.Image\"\x00\x12#\n\x0csend_face_ai\x12\t.Image_x2\x1a\x06.Image\"\x00\x12)\n\x13send_style_transfer\x12\x08.File_x2\x1a\x06.Image\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\ntask.proto\"7\n\x07\x46ile_x2\x12\x16\n\x07\x63ontent\x18\x01 \x01(\x0b\x32\x05.File\x12\x14\n\x05style\x18\x02 \x01(\x0b\x32\x05.File\",\n\x08Image_x2\x12\x0b\n\x03img\x18\x01 \x01(\x0c\x12\x13\n\x0bimg_compose\x18\x02 \x01(\x0c\"\x0c\n\nAIRequesst\"\x14\n\x05Image\x12\x0b\n\x03img\x18\x01 \x01(\x0c\"1\n\x0bTaskRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\x05\x12\x11\n\ttask_name\x18\x02 \x01(\t\"\x1e\n\x0b\x43ommonReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\",\n\x04\x46ile\x12\x11\n\tfile_name\x18\x01 \x01(\t\x12\x11\n\tfile_data\x18\x02 \x01(\x0c\"C\n\x0fResourceRequest\x12\x13\n\x04\x61\x64\x64r\x18\x01 \x01(\x0b\x32\x05.Addr\x12\x1b\n\x08resource\x18\x02 \x01(\x0b\x32\t.Resource\" \n\x04\x41\x64\x64r\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\"H\n\x08Resource\x12\x11\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x04.CPU\x12\x14\n\x03mem\x18\x02 \x01(\x0b\x32\x07.Memory\x12\x13\n\x04\x64isc\x18\x03 \x01(\x0b\x32\x05.Disc\"=\n\x03\x43PU\x12\x11\n\tuse_ratio\x18\x01 \x01(\x02\x12\x10\n\x08real_num\x18\x02 \x01(\x05\x12\x11\n\tlogic_num\x18\x03 \x01(\x05\"8\n\x06Memory\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\"6\n\x04\x44isc\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\x32\xc9\x03\n\x0bTaskService\x12)\n\ttask_test\x12\x0c.TaskRequest\x1a\x0c.CommonReply\"\x00\x12+\n\x12task_transfer_file\x12\x05.File\x1a\x0c.CommonReply\"\x00\x12\x30\n\x0ctask_get_res\x12\x10.ResourceRequest\x1a\x0c.CommonReply\"\x00\x12$\n\nsend_image\x12\x06.Image\x1a\x0c.CommonReply\"\x00\x12$\n\x10task_yolox_image\x12\x06.Image\x1a\x06.Image\"\x00\x12#\n\x0ftask_lic_detect\x12\x06.Image\x1a\x06.Image\"\x00\x12(\n\x10task_yolox_vedio\x12\x06.Image\x1a\x06.Image\"\x00(\x01\x30\x01\x12&\n\x07task_ai\x12\x0b.AIRequesst\x1a\x0c.CommonReply\"\x00\x12\x1d\n\ntask_yolo5\x12\x05.File\x1a\x06.Image\"\x00\x12#\n\x0ctask_face_ai\x12\t.Image_x2\x1a\x06.Image\"\x00\x12)\n\x13task_style_transfer\x12\x08.File_x2\x1a\x06.Image\"\x00\x62\x06proto3'
 )
 
 
@@ -654,11 +654,11 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=637,
-  serialized_end=1081,
+  serialized_end=1094,
   methods=[
   _descriptor.MethodDescriptor(
-    name='task_service_1',
-    full_name='TaskService.task_service_1',
+    name='task_test',
+    full_name='TaskService.task_test',
     index=0,
     containing_service=None,
     input_type=_TASKREQUEST,
@@ -667,8 +667,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_file',
-    full_name='TaskService.send_file',
+    name='task_transfer_file',
+    full_name='TaskService.task_transfer_file',
     index=1,
     containing_service=None,
     input_type=_FILE,
@@ -677,8 +677,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_resource',
-    full_name='TaskService.send_resource',
+    name='task_get_res',
+    full_name='TaskService.task_get_res',
     index=2,
     containing_service=None,
     input_type=_RESOURCEREQUEST,
@@ -697,8 +697,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_image_2',
-    full_name='TaskService.send_image_2',
+    name='task_yolox_image',
+    full_name='TaskService.task_yolox_image',
     index=4,
     containing_service=None,
     input_type=_IMAGE,
@@ -707,8 +707,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_lic_detect',
-    full_name='TaskService.send_lic_detect',
+    name='task_lic_detect',
+    full_name='TaskService.task_lic_detect',
     index=5,
     containing_service=None,
     input_type=_IMAGE,
@@ -717,8 +717,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_vedio',
-    full_name='TaskService.send_vedio',
+    name='task_yolox_vedio',
+    full_name='TaskService.task_yolox_vedio',
     index=6,
     containing_service=None,
     input_type=_IMAGE,
@@ -727,8 +727,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_ai',
-    full_name='TaskService.send_ai',
+    name='task_ai',
+    full_name='TaskService.task_ai',
     index=7,
     containing_service=None,
     input_type=_AIREQUESST,
@@ -737,8 +737,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_yolo5',
-    full_name='TaskService.send_yolo5',
+    name='task_yolo5',
+    full_name='TaskService.task_yolo5',
     index=8,
     containing_service=None,
     input_type=_FILE,
@@ -747,8 +747,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_face_ai',
-    full_name='TaskService.send_face_ai',
+    name='task_face_ai',
+    full_name='TaskService.task_face_ai',
     index=9,
     containing_service=None,
     input_type=_IMAGE_X2,
@@ -757,8 +757,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='send_style_transfer',
-    full_name='TaskService.send_style_transfer',
+    name='task_style_transfer',
+    full_name='TaskService.task_style_transfer',
     index=10,
     containing_service=None,
     input_type=_FILE_X2,

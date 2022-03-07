@@ -23,18 +23,18 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def __init__(self, node):
         self.node = node
 
-    def task_service_1(self, request, context):
+    def task_test(self, request, context):
         print("收到请求：", request)
         reply = task_pb2.CommonReply(success=True)
         return reply
 
-    def send_file(self, request, context):
+    def task_transfer_file(self, request, context):
         path = ROOT + request.file_name + '.bak'
         utils.write_file(path, request.file_data)
         reply = task_pb2.CommonReply(success=True)
         return reply
 
-    def send_resource(self, request, context):
+    def task_get_res(self, request, context):
         addr = request.addr
         resource = request.resource
         # 把资源放入节点资源表中
@@ -51,7 +51,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         cv2.waitKey()
         return task_pb2.CommonReply(success=True)
 
-    def send_image_2(self, request, context):
+    def task_yolox_image(self, request, context):
         print('--------------------start deal with yolox image request-----------')
         str_encode = request.img
         img = utils.img_decode(str_encode)
@@ -61,7 +61,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         print('--------------------finish deal with yolox image request-----------')
         return reply
 
-    def send_vedio(self, request_iterator, context):
+    def task_yolox_vedio(self, request_iterator, context):
         print('--------------------start deal with yolox vedio request-----------')
         for image in request_iterator:
             str_encode = image.img
@@ -74,7 +74,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
             yield reply
         print('--------------------finish deal with yolox vedio request-----------')
 
-    def send_yolo5(self, request, context):
+    def task_yolo5(self, request, context):
         print('--------------------start deal with yolo5 request-----------')
         in_path = ROOT + 'model/yolo5/input/' + request.file_name
         utils.write_file(in_path, request.file_data)
@@ -84,7 +84,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         print('--------------------finish deal with yolo5 request-----------')
         return img_req
 
-    def send_style_transfer(self, request, context):
+    def task_style_transfer(self, request, context):
         print('--------------------start deal with style_transfer request-----------')
         content_path = ROOT + 'model/style_transfer/input/' + request.content.file_name
         utils.write_file(content_path, request.content.file_data)
@@ -97,11 +97,11 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         return img_req
 
 
-    def send_ai(self, request, context):
+    def task_ai(self, request, context):
         ai.run()
         return task_pb2.CommonReply(success=True)
 
-    def send_lic_detect(self, request, context):
+    def task_lic_detect(self, request, context):
         print('--------------------start deal with lic detect request-----------')
         str_encode = request.img
         img = utils.img_decode(str_encode)
@@ -111,7 +111,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         print('--------------------finish deal with lic detect request-----------')
         return reply
 
-    def send_face_ai(self, request, context):
+    def task_face_ai(self, request, context):
         print('--------------------start deal with face_ai request-----------')
         str_encode = request.img
         img = utils.img_decode(str_encode)
