@@ -3,7 +3,7 @@ import time
 import server_node
 import client_node
 from proto import task_pb2, task_pb2_grpc
-import my_tools
+from tools import utils
 import os
 
 class Node:
@@ -59,7 +59,7 @@ class Node:
             port = self.server_t.addr.port
             return ip, port
         else:
-            addr = my_tools.select_by_resource(self.node_resources)
+            addr = utils.select_by_resource(self.node_resources)
             return addr.ip, addr.port
 
 

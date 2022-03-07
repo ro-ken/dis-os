@@ -27,6 +27,7 @@
 ### lic_detect
 
 - detect_rec_img.py
+- **在ubuntu里 132行改为：idx = i**
 - 直接显示结果
 
 
@@ -52,5 +53,4 @@
 ## 系统结构图
 
 ![交互模型](https://user-images.githubusercontent.com/56027589/155711621-9426b534-ae68-4fb4-b740-144cdedc914a.png)
-
 

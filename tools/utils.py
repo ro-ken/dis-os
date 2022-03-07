@@ -5,7 +5,7 @@ from cv2 import cv2
 
 from proto import task_pb2, task_pb2_grpc
 
-ROOT = os.path.split(os.path.realpath(__file__))[0] + '/'
+ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
 
 
 def calc_weight(resource):

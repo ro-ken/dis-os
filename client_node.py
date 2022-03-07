@@ -5,8 +5,8 @@ import grpc
 import numpy as np
 import psutil
 from cv2 import cv2
-import my_tools
-from my_tools import ROOT
+from tools import utils
+from tools.utils import ROOT
 
 from proto import task_pb2, task_pb2_grpc
 
@@ -32,12 +32,12 @@ class ClientThread(threading.Thread):
             # self.send_resource()
             # self.send_file(ROOT + 'README.md')
             # self.send_image(ROOT + 'dataset/01.jpg')
-            self.send_image_2(ROOT + '/dataset/001.jpg')
+            # self.send_image_2(ROOT + '/dataset/001.jpg')
             # self.send_vedio(ROOT + '/dataset/test2.mp4')
-            # self.send_yolo5(ROOT + 'dataset/001.jpg')
-            # self.send_face_ai()
-            # self.send_lic_detect(ROOT + 'dataset/lic/02.jpg')
-            # self.send_style_transfer()
+            self.send_yolo5(ROOT + 'dataset/001.jpg')
+            self.send_face_ai()
+            self.send_lic_detect(ROOT + 'dataset/lic/02.jpg')
+            self.send_style_transfer()
 
     def send_task(self):
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
@@ -45,7 +45,7 @@ class ClientThread(threading.Thread):
         print(reply)
 
     def send_file(self, file_name):
-        req = my_tools.get_file_req(file_name)
+        req = utils.get_file_req(file_name)
         reply = self.stub.send_file(req)
         print(reply)
 
@@ -67,15 +67,15 @@ class ClientThread(threading.Thread):
         print("send_resource.reply:", reply)
 
     def send_image(self, img_path):
-        img_req = my_tools.get_image_req(img_path)
+        img_req = utils.get_image_req(img_path)
         reply = self.stub.send_image(img_req)
         print("send_img.reply:", reply)
 
     def send_image_2(self, img_path):
-        img_req = my_tools.get_image_req(img_path)
+        img_req = utils.get_image_req(img_path)
         reply = self.stub.send_image_2(img_req)
         str_encode = reply.img
-        img_res = my_tools.img_decode(str_encode)
+        img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
@@ -85,23 +85,23 @@ class ClientThread(threading.Thread):
         return reply
 
     def send_yolo5(self, file_name):
-        req = my_tools.get_file_req(file_name)
+        req = utils.get_file_req(file_name)
         reply = self.stub.send_yolo5(req)
         str_encode = reply.img
-        img_res = my_tools.img_decode(str_encode)
+        img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
-        cv2.waitKey()
+        cv2.waitKey(0)
 
     def send_style_transfer(self):
         # content_path = ROOT + 'dataset/style-transfer/content.jpg'
         content_path = ROOT + 'dataset/style-transfer/content.jpg'
         style_path = ROOT + 'dataset/style-transfer/style.jpg'
-        content_img = my_tools.get_file_req(content_path)
-        style_img = my_tools.get_file_req(style_path)
+        content_img = utils.get_file_req(content_path)
+        style_img = utils.get_file_req(style_path)
         file_req = task_pb2.File_x2(content=content_img, style=style_img)
         reply = self.stub.send_style_transfer(file_req)
         str_encode = reply.img
-        img_res = my_tools.img_decode(str_encode)
+        img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
@@ -118,7 +118,7 @@ class ClientThread(threading.Thread):
             ret, frame = self.read_times(cap, 5)
             if ret:
                 frame = cv2.resize(frame, (img_height, img_width))
-                str_encode = my_tools.img_encode(frame, '.jpg')
+                str_encode = utils.img_encode(frame, '.jpg')
                 request = task_pb2.Image(img=str_encode)
                 yield request
             else:
@@ -130,7 +130,7 @@ class ClientThread(threading.Thread):
         reply = self.stub.send_vedio(req_iter)
         for image in reply:
             str_encode = image.img
-            img_res = my_tools.img_decode(str_encode)
+            img_res = utils.img_decode(str_encode)
             cv2.imshow('img', img_res)
             cv2.waitKey(1)
         print("vedio play finished")
@@ -144,20 +144,20 @@ class ClientThread(threading.Thread):
     def send_face_ai(self):
         img_path = ROOT + 'dataset/face_ai/ag-3.png'
         img_compose_path = ROOT + 'dataset/face_ai/compose/maozi-1.png'
-        img = my_tools.get_image_req(img_path, '.png').img
-        img_compose = my_tools.get_image_req(img_compose_path, '.png').img
+        img = utils.get_image_req(img_path, '.png').img
+        img_compose = utils.get_image_req(img_compose_path, '.png').img
         img_2_req = task_pb2.Image_x2(img=img, img_compose=img_compose)
         reply = self.stub.send_face_ai(img_2_req)
         str_encode = reply.img
-        img_res = my_tools.img_decode(str_encode)
+        img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
     def send_lic_detect(self, img_path):
-        img_req = my_tools.get_image_req(img_path)
+        img_req = utils.get_image_req(img_path)
         reply = self.stub.send_lic_detect(img_req)
         str_encode = reply.img
-        img_res = my_tools.img_decode(str_encode)
+        img_res = utils.img_decode(str_encode)
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
