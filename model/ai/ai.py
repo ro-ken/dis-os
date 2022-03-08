@@ -30,13 +30,13 @@ def run():
 
     score = model.score(X_test, Y_test)
 
-    print(score)
+    # print(score)
 
     # 对线性回归进行预测
 
     Y_pred = model.predict(X_test)
 
-    print(Y_pred)
+    # print(Y_pred)
 
     plt.plot(range(len(Y_pred)), Y_pred, 'b', label="predict")
     plt.figure()
@@ -46,11 +46,11 @@ def run():
     plt.xlabel("the number of sales")
     plt.ylabel('value of sales')
     # plt.savefig("ROC.jpg")
-    try:
-        while(True):
-            plt.show()
-    except(KeyboardInterrupt,SystemExit):
-        pass
+    # try:
+    #     while(True):
+    #         plt.show()
+    # except(KeyboardInterrupt,SystemExit):
+    #     pass
 if __name__ == '__main__':
     run()
 

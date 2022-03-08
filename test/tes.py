@@ -62,13 +62,6 @@ def eat_hamburger(name):
 
 
 if __name__ == "__main__":
-    lazy_tom = LazyPerson("Tom")
-    lazy_jerry = LazyPerson("Jerry")
-    # register hook
-    lazy_tom.register_tv_hook(watch_daydayup)
-    lazy_tom.register_dinner_hook(eat_meat)
-    lazy_jerry.register_tv_hook(watch_happyfamily)
-    lazy_jerry.register_dinner_hook(eat_hamburger)
-    # enjoy a day
-    lazy_tom.enjoy_a_lazy_day()
-    lazy_jerry.enjoy_a_lazy_day()
+    a = [eat_hamburger, eat_meat]
+    a[1]("dsaf")
+    a[0]("dfaddfsdf")

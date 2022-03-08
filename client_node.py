@@ -10,12 +10,15 @@ from tools.utils import ROOT
 
 from proto import task_pb2, task_pb2_grpc
 
+# node = win , mac , smp , hwj , ywd
 
-# client线程
+node = "win"
+
+
 class ClientThread(threading.Thread):
     stub = None
 
-    show_result = False     # 是否输出结果
+    show_result = False  # 是否输出结果
 
     def __init__(self, name, host, port, addr):
         threading.Thread.__init__(self)
@@ -23,29 +26,38 @@ class ClientThread(threading.Thread):
         self.host = host
         self.port = port
         self.addr = addr  # 节点地址
+        #   taskid               0               1                   2               3                   4                       5
+        self.task_list = [self.task_ai, self.task_yolox_image, self.task_yolo5, self.task_face_ai, self.task_lic_detect,
+                          self.task_style_transfer]
+
+    def task(self):
+        self.task_test()
+        # self.task_ai()
+        self.task_get_res()
+        self.task_transfer_file()
+        self.task_yolox_image()
+        self.task_yolo5()
+        self.task_face_ai()
+        self.task_lic_detect()
+        self.task_style_transfer()
+        # self.task_yolox_vedio()
 
     # 启动client发送任务
     def run(self) -> None:
         with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.stub = stub
-            self.task_test()
-            # self.task_ai()
-            self.task_get_res()
-            self.task_transfer_file()
-            self.task_yolox_image()
-            self.task_yolo5()
-            self.task_face_ai()
-            self.task_lic_detect()
-            self.task_style_transfer()
-            # self.task_yolox_vedio()
+            # self.task()
+            self.five_solution()
 
     def task_test(self):
         utils.client_task_start("task_test")
 
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
         reply = self.stub.task_test(req)
-        print(reply)
+
+        if self.show_result:
+            print(reply)
 
         utils.client_task_end("task_test")
 
@@ -215,6 +227,44 @@ class ClientThread(threading.Thread):
 
         if self.show_result:
             utils.imshow("task_lic_detect", img_res)
+
+    def five_solution(self):
+        path = ROOT + 'output/out_time.txt'
+        utils.write_time_start(path, node + ' solution_1', time.time(),'w')
+        self.solution(win=[0, 1, 5], mac=[1, 0, 5], smp=[2, 3, 4], hwj=[2, 3], ywd=[4])
+        utils.write_time_end(path, node + ' solution_1', time.time())
+
+        utils.write_time_start(path, node + ' solution_2', time.time())
+        self.solution(win=[2, 3], mac=[], smp=[], hwj=[], ywd=[])
+        utils.write_time_end(path, node + ' solution_2', time.time())
+
+        utils.write_time_start(path, node + ' solution_3', time.time())
+        self.solution(win=[1], mac=[], smp=[], hwj=[], ywd=[])
+        utils.write_time_end(path, node + ' solution_3', time.time())
+
+        utils.write_time_start(path, node + ' solution_4', time.time())
+        self.solution(win=[0], mac=[], smp=[], hwj=[], ywd=[])
+        utils.write_time_end(path, node + ' solution_4', time.time())
+
+        utils.write_time_start(path, node + ' solution_5', time.time())
+        self.solution(win=[4], mac=[], smp=[], hwj=[], ywd=[])
+        utils.write_time_end(path, node + ' solution_5', time.time())
+
+    def solution(self, win, mac, smp, hwj, ywd):
+        if node == "win":
+            self.do_task(win)
+        elif node == "mac":
+            self.do_task(mac)
+        elif node == "smp":
+            self.do_task(smp)
+        elif node == "hwj":
+            self.do_task(hwj)
+        elif node == "ywd":
+            self.do_task(ywd)
+
+    def do_task(self, task_ids):
+        for i in task_ids:
+            self.task_list[i]()
 
 
 def start(host, port):

@@ -16,7 +16,6 @@ from model.lic_detect import detect_rec_img
 from model.style_transfer import train
 from tools import utils
 
-
 # 实现服务
 class TaskService(task_pb2_grpc.TaskServiceServicer):
 
@@ -26,7 +25,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def task_test(self, request, context):
         utils.server_task_start("task_test")
 
-        print("收到请求：", request)
+        # print("收到请求：", request)
         reply = task_pb2.CommonReply(success=True)
 
         utils.server_task_end("task_test")
@@ -49,7 +48,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         resource = request.resource
         # 把资源放入节点资源表中
         self.node.node_resources[utils.addr2key(addr)] = resource
-        print(self.node.node_resources)
+        # print(self.node.node_resources)
         reply = task_pb2.CommonReply(success=True)
 
         utils.server_task_end("task_get_res")

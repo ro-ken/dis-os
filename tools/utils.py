@@ -1,4 +1,5 @@
 import os
+import time
 
 import numpy as np
 from cv2 import cv2
@@ -10,18 +11,23 @@ ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
 
 def server_task_start(task_name):
     print('--------------{} server start'.format(task_name))
+    # print(time.time())
 
 
 def server_task_end(task_name):
     print('--------------{} server end'.format(task_name))
 
+    # print(time.time())
+
 
 def client_task_start(task_name):
     print('--------{} client start'.format(task_name))
+    # print(time.time())
 
 
 def client_task_end(task_name):
     print('--------{} client end'.format(task_name))
+    # print(time.time())
 
 
 def calc_weight(resource):
@@ -91,10 +97,20 @@ def get_file_name(path):
     return os.path.split(os.path.realpath(path))[1]
 
 
-def write_file(path, data):
-    f = open(path, 'wb')
+def write_file(path, data, type='wb'):
+    f = open(path, type)
     f.write(data)
     f.close()
+
+
+def write_time_start(path, title, time,type='a+'):
+    data = title + " start time :" + str(time) + '\n'
+    write_file(path, data, type)
+
+
+def write_time_end(path, title, time):
+    data = title + " end time :" + str(time) + '\n'
+    write_file(path, data, 'a+')
 
 
 def imshow(title, image):
