@@ -252,6 +252,7 @@ def parse_opt():
 
 
 def main(opt, img_path):
+    # ubuntu 没有 WindowsPath
     if img_path is not None:
         source = WindowsPath(img_path)
         opt.source = source

@@ -98,7 +98,8 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         in_path = ROOT + 'model/yolo5/input/' + request.file_name
         utils.write_file(in_path, request.file_data)
-        detect.start(in_path)
+        # detect.start(in_path)     # 非windows错误
+        detect.start(None)
         out_path = ROOT + 'model/yolo5/output/' + request.file_name
         img_req = utils.get_image_req(out_path)
 

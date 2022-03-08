@@ -12,7 +12,7 @@ from proto import task_pb2, task_pb2_grpc
 
 # node = win , mac , smp , hwj , ywd
 
-node = "win"
+node = "smp"
 
 
 class ClientThread(threading.Thread):
