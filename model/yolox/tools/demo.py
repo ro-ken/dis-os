@@ -335,7 +335,9 @@ def start(img):
     exp = get_exp(args.exp_file, args.name)
     return main(exp, args , img)
 
-if __name__ == "__main__":
+def run():
     img_res = start(None)
     cv2.imshow('img', img_res)
     cv2.waitKey()
+if __name__ == "__main__":
+    run()

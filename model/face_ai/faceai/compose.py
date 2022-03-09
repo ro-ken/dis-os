@@ -57,10 +57,11 @@ def main(img, imgCompose):
 
     return img
 
-
-
-if __name__ == '__main__':
+def run():
     img_out = start(None, None)
     cv2.imshow("image", img_out)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    run()

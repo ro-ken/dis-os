@@ -263,8 +263,10 @@ def start(img_path):
     opt = parse_opt()
     main(opt, img_path)
 
-
+def getpath():
+    return os.path.split(os.path.realpath(__file__))[0] + '/input'
 if __name__ == "__main__":
     opt = parse_opt()
-    path = os.path.split(os.path.realpath(__file__))[0] + '/input'
+    path = getpath()
     main(opt, None)
+

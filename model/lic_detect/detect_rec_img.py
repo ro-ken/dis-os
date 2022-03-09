@@ -129,8 +129,8 @@ class detect_plate_recognition:
         # boxes = boxes.astype(np.int32)
         # landms = landms.astype(np.int32)
         for i in indices:
-            idx = i[0]
-            # idx = i
+            #idx = i[0]
+            idx = i
             if scores[idx] < self.vis_thres:
                 continue
             xmin, ymin, width, height = boxes[idx, :]
@@ -204,10 +204,11 @@ def start(img=None):
     img_out = net.detect_rec(img)
     return img_out
 
-
-if __name__ == '__main__':
+def run():
     img_out = start()
     cv2.namedWindow('image', cv2.WINDOW_NORMAL)
     cv2.imshow('image', img_out)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+if __name__ == '__main__':
+    run()
