@@ -14,7 +14,9 @@ from model.yolo5 import detect
 from model.face_ai.faceai import compose
 from model.lic_detect import detect_rec_img
 from model.style_transfer import train
+from model.num_detect.classifier import predict
 from tools import utils
+
 
 # 实现服务
 class TaskService(task_pb2_grpc.TaskServiceServicer):
@@ -113,13 +115,12 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.write_file(content_path, request.content.file_data)
         style_path = ROOT + 'model/style_transfer/input/' + request.style.file_name
         utils.write_file(style_path, request.style.file_data)
-        train.start(content_path,style_path)
+        train.start(content_path, style_path)
         out_path = ROOT + 'model/style_transfer/output/' + 'out.jpg'
         img_req = utils.get_image_req(out_path)
 
         utils.server_task_end("task_style_transfer")
         return img_req
-
 
     def task_ai(self, request, context):
         utils.server_task_start("task_ai")
@@ -127,6 +128,14 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         ai.run()
 
         utils.server_task_end("task_ai")
+        return task_pb2.CommonReply(success=True)
+
+    def task_num_detect(self, request, context):
+        utils.server_task_start("task_num_detect")
+
+        predict.predict_number()
+
+        utils.server_task_end("task_num_detect")
         return task_pb2.CommonReply(success=True)
 
     def task_lic_detect(self, request, context):

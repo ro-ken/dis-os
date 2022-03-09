@@ -11,6 +11,7 @@ service TaskService{
   rpc task_lic_detect(Image)returns(Image){}
   rpc task_yolox_vedio(stream Image)returns(stream Image){}
   rpc task_ai(AIRequesst)returns(CommonReply){}
+  rpc task_num_detect(AIRequesst)returns(CommonReply){}
   rpc task_yolo5(File)returns(Image){}
   rpc task_face_ai(Image_x2)returns(Image){}
   rpc task_style_transfer(File_x2)returns(Image){}

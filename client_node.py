@@ -26,20 +26,20 @@ class ClientThread(threading.Thread):
         self.host = host
         self.port = port
         self.addr = addr  # 节点地址
-        #   taskid               0               1                   2               3                   4                       5
-        self.task_list = [self.task_ai, self.task_yolox_image, self.task_yolo5, self.task_face_ai, self.task_lic_detect,
-                          self.task_style_transfer]
+        #   taskid               0               1                   2               3                   4                       5                      6
+        self.task_list = [self.task_ai, self.task_yolox_image, self.task_yolo5, self.task_face_ai, self.task_lic_detect,self.task_num_detect,self.task_style_transfer]
 
     def task(self):
-        self.task_test()
+        # self.task_test()
         # self.task_ai()
-        self.task_get_res()
-        self.task_transfer_file()
-        self.task_yolox_image()
-        self.task_yolo5()
-        self.task_face_ai()
-        self.task_lic_detect()
-        self.task_style_transfer()
+        # self.task_get_res()
+        # self.task_transfer_file()
+        # self.task_yolox_image()
+        # self.task_yolo5()
+        # self.task_face_ai()
+        # self.task_lic_detect()
+        self.task_num_detect()
+        # self.task_style_transfer()
         # self.task_yolox_vedio()
 
     # 启动client发送任务
@@ -47,8 +47,8 @@ class ClientThread(threading.Thread):
         with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.stub = stub
-            # self.task()
-            self.five_solution()
+            self.task()
+            #self.five_solution()
 
     def task_test(self):
         utils.client_task_start("task_test")
@@ -124,6 +124,16 @@ class ClientThread(threading.Thread):
 
         utils.client_task_end("task_ai")
         return reply
+
+    def task_num_detect(self):
+        utils.client_task_start("task_num_detect")
+
+        ai_req = task_pb2.AIRequesst()
+        reply = self.stub.task_num_detect(ai_req)
+
+        utils.client_task_end("task_num_detect")
+        return reply
+
 
     def task_yolo5(self):
         utils.client_task_start("task_yolo5")

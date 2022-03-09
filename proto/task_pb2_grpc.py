@@ -56,6 +56,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.AIRequesst.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
+        self.task_num_detect = channel.unary_unary(
+                '/TaskService/task_num_detect',
+                request_serializer=task__pb2.AIRequesst.SerializeToString,
+                response_deserializer=task__pb2.CommonReply.FromString,
+                )
         self.task_yolo5 = channel.unary_unary(
                 '/TaskService/task_yolo5',
                 request_serializer=task__pb2.File.SerializeToString,
@@ -126,6 +131,12 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def task_num_detect(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def task_yolo5(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -184,6 +195,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
             ),
             'task_ai': grpc.unary_unary_rpc_method_handler(
                     servicer.task_ai,
+                    request_deserializer=task__pb2.AIRequesst.FromString,
+                    response_serializer=task__pb2.CommonReply.SerializeToString,
+            ),
+            'task_num_detect': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_num_detect,
                     request_deserializer=task__pb2.AIRequesst.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
@@ -345,6 +361,23 @@ class TaskService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/task_ai',
+            task__pb2.AIRequesst.SerializeToString,
+            task__pb2.CommonReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def task_num_detect(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_num_detect',
             task__pb2.AIRequesst.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
