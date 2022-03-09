@@ -2,14 +2,24 @@
 
 ## 目录结构
 
+- dataset：数据集
+
 - model：任务模型
 
 - proto：传输格式
 
+- tools
+  
+    - settings.py：配置文件
+    - requirements.txt:需要的依赖
+    - utils.py:通用的方法
+
 - node.py启动项目
 
 - client发送任务
+
 - server处理任务
+
 
 ## model调用接口
 

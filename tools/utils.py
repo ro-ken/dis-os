@@ -27,6 +27,7 @@ def client_task_start(task_name):
 
 def client_task_end(task_name):
     print('--------{} client end'.format(task_name))
+    print()
     # print(time.time())
 
 

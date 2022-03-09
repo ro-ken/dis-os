@@ -4,6 +4,7 @@ import os
 
 import cv2
 
+ROOT = os.path.split(os.path.realpath(__file__))[0] + '/'
 
 def start(img, img_compose):
     img_out = main(img, img_compose)
@@ -18,8 +19,8 @@ def main(img, imgCompose):
         os.path.split(os.path.realpath(__file__))[0] + "/haarcascade_frontalface_default.xml")
 
     if img is None or imgCompose is None:
-        img = cv2.imread("img/ag-3.png")  # 读取图片
-        imgCompose = cv2.imread("img/compose/maozi-1.png")
+        img = cv2.imread(ROOT + "img/ag-3.png")  # 读取图片
+        imgCompose = cv2.imread(ROOT + "img/compose/maozi-1.png")
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 转换灰色
     color = (0, 255, 0)  # 定义绘制颜色

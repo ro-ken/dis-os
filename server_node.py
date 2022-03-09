@@ -13,9 +13,12 @@ from model.yolox.tools import demo
 from model.yolo5 import detect
 from model.face_ai.faceai import compose
 from model.lic_detect import detect_rec_img
-from model.style_transfer import train
 from model.num_detect.classifier import predict
 from tools import utils
+from tools.settings import arch
+
+if arch == "win" or arch == "mac":
+    from model.style_transfer import train
 
 
 # 实现服务

@@ -6,6 +6,7 @@ import argparse
 from itertools import product as product
 from math import ceil
 from PIL import Image, ImageDraw, ImageFont
+from tools.settings import arch
 
 CHARS = ['京', '沪', '津', '渝', '冀', '晋', '蒙', '辽', '吉', '黑',
          '苏', '浙', '皖', '闽', '赣', '鲁', '豫', '鄂', '湘', '粤',
@@ -129,8 +130,10 @@ class detect_plate_recognition:
         # boxes = boxes.astype(np.int32)
         # landms = landms.astype(np.int32)
         for i in indices:
-            idx = i[0]
-            # idx = i
+            if arch == "win":
+                idx = i[0]
+            else:
+                idx = i
             if scores[idx] < self.vis_thres:
                 continue
             xmin, ymin, width, height = boxes[idx, :]

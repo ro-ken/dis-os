@@ -7,18 +7,13 @@ import psutil
 from cv2 import cv2
 from tools import utils
 from tools.utils import ROOT
+from tools.settings import *
 
 from proto import task_pb2, task_pb2_grpc
-
-# node = win , mac , smp , hwj , ywd
-
-node = "smp"
 
 
 class ClientThread(threading.Thread):
     stub = None
-
-    show_result = False  # 是否输出结果
 
     def __init__(self, name, host, port, addr):
         threading.Thread.__init__(self)
@@ -27,20 +22,16 @@ class ClientThread(threading.Thread):
         self.port = port
         self.addr = addr  # 节点地址
         #   taskid               0               1                   2               3                   4                       5                      6
-        self.task_list = [self.task_ai, self.task_yolox_image, self.task_yolo5, self.task_face_ai, self.task_lic_detect,self.task_num_detect,self.task_style_transfer]
+        self.task_list = [self.task_ai, self.task_yolox_image, self.task_yolo5, self.task_face_ai, self.task_lic_detect, self.task_num_detect,self.task_style_transfer]
 
     def task(self):
-        # self.task_test()
-        # self.task_ai()
-        # self.task_get_res()
-        # self.task_transfer_file()
-        # self.task_yolox_image()
-        # self.task_yolo5()
-        # self.task_face_ai()
-        # self.task_lic_detect()
+        self.task_ai()
+        self.task_yolox_image()
+        self.task_yolo5()
+        self.task_face_ai()
+        self.task_lic_detect()
         self.task_num_detect()
-        # self.task_style_transfer()
-        # self.task_yolox_vedio()
+        self.task_style_transfer()
 
     # 启动client发送任务
     def run(self) -> None:
@@ -56,7 +47,7 @@ class ClientThread(threading.Thread):
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
         reply = self.stub.task_test(req)
 
-        if self.show_result:
+        if show_result:
             print(reply)
 
         utils.client_task_end("task_test")
@@ -67,7 +58,7 @@ class ClientThread(threading.Thread):
         file_name = ROOT + 'README.md'
         req = utils.get_file_req(file_name)
         reply = self.stub.task_transfer_file(req)
-        if self.show_result:
+        if show_result:
             print(reply)
 
         utils.client_task_end("task_transfer_file")
@@ -88,7 +79,7 @@ class ClientThread(threading.Thread):
         resource = task_pb2.Resource(cpu=cpu, mem=mem, disc=disc)
         request = task_pb2.ResourceRequest(addr=self.addr, resource=resource)
         reply = self.stub.task_get_res(request)
-        if self.show_result:
+        if show_result:
             print("send_resource.reply:", reply)
 
         utils.client_task_end("task_get_res")
@@ -113,7 +104,7 @@ class ClientThread(threading.Thread):
 
         utils.client_task_end("task_yolox_image")
 
-        if self.show_result:
+        if show_result:
             utils.imshow("task_yolox_image", img_res)
 
     def task_ai(self):
@@ -146,7 +137,7 @@ class ClientThread(threading.Thread):
 
         utils.client_task_end("task_yolo5")
 
-        if self.show_result:
+        if show_result:
             utils.imshow("task_yolo5", img_res)
 
     def task_style_transfer(self):
@@ -163,7 +154,7 @@ class ClientThread(threading.Thread):
 
         utils.client_task_end("task_style_transfer")
 
-        if self.show_result:
+        if show_result:
             utils.imshow("task_style_transfer", img_res)
 
     def get_img_iter(self, vedio):
@@ -221,7 +212,7 @@ class ClientThread(threading.Thread):
 
         utils.client_task_end("task_face_ai")
 
-        if self.show_result:
+        if show_result:
             utils.imshow("task_face_ai", img_res)
 
     def task_lic_detect(self):
@@ -235,41 +226,41 @@ class ClientThread(threading.Thread):
 
         utils.client_task_end("task_lic_detect")
 
-        if self.show_result:
+        if show_result:
             utils.imshow("task_lic_detect", img_res)
 
     def five_solution(self):
         path = ROOT + 'output/out_time.txt'
-        utils.write_time_start(path, node + ' solution_1', time.time(),'w')
+        utils.write_time_start(path, arch + ' solution_1', time.time(),'w')
         self.solution(win=[0, 1, 5], mac=[1, 0, 5], smp=[2, 3, 4], hwj=[2, 3], ywd=[4])
-        utils.write_time_end(path, node + ' solution_1', time.time())
+        utils.write_time_end(path, arch + ' solution_1', time.time())
 
-        utils.write_time_start(path, node + ' solution_2', time.time())
+        utils.write_time_start(path, arch + ' solution_2', time.time())
         self.solution(win=[2, 3], mac=[], smp=[], hwj=[], ywd=[])
-        utils.write_time_end(path, node + ' solution_2', time.time())
+        utils.write_time_end(path, arch + ' solution_2', time.time())
 
-        utils.write_time_start(path, node + ' solution_3', time.time())
+        utils.write_time_start(path, arch + ' solution_3', time.time())
         self.solution(win=[1], mac=[], smp=[], hwj=[], ywd=[])
-        utils.write_time_end(path, node + ' solution_3', time.time())
+        utils.write_time_end(path, arch + ' solution_3', time.time())
 
-        utils.write_time_start(path, node + ' solution_4', time.time())
+        utils.write_time_start(path, arch + ' solution_4', time.time())
         self.solution(win=[0], mac=[], smp=[], hwj=[], ywd=[])
-        utils.write_time_end(path, node + ' solution_4', time.time())
+        utils.write_time_end(path, arch + ' solution_4', time.time())
 
-        utils.write_time_start(path, node + ' solution_5', time.time())
+        utils.write_time_start(path, arch + ' solution_5', time.time())
         self.solution(win=[4], mac=[], smp=[], hwj=[], ywd=[])
-        utils.write_time_end(path, node + ' solution_5', time.time())
+        utils.write_time_end(path, arch + ' solution_5', time.time())
 
     def solution(self, win, mac, smp, hwj, ywd):
-        if node == "win":
+        if arch == "win":
             self.do_task(win)
-        elif node == "mac":
+        elif arch == "mac":
             self.do_task(mac)
-        elif node == "smp":
+        elif arch == "smp":
             self.do_task(smp)
-        elif node == "hwj":
+        elif arch == "hwj":
             self.do_task(hwj)
-        elif node == "ywd":
+        elif arch == "ywd":
             self.do_task(ywd)
 
     def do_task(self, task_ids):
