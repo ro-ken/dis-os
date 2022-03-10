@@ -37,7 +37,6 @@
 ### lic_detect
 
 - detect_rec_img.py
-- **在ubuntu里 132行改为：idx = i**
 - 直接显示结果
 
 
