@@ -13,7 +13,7 @@ def run():
 
     sns.pairplot(new_adv_data, x_vars=['size', 'number'], y_vars='price', height=7, aspect=0.8, kind='reg')
     plt.savefig("pairplot.jpg")
-    plt.show()
+    #plt.show()
 
     X_train, X_test, Y_train, Y_test = train_test_split(new_adv_data.iloc[:,:2], new_adv_data.price, train_size=.80)
     model = LinearRegression()
