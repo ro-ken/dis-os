@@ -130,7 +130,7 @@ class detect_plate_recognition:
         # boxes = boxes.astype(np.int32)
         # landms = landms.astype(np.int32)
         for i in indices:
-            if arch == "win":
+            if arch == "win" or arch == "hwj":
                 idx = i[0]
             else:
                 idx = i

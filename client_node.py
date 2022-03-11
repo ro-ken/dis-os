@@ -38,8 +38,8 @@ class ClientThread(threading.Thread):
         with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.stub = stub
-            self.task()
-            #self.five_solution()
+            #self.task()
+            self.five_solution()
 
     def task_test(self):
         utils.client_task_start("task_test")
@@ -222,23 +222,23 @@ class ClientThread(threading.Thread):
     def five_solution(self):
         path = ROOT + 'output/out_time.txt'
         utils.write_time_start(path, arch + ' solution_1', time.time(),'w')
-        self.solution(win=[0, 1, 5], mac=[1, 0, 5], smp=[2, 3, 4], hwj=[2, 3], ywd=[4])
+        self.solution(win=[2], mac=[1, 0, 5], smp=[2], hwj=[2, 3], ywd=[4])
         utils.write_time_end(path, arch + ' solution_1', time.time())
 
         utils.write_time_start(path, arch + ' solution_2', time.time())
-        self.solution(win=[2, 3], mac=[], smp=[], hwj=[], ywd=[])
+        self.solution(win=[2,2], mac=[], smp=[2,2], hwj=[], ywd=[])
         utils.write_time_end(path, arch + ' solution_2', time.time())
 
         utils.write_time_start(path, arch + ' solution_3', time.time())
-        self.solution(win=[1], mac=[], smp=[], hwj=[], ywd=[])
+        self.solution(win=[1,1,2,2,4,4], mac=[], smp=[1,1,2,2,4,4], hwj=[], ywd=[])
         utils.write_time_end(path, arch + ' solution_3', time.time())
 
         utils.write_time_start(path, arch + ' solution_4', time.time())
-        self.solution(win=[0], mac=[], smp=[], hwj=[], ywd=[])
+        self.solution(win=[3,3,4,4], mac=[], smp=[3,3,4,4], hwj=[], ywd=[])
         utils.write_time_end(path, arch + ' solution_4', time.time())
 
         utils.write_time_start(path, arch + ' solution_5', time.time())
-        self.solution(win=[4], mac=[], smp=[], hwj=[], ywd=[])
+        self.solution(win=[2,4,4], mac=[], smp=[2,4,4], hwj=[], ywd=[])
         utils.write_time_end(path, arch + ' solution_5', time.time())
 
     def solution(self, win, mac, smp, hwj, ywd):
