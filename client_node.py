@@ -66,17 +66,7 @@ class ClientThread(threading.Thread):
     def task_get_res(self):
         utils.client_task_start("task_get_res")
 
-        cpu = task_pb2.CPU(use_ratio=psutil.cpu_percent(0),
-                           real_num=psutil.cpu_count(logical=False),
-                           logic_num=psutil.cpu_count())
-        mem = task_pb2.Memory(total=psutil.virtual_memory().total,
-                              used=psutil.virtual_memory().used,
-                              available=psutil.virtual_memory().available)
-        disc = task_pb2.Disc(total=psutil.disk_usage('/').total,
-                             used=psutil.disk_usage('/').used,
-                             available=psutil.disk_usage('/').free)
-
-        resource = task_pb2.Resource(cpu=cpu, mem=mem, disc=disc)
+        resource = utils.get_resources()
         request = task_pb2.ResourceRequest(addr=self.addr, resource=resource)
         reply = self.stub.task_get_res(request)
         if show_result:

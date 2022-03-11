@@ -2,6 +2,7 @@ import os
 import time
 
 import numpy as np
+import psutil
 from cv2 import cv2
 
 from proto import task_pb2, task_pb2_grpc
@@ -87,6 +88,25 @@ def get_file_req(file_path) -> object:
     return file_req
 
 
+def get_resources():
+    cpu = task_pb2.CPU(use_ratio=psutil.cpu_percent(0),
+                       real_num=psutil.cpu_count(logical=False),
+                       logic_num=psutil.cpu_count())
+    mem = task_pb2.Memory(total=psutil.virtual_memory().total,
+                          used=psutil.virtual_memory().used,
+                          available=psutil.virtual_memory().available)
+    disc = task_pb2.Disc(total=psutil.disk_usage('/').total,
+                         used=psutil.disk_usage('/').used,
+                         available=psutil.disk_usage('/').free)
+
+    resource = task_pb2.Resource(cpu=cpu, mem=mem, disc=disc)
+    return resource
+
+def save_resource(path,type='a+'):
+    resource = get_resources()
+    data = str(resource) + '\n'
+    write_file(path, data, type)
+
 def get_image_req(img_path, type='.jpg'):
     img = cv2.imread(img_path)
     str_encode = img_encode(img, type)
@@ -104,7 +124,7 @@ def write_file(path, data, type='wb'):
     f.close()
 
 
-def write_time_start(path, title, time,type='a+'):
+def write_time_start(path, title, time=time.time(),type='a+'):
     data = title + " start time :" + str(time) + '\n'
     write_file(path, data, type)
 
@@ -117,3 +137,4 @@ def write_time_end(path, title, time):
 def imshow(title, image):
     cv2.imshow(title, image)
     cv2.waitKey()
+
