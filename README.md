@@ -23,39 +23,44 @@
 
 ## model调用接口
 
-### ai
+### api
 
-- ai.py
+- api.py
+- 拥有所有model的接口
+
+### 线性回归
+
+- linear_regression/linear_regression.py
 - 直接显示结果
 
-### face_ai
+### 图像合成
 
-- faceai/compose.py
+- compose/compose.py
 - 直接显示结果
 
 
-### lic_detect
+### 车牌识别
 
-- detect_rec_img.py
+- lic_detect/lic_detect.py
 - 直接显示结果
 
 
-### style_transfer
+### 风格迁移
 
-- train.py
+- style_transfer/style_transfer.py
 - 结果保存在output目录
 
 
-### yolo5
+### yolo_5
 
-- detect.py
+- yolo_5/yolo_5.py
 
 - 结果保存在output目录
 
 
-### yolox
+### yolo_x
 
-- tools/demo.py
+- yolo_x/tools/yolo_x.py
 - 可直接运行 demo.sh
 - 直接显示结果
 
