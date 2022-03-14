@@ -8,7 +8,6 @@ from cv2 import cv2
 from tools import utils
 from tools.utils import ROOT
 from tools.settings import *
-
 from proto import task_pb2, task_pb2_grpc
 
 

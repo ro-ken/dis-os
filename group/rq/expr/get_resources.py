@@ -1,4 +1,4 @@
-from  model import  api
+from model import api
 from tools import utils
 
 path = utils.ROOT + 'output/resource.txt'
