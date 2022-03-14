@@ -1,24 +1,20 @@
+
+# packge
 import threading
 import time
 from concurrent import futures
-from model.ai import ai
-
 import grpc
 import numpy as np
 from cv2 import cv2
 
-from tools.utils import ROOT
-from proto import task_pb2_grpc, task_pb2
-from model.yolox.tools import demo
-from model.yolo5 import detect
-from model.face_ai.faceai import compose
-from model.lic_detect import detect_rec_img
-from model.num_detect.classifier import predict
+# tool
 from tools import utils
 from tools.settings import arch
+from tools.utils import ROOT
+from proto import task_pb2_grpc, task_pb2
 
-if arch == "win" or arch == "mac":
-    from model.style_transfer import train
+# model
+from model.api import *
 
 
 # 实现服务
@@ -64,7 +60,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         str_encode = request.img
         img = utils.img_decode(str_encode)
-        img_res = demo.start(img)
+        img_res = yolo_x.start(img)
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
@@ -76,7 +72,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         str_encode = request.img
         img = utils.img_decode(str_encode)
-        img_res = demo.start(img)
+        img_res = yolo_x.start(img)
         str_encode = utils.img_encode(img_res, '.jpg')
         reply = task_pb2.Image(img=str_encode)
 
@@ -89,7 +85,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         for image in request_iterator:
             str_encode = image.img
             img = utils.img_decode(str_encode)
-            img_res = demo.start(img)
+            img_res = yolo_x.start(img)
             # cv2.imshow('img', img_res)
             # cv2.waitKey(1)
             str_encode = utils.img_encode(img_res, '.jpg')
@@ -101,11 +97,11 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def task_yolo5(self, request, context):
         utils.server_task_start("task_yolo5")
 
-        in_path = ROOT + 'model/yolo5/input/' + request.file_name
+        in_path = ROOT + 'model/yolo_5/input/' + request.file_name
         utils.write_file(in_path, request.file_data)
         # detect.start(in_path)     # 非windows错误
-        detect.start(None)
-        out_path = ROOT + 'model/yolo5/output/' + request.file_name
+        yolo_5.start(None)
+        out_path = ROOT + 'model/yolo_5/output/' + request.file_name
         img_req = utils.get_image_req(out_path)
 
         utils.server_task_end("task_yolo5")
@@ -118,7 +114,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.write_file(content_path, request.content.file_data)
         style_path = ROOT + 'model/style_transfer/input/' + request.style.file_name
         utils.write_file(style_path, request.style.file_data)
-        train.start(content_path, style_path)
+        style_transfer.start(content_path, style_path)
         out_path = ROOT + 'model/style_transfer/output/' + 'out.jpg'
         img_req = utils.get_image_req(out_path)
 
@@ -128,7 +124,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def task_ai(self, request, context):
         utils.server_task_start("task_ai")
 
-        ai.run()
+        linear_regression.run()
 
         utils.server_task_end("task_ai")
         return task_pb2.CommonReply(success=True)
@@ -136,7 +132,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def task_num_detect(self, request, context):
         utils.server_task_start("task_num_detect")
 
-        predict.predict_number()
+        num_detect.predict_number()
 
         utils.server_task_end("task_num_detect")
         return task_pb2.CommonReply(success=True)
@@ -146,7 +142,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         str_encode = request.img
         img = utils.img_decode(str_encode)
-        img_res = detect_rec_img.start(img)
+        img_res = lic_detect.start(img)
         str_encode = utils.img_encode(img_res, '.jpg')
         reply = task_pb2.Image(img=str_encode)
 

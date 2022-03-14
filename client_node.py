@@ -38,8 +38,8 @@ class ClientThread(threading.Thread):
         with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.stub = stub
-            #self.task()
-            self.five_solution()
+            self.task()
+            #self.five_solution()
 
     def task_test(self):
         utils.client_task_start("task_test")

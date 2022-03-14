@@ -1,53 +1,61 @@
 from tools.utils import ROOT
 
 # model
-from model.ai import ai
-from model.yolox.tools import demo
-from model.yolo5 import detect
-from model.face_ai.faceai import compose
-from model.lic_detect import detect_rec_img
-from model.num_detect.classifier import predict
-# from model.monet_transfer import
+from model.linear_regression import linear_regression
+from model.yolo_x.tools import yolo_x
+from model.yolo_5 import yolo_5
+from model.compose import compose
+from model.lic_detect import lic_detect
+from model.num_detect.classifier import num_detect
+# from model.monet_transfer import monet_transfer
 
 from tools.settings import arch
 
 if arch == "win" or arch == "mac":
-    from model.style_transfer import train
+    from model.style_transfer import style_transfer
 
 
-def task_ai():
-    ai.run()
+def api_linear_regression():
+    linear_regression.run()
 
 
-def task_yolo5(img_path=None):
-    detect.start(img_path)
+def api_yolo_5(img_path=None):
+    yolo_5.start(img_path)
 
 
-def task_yolox(img=None):
-    demo.start(img)
+def api_yolo_x(img=None):
+    yolo_x.start(img)
 
 
-def task_face_ai(img=None, img_compose=None):
+def api_compose(img=None, img_compose=None):
     compose.start(img, img_compose)
 
 
-def task_lic_detect(img=None):
-    detect_rec_img.start(img)
+def api_lic_detect(img=None):
+    lic_detect.start(img)
 
 
-def task_num_detect():
-    predict.predict_number()
+def api_num_detect():
+    num_detect.predict_number()
 
 
-def style_transfer(content_image_path=None, style_image_path=None):
-    train.start(content_image_path, style_image_path)
+def api_style_transfer(content_image_path=None, style_image_path=None):
+    style_transfer.start(content_image_path, style_image_path)
 
 
-task_list = [task_ai, task_yolo5, task_yolox, task_face_ai, task_lic_detect, task_num_detect, style_transfer]
+# def api_monet_transfer():
+#     monet_transfer.
+
+
+api_list = [api_linear_regression, api_yolo_5, api_yolo_x, api_compose, api_lic_detect, api_num_detect, api_style_transfer]
 
 
 def run(list):
     for i in list:
         print("task start" + str(i))
-        task_list[i]()
+        api_list[i]()
         print("task end" + str(i))
+
+
+if __name__ == '__main__':
+    run(range(7))

@@ -1,6 +1,6 @@
 
 
-# node = win , mac , smp , hwj , ywd
+# arch = win , mac , smp , hwj , ywd
 
 arch = "win"        # 本机架构
 
