@@ -30,17 +30,18 @@ class ClientThread(threading.Thread):
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.stub = stub
             self.task_handler = task_handler.TaskHandler(stub,self)
-            # self.task_test()
-            self.five_solution()
+            self.task_test()
+            # self.five_solution()
 
 
     def task_test(self):
-        self.task_handler.task_ai()
+        self.task_handler.task_linear_regression()
         self.task_handler.task_yolox_image()
         self.task_handler.task_yolo5()
-        self.task_handler.task_face_ai()
+        self.task_handler.task_compose()
         self.task_handler.task_lic_detect()
         self.task_handler.task_num_detect()
+        self.task_handler.task_monet_transfer()
         self.task_handler.task_style_transfer()
 
 

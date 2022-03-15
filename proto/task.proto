@@ -7,13 +7,16 @@ service TaskService{
   rpc task_transfer_file(File)returns(CommonReply){}
   rpc task_get_res(ResourceRequest)returns(CommonReply){}
   rpc send_image(Image)returns(CommonReply){}
+  rpc task_yolox_vedio(stream Image)returns(stream Image){}
+
+//  task
   rpc task_yolox_image(Image)returns(Image){}
   rpc task_lic_detect(Image)returns(Image){}
-  rpc task_yolox_vedio(stream Image)returns(stream Image){}
-  rpc task_ai(AIRequesst)returns(CommonReply){}
-  rpc task_num_detect(AIRequesst)returns(CommonReply){}
+  rpc task_linear_regression(Null)returns(CommonReply){}
+  rpc task_num_detect(Null)returns(CommonReply){}
+  rpc task_monet_transfer(Null)returns(CommonReply){}
   rpc task_yolo5(File)returns(Image){}
-  rpc task_face_ai(Image_x2)returns(Image){}
+  rpc task_compose(Image_x2)returns(Image){}
   rpc task_style_transfer(File_x2)returns(Image){}
 }
 
@@ -29,7 +32,7 @@ message Image_x2{
 
 
 
-message AIRequesst{
+message Null{
 
 }
 

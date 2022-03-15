@@ -36,6 +36,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.Image.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
+        self.task_yolox_vedio = channel.stream_stream(
+                '/TaskService/task_yolox_vedio',
+                request_serializer=task__pb2.Image.SerializeToString,
+                response_deserializer=task__pb2.Image.FromString,
+                )
         self.task_yolox_image = channel.unary_unary(
                 '/TaskService/task_yolox_image',
                 request_serializer=task__pb2.Image.SerializeToString,
@@ -46,19 +51,19 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.Image.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
-        self.task_yolox_vedio = channel.stream_stream(
-                '/TaskService/task_yolox_vedio',
-                request_serializer=task__pb2.Image.SerializeToString,
-                response_deserializer=task__pb2.Image.FromString,
-                )
-        self.task_ai = channel.unary_unary(
-                '/TaskService/task_ai',
-                request_serializer=task__pb2.AIRequesst.SerializeToString,
+        self.task_linear_regression = channel.unary_unary(
+                '/TaskService/task_linear_regression',
+                request_serializer=task__pb2.Null.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
         self.task_num_detect = channel.unary_unary(
                 '/TaskService/task_num_detect',
-                request_serializer=task__pb2.AIRequesst.SerializeToString,
+                request_serializer=task__pb2.Null.SerializeToString,
+                response_deserializer=task__pb2.CommonReply.FromString,
+                )
+        self.task_monet_transfer = channel.unary_unary(
+                '/TaskService/task_monet_transfer',
+                request_serializer=task__pb2.Null.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
         self.task_yolo5 = channel.unary_unary(
@@ -66,8 +71,8 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.File.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
-        self.task_face_ai = channel.unary_unary(
-                '/TaskService/task_face_ai',
+        self.task_compose = channel.unary_unary(
+                '/TaskService/task_compose',
                 request_serializer=task__pb2.Image_x2.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
@@ -107,8 +112,15 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def task_yolox_image(self, request, context):
+    def task_yolox_vedio(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def task_yolox_image(self, request, context):
+        """task
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -119,13 +131,7 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def task_yolox_vedio(self, request_iterator, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def task_ai(self, request, context):
+    def task_linear_regression(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -137,13 +143,19 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def task_monet_transfer(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def task_yolo5(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def task_face_ai(self, request, context):
+    def task_compose(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -178,6 +190,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     request_deserializer=task__pb2.Image.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
+            'task_yolox_vedio': grpc.stream_stream_rpc_method_handler(
+                    servicer.task_yolox_vedio,
+                    request_deserializer=task__pb2.Image.FromString,
+                    response_serializer=task__pb2.Image.SerializeToString,
+            ),
             'task_yolox_image': grpc.unary_unary_rpc_method_handler(
                     servicer.task_yolox_image,
                     request_deserializer=task__pb2.Image.FromString,
@@ -188,19 +205,19 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     request_deserializer=task__pb2.Image.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
-            'task_yolox_vedio': grpc.stream_stream_rpc_method_handler(
-                    servicer.task_yolox_vedio,
-                    request_deserializer=task__pb2.Image.FromString,
-                    response_serializer=task__pb2.Image.SerializeToString,
-            ),
-            'task_ai': grpc.unary_unary_rpc_method_handler(
-                    servicer.task_ai,
-                    request_deserializer=task__pb2.AIRequesst.FromString,
+            'task_linear_regression': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_linear_regression,
+                    request_deserializer=task__pb2.Null.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
             'task_num_detect': grpc.unary_unary_rpc_method_handler(
                     servicer.task_num_detect,
-                    request_deserializer=task__pb2.AIRequesst.FromString,
+                    request_deserializer=task__pb2.Null.FromString,
+                    response_serializer=task__pb2.CommonReply.SerializeToString,
+            ),
+            'task_monet_transfer': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_monet_transfer,
+                    request_deserializer=task__pb2.Null.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
             'task_yolo5': grpc.unary_unary_rpc_method_handler(
@@ -208,8 +225,8 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     request_deserializer=task__pb2.File.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
-            'task_face_ai': grpc.unary_unary_rpc_method_handler(
-                    servicer.task_face_ai,
+            'task_compose': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_compose,
                     request_deserializer=task__pb2.Image_x2.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
             ),
@@ -299,6 +316,23 @@ class TaskService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
+    def task_yolox_vedio(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/TaskService/task_yolox_vedio',
+            task__pb2.Image.SerializeToString,
+            task__pb2.Image.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
     def task_yolox_image(request,
             target,
             options=(),
@@ -333,7 +367,7 @@ class TaskService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def task_yolox_vedio(request_iterator,
+    def task_linear_regression(request,
             target,
             options=(),
             channel_credentials=None,
@@ -343,25 +377,8 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/TaskService/task_yolox_vedio',
-            task__pb2.Image.SerializeToString,
-            task__pb2.Image.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def task_ai(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/task_ai',
-            task__pb2.AIRequesst.SerializeToString,
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_linear_regression',
+            task__pb2.Null.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -378,7 +395,24 @@ class TaskService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/task_num_detect',
-            task__pb2.AIRequesst.SerializeToString,
+            task__pb2.Null.SerializeToString,
+            task__pb2.CommonReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def task_monet_transfer(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_monet_transfer',
+            task__pb2.Null.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -401,7 +435,7 @@ class TaskService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def task_face_ai(request,
+    def task_compose(request,
             target,
             options=(),
             channel_credentials=None,
@@ -411,7 +445,7 @@ class TaskService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/task_face_ai',
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_compose',
             task__pb2.Image_x2.SerializeToString,
             task__pb2.Image.FromString,
             options, channel_credentials,

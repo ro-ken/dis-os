@@ -19,15 +19,14 @@ class TaskHandler():
         self.stub = stub
         self.client = client
 
-        #   taskid               0               1                   2               3                   4                       5                      6
-
-        self.task_list = [self.task_ai,             # 0
-                          self.task_yolox_image,    # 1
-                          self.task_yolo5,          # 2
-                          self.task_face_ai,        # 3
-                          self.task_lic_detect,     # 4
-                          self.task_num_detect,     # 5
-                          self.task_style_transfer] # 6
+        self.task_list = [self.task_linear_regression,                 # 0
+                          self.task_yolox_image,        # 1
+                          self.task_yolo5,              # 2
+                          self.task_compose,            # 3
+                          self.task_lic_detect,         # 4
+                          self.task_num_detect,         # 5
+                          self.task_monet_transfer,     # 6
+                          self.task_style_transfer]     # 7
 
     def do_task(self, task_ids):
         for i in task_ids:
@@ -89,23 +88,34 @@ class TaskHandler():
         if show_result:
             utils.imshow("task_yolox_image", img_res)
 
-    def task_ai(self):
-        utils.client_task_start("task_ai")
+    def task_linear_regression(self):
+        utils.client_task_start("task_linear_regression")
 
-        ai_req = task_pb2.AIRequesst()
-        reply = self.stub.task_ai(ai_req)
+        null = task_pb2.Null()
+        reply = self.stub.task_linear_regression(null)
 
-        utils.client_task_end("task_ai")
+        utils.client_task_end("task_linear_regression")
         return reply
 
     def task_num_detect(self):
         utils.client_task_start("task_num_detect")
 
-        ai_req = task_pb2.AIRequesst()
-        reply = self.stub.task_num_detect(ai_req)
+        null = task_pb2.Null()
+        reply = self.stub.task_num_detect(null)
 
         utils.client_task_end("task_num_detect")
         return reply
+
+
+    def task_monet_transfer(self):
+        utils.client_task_start("task_monet_transfer")
+
+        null = task_pb2.Null()
+        reply = self.stub.task_monet_transfer(null)
+
+        utils.client_task_end("task_monet_transfer")
+        return reply
+
 
     def task_yolo5(self):
         utils.client_task_start("task_yolo5")
@@ -173,22 +183,22 @@ class TaskHandler():
 
         utils.client_task_end("task_yolox_vedio")
 
-    def task_face_ai(self):
-        utils.client_task_start("task_face_ai")
+    def task_compose(self):
+        utils.client_task_start("task_compose")
 
         img_path = ROOT + 'dataset/face_ai/ag-3.png'
         img_compose_path = ROOT + 'dataset/face_ai/compose/maozi-1.png'
         img = utils.get_image_req(img_path, '.png').img
         img_compose = utils.get_image_req(img_compose_path, '.png').img
         img_2_req = task_pb2.Image_x2(img=img, img_compose=img_compose)
-        reply = self.stub.task_face_ai(img_2_req)
+        reply = self.stub.task_compose(img_2_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
 
-        utils.client_task_end("task_face_ai")
+        utils.client_task_end("task_compose")
 
         if show_result:
-            utils.imshow("task_face_ai", img_res)
+            utils.imshow("task_compose", img_res)
 
     def task_lic_detect(self):
         utils.client_task_start("task_lic_detect")
