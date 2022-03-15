@@ -1,105 +1,71 @@
 cpu {
-  use_ratio: 16.600000381469727
+  use_ratio: 17.600000381469727
   real_num: 4
   logic_num: 8
 }
 mem {
   total: 16969408512
-  used: 7621181440
-  available: 9348227072
+  used: 8374497280
+  available: 8594911232
 }
 disc {
   total: 296022437888
-  used: 258377166848
-  available: 37645271040
+  used: 258377056256
+  available: 37645381632
 }
 
-task0 start time :1647255105.8927667
-task1 start time :1647255105.8927667
+task0 start time :1647259400.619046
+task1 start time :1647259400.619046
 cpu {
-  use_ratio: 14.600000381469727
+  use_ratio: 14.100000381469727
   real_num: 4
   logic_num: 8
 }
 mem {
   total: 16969408512
-  used: 7633686528
-  available: 9335721984
+  used: 8389505024
+  available: 8579903488
 }
 disc {
   total: 296022437888
-  used: 258377166848
-  available: 37645271040
+  used: 258377060352
+  available: 37645377536
 }
 
-task2 start time :1647255105.8927667
+task2 start time :1647259400.619046
 cpu {
-  use_ratio: 51.0
+  use_ratio: 49.70000076293945
   real_num: 4
   logic_num: 8
 }
 mem {
   total: 16969408512
-  used: 8060399616
-  available: 8908976128
+  used: 8813301760
+  available: 8156106752
 }
 disc {
   total: 296022437888
-  used: 258377166848
-  available: 37645271040
+  used: 258377060352
+  available: 37645377536
 }
 
 cpu {
-  use_ratio: 57.099998474121094
+  use_ratio: 57.599998474121094
   real_num: 4
   logic_num: 8
 }
 mem {
   total: 16969408512
-  used: 7702159360
-  available: 9267249152
+  used: 8451313664
+  available: 8518094848
 }
 disc {
   total: 296022437888
-  used: 258377166848
-  available: 37645271040
+  used: 258377060352
+  available: 37645377536
 }
 
-task3 start time :1647255105.8927667
-cpu {
-  use_ratio: 61.79999923706055
-  real_num: 4
-  logic_num: 8
-}
-mem {
-  total: 16969408512
-  used: 7701291008
-  available: 9268101120
-}
-disc {
-  total: 296022437888
-  used: 258377166848
-  available: 37645271040
-}
-
-task4 start time :1647255105.8927667
-cpu {
-  use_ratio: 49.29999923706055
-  real_num: 4
-  logic_num: 8
-}
-mem {
-  total: 16969408512
-  used: 7707566080
-  available: 9261842432
-}
-disc {
-  total: 296022437888
-  used: 258377166848
-  available: 37645271040
-}
-
-task5 start time :1647255105.8927667
+task3 start time :1647259400.619046
 cpu {
   use_ratio: 50.0
   real_num: 4
@@ -107,13 +73,46 @@ cpu {
 }
 mem {
   total: 16969408512
-  used: 7708930048
-  available: 9260478464
+  used: 8451891200
+  available: 8517496832
 }
 disc {
   total: 296022437888
-  used: 258377166848
-  available: 37645271040
+  used: 258377060352
+  available: 37645377536
+}
+
+task4 start time :1647259400.619046
+cpu {
+  use_ratio: 49.20000076293945
+  real_num: 4
+  logic_num: 8
+}
+mem {
+  total: 16969408512
+  used: 8457551872
+  available: 8511856640
+}
+disc {
+  total: 296022437888
+  used: 258377060352
+  available: 37645377536
+}
+
+task5 start time :1647259400.619046
+cpu {
+  real_num: 4
+  logic_num: 8
+}
+mem {
+  total: 16969408512
+  used: 8458227712
+  available: 8511180800
+}
+disc {
+  total: 296022437888
+  used: 258377060352
+  available: 37645377536
 }
 
 task6 start time :w
