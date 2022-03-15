@@ -6,13 +6,15 @@
 
 - model：任务模型
 
-- proto：传输格式
-
 - tools
   
+    - /proto/：传输格式
     - settings.py：配置文件
     - requirements.txt:需要的依赖
     - utils.py:通用的方法
+    - sched.py:调度策略
+    - task_handler:client的任务助手
+    - task_service:server的任务助手
 
 - node.py启动项目
 
