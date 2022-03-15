@@ -17,7 +17,18 @@ from tools.proto import task_pb2_grpc, task_pb2
 # model
 from model.api import *
 
-# 服务器线程
+'''
+    Class:      ServerThread
+    功能：      线程, 封装grpc的服务器启动代码, 继承threading模块的Thread类, 重写了run方法,
+    function:
+                __init__    - 初始化线程类的属性
+                run         - 封装grpc的服务器启动代码
+    attribute: 
+                self.name - 
+                self.port - grpc server的端口号
+                self.addr - grpc server的ip地址
+                self.node - 当前节点硬件资源特征抽象
+'''
 class ServerThread(threading.Thread):
     def __init__(self, name, port):
         threading.Thread.__init__(self)
@@ -28,9 +39,12 @@ class ServerThread(threading.Thread):
 
     # 开启服务器
     def run(self) -> None:
+        # 初始化 grpc server
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         service = TaskService(self.node)
         task_pb2_grpc.add_TaskServiceServicer_to_server(service, server)
+
+        # 配置端口
         while True:
             try:
                 server.add_insecure_port("[::]:" + str(self.port))
@@ -39,6 +53,7 @@ class ServerThread(threading.Thread):
                 # print(str(self.port) + "端口已被占用！")
                 self.port += 1
 
+        # 运行grpc server
         server.start()
         self.addr = task_pb2.Addr(ip='localhost', port=self.port)
         print("server start... port = " + str(self.port))
