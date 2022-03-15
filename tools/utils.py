@@ -101,10 +101,12 @@ def get_resources():
     resource = task_pb2.Resource(cpu=cpu, mem=mem, disc=disc)
     return resource
 
+
 def save_resource(path,type='a+'):
     resource = get_resources()
     data = str(resource) + '\n'
     write_file(path, data, type)
+
 
 def get_image_req(img_path, type='.jpg'):
     img = cv2.imread(img_path)
