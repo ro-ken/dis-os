@@ -5,7 +5,7 @@ import numpy as np
 import psutil
 from cv2 import cv2
 
-from proto import task_pb2, task_pb2_grpc
+from tools.proto import task_pb2, task_pb2_grpc
 
 ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
 
@@ -17,7 +17,6 @@ def server_task_start(task_name):
 
 def server_task_end(task_name):
     print('--------------{} server end'.format(task_name))
-
     # print(time.time())
 
 

@@ -2,7 +2,6 @@ import time
 
 import server_node
 import client_node
-from proto import task_pb2, task_pb2_grpc
 from tools import utils
 import os
 

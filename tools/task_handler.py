@@ -1,9 +1,9 @@
 from cv2 import cv2
 
 from tools import utils
-from proto import task_pb2, task_pb2_grpc
 from tools.utils import ROOT
 from tools.settings import *
+from tools.proto import task_pb2, task_pb2_grpc
 
 
 def read_times(cap, times):

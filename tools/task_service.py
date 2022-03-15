@@ -7,7 +7,7 @@ from cv2 import cv2
 from tools import utils
 from tools.settings import arch
 from tools.utils import ROOT
-from proto import task_pb2_grpc, task_pb2
+from tools.proto import task_pb2, task_pb2_grpc
 
 # model
 from model.api import *

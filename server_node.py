@@ -12,7 +12,7 @@ from tools import utils
 from tools.settings import arch
 from tools.task_service import TaskService
 from tools.utils import ROOT
-from proto import task_pb2_grpc, task_pb2
+from tools.proto import task_pb2_grpc, task_pb2
 
 # model
 from model.api import *
