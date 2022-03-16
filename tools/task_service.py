@@ -18,6 +18,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def __init__(self, node):
         self.node = node
 
+    # 测试grpc server服务是否成功运行
     def task_test(self, request, context):
         utils.server_task_start("task_test")
 
@@ -27,6 +28,17 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_test")
         return reply
 
+    '''
+    function:   task_transfer_file
+    describe:   request方向response方发送request节点上风格迁移应用所需的.bak文件?【该函数已被废弃?】
+    input:      
+                request         - protobuf 的 message File 类
+                    attribute:
+                    - string file_name  - 文件名
+                    - bytes file_data   - 文件数据
+    output:
+                protobuf 的 message CommonReply类
+    '''
     def task_transfer_file(self, request, context):
         utils.server_task_start("task_transfer_file")
 
@@ -37,6 +49,17 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_transfer_file")
         return reply
 
+    '''
+    function:   task_get_res
+    describe:   request方向response方发送request节点上的节点资源使用情况(CPU, 内存, 硬盘IO)
+    input:      
+                request         - protobuf 的 message ResourceRequest 类
+                    attribute:
+                    - Addr addr             - 节点地址
+                    - Resource resource     - 节点资源数据结构
+    output:
+                protobuf 的 message CommonReply类
+    '''
     def task_get_res(self, request, context):
         utils.server_task_start("task_get_res")
 
@@ -50,18 +73,43 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_get_res")
         return reply
 
+    '''
+    function:   send_image【yolox应用专用】【兼容性不强啊庆庆】【该函数早期版本没删?】
+    describe:   request方向response方发送图片给yolox应用进行处理, 处理完毕后在response方显示处理后的图像
+    input:      
+                request         - protobuf 的 message Image 类
+                    attribute:
+                    - bytes img - 图片的字节流
+    output:
+                protobuf 的 message CommonReply类
+    '''
     def send_image(self, request, context):
+        # 任务开始运行提示
         utils.server_task_start("send_image")
 
+        # 图片从字节流解码为能够被应用进行处理的图像数据
         str_encode = request.img
         img = utils.img_decode(str_encode)
+
+        # 调用yolox进行处理图像, 处理完毕后显示图像, 等待用户确认后结束
         img_res = yolo_x.start(img)
         cv2.imshow('img', img_res)
         cv2.waitKey()
 
+        # 任务结束提示
         utils.server_task_end("send_image")
         return task_pb2.CommonReply(success=True)
 
+    '''
+    function:   task_yolox_image【yolox应用专用】
+    describe:   request方向response方发送图片给yolox应用进行处理, 返回处理完毕后的图像给request方
+    input:      
+                request         - protobuf 的 message Image 类
+                    attribute:
+                    - bytes img - 图片的字节流
+    output:
+                protobuf 的 message Image
+    '''
     def task_yolox_image(self, request, context):
         utils.server_task_start("task_yolox_image")
 
@@ -74,6 +122,16 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_yolox_image")
         return reply
 
+    '''
+    function:   task_yolox_video【yolox应用专用】【处理视频】
+    describe:   双向stream, request方向解析视频为image stream, 向response方请求yolox处理, 处理完毕后返回image stream
+    input:      
+                request_iterator    - protobuf 的 message Image 类的yield迭代器, yield单次迭代返回request
+                    attribute:
+                     - bytes img - 图片的字节流
+    output:
+                protobuf 的 message Image steam
+    '''
     def task_yolox_vedio(self, request_iterator, context):
         utils.server_task_start("task_yolox_vedio")
 

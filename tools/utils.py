@@ -10,11 +10,13 @@ from tools.proto import task_pb2, task_pb2_grpc
 ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
 
 
+# 输出提示，表明任务开始调用
 def server_task_start(task_name):
     print('--------------{} server start'.format(task_name))
     # print(time.time())
 
 
+# 输出提示，表明任务结束调用
 def server_task_end(task_name):
     print('--------------{} server end'.format(task_name))
     # print(time.time())
@@ -62,7 +64,18 @@ def select_by_resource(node_resources):
     addr = task_pb2.Addr(ip=ip, port=port)
     return addr
 
+'''
+    function:   addr2key
+    describe:   ip和port重组为socket, 返回 'ip:port'
+    input:
+            addr - protobuf 的 message Addr 类
+                attibute:
+                ip - 
+                port - 
 
+    output:
+                'ip:port'
+'''
 def addr2key(addr):
     return addr.ip + ":" + str(addr.port)
 
