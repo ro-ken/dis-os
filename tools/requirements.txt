@@ -2,6 +2,8 @@
 # grpc
 grpcio
 opencv_python
+psutil
+pyyaml
 
 # ai 
 pandas
