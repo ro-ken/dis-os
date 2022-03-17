@@ -223,3 +223,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         utils.server_task_end("task_monet_transfer")
         return task_pb2.CommonReply(success=True)
+
+    def keep_alive(self, request, context):
+        print("server reserve keepalive")
+        return task_pb2.CommonReply(success=True)

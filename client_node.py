@@ -1,3 +1,4 @@
+import asyncio
 import os
 import threading
 import time
@@ -31,6 +32,8 @@ from tools import task_handler
 class ClientThread(threading.Thread):
     stub = None
     task_handler = None
+    # 待处理队列
+    task_queue = []
 
     def __init__(self, name, host, port, addr):
         threading.Thread.__init__(self)
@@ -48,11 +51,29 @@ class ClientThread(threading.Thread):
             self.task_handler = task_handler.TaskHandler(stub,self)
             
             # 依次调用七个应用
-            self.task_test()
+            # self.task_test()
             # self.five_solution()
+            asyncio.run(self.async_task())
+
+    # 异步协同执行
+    async def async_task(self):
+        await asyncio.gather(
+            self.keep_alive(),
+            self.do_task(),
+        )
+
+    # 保持连接
+    async def keep_alive(self):
+
+        while True:
+            request = task_pb2.HeartBeat()
+            reply = self.stub.keep_alive(request)
+            print(reply)
+            # 每秒发送一次
+            await asyncio.sleep(1)
 
     # 应用调用接口封装, 调用全部的7个应用
-    def task_test(self):
+    async def task_test(self):
         self.task_handler.task_linear_regression()
         self.task_handler.task_yolox_image()
         self.task_handler.task_yolo5()
@@ -88,21 +109,36 @@ class ClientThread(threading.Thread):
     # 节点环境检测, 根据不同的节点调用不同的应用接口
     def solution(self, win, mac, smp, hwj, ywd):
         if arch == "win":
-            self.task_handler.do_task(win)
+            self.task_handler.do_task_by_ids(win)
         elif arch == "mac":
-            self.task_handler.do_task(mac)
+            self.task_handler.do_task_by_ids(mac)
         elif arch == "smp":
-            self.task_handler.do_task(smp)
+            self.task_handler.do_task_by_ids(smp)
         elif arch == "hwj":
-            self.task_handler.do_task(hwj)
+            self.task_handler.do_task_by_ids(hwj)
         elif arch == "ywd":
-            self.task_handler.do_task(ywd)
+            self.task_handler.do_task_by_ids(ywd)
+
+    # 处理任务队列里的任务
+    async def do_task(self):
+        while True:
+            if len(self.task_queue) == 0:
+                await asyncio.sleep(1)
+            else:
+                self.task_handler.do_task_by_id(self.task_queue.pop())
+            await asyncio.sleep(0.1)
+
+    # 给client添加任务
+    def add_tasks(self,task_list):
+        self.task_queue.extend(task_list)
 
 # 启动测试代码
 def start(host, port):
     client = ClientThread("client", host, port, None)
     client.start()
+    client.add_tasks(range(7))
     client.join()
+    # client.test()
 
 
 if __name__ == '__main__':

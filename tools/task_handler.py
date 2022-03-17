@@ -28,9 +28,12 @@ class TaskHandler():
                           self.task_monet_transfer,     # 6
                           self.task_style_transfer]     # 7
 
-    def do_task(self, task_ids):
-        for i in task_ids:
-            self.task_list[i]()
+    def do_task_by_ids(self, task_ids):
+        for id in task_ids:
+            self.do_task_by_id(id)
+
+    def do_task_by_id(self,task_id):
+        self.task_list[task_id]()
 
     def task_test(self):
         utils.client_task_start("task_test")

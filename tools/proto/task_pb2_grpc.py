@@ -81,6 +81,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.File_x2.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
+        self.keep_alive = channel.unary_unary(
+                '/TaskService/keep_alive',
+                request_serializer=task__pb2.HeartBeat.SerializeToString,
+                response_deserializer=task__pb2.CommonReply.FromString,
+                )
 
 
 class TaskServiceServicer(object):
@@ -89,7 +94,8 @@ class TaskServiceServicer(object):
     """
 
     def task_test(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """test
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -167,6 +173,13 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def keep_alive(self, request, context):
+        """keep_alive
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TaskServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -234,6 +247,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     servicer.task_style_transfer,
                     request_deserializer=task__pb2.File_x2.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
+            ),
+            'keep_alive': grpc.unary_unary_rpc_method_handler(
+                    servicer.keep_alive,
+                    request_deserializer=task__pb2.HeartBeat.FromString,
+                    response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -465,5 +483,22 @@ class TaskService(object):
         return grpc.experimental.unary_unary(request, target, '/TaskService/task_style_transfer',
             task__pb2.File_x2.SerializeToString,
             task__pb2.Image.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def keep_alive(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/keep_alive',
+            task__pb2.HeartBeat.SerializeToString,
+            task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

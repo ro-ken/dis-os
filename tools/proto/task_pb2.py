@@ -19,10 +19,35 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\ntask.proto\"7\n\x07\x46ile_x2\x12\x16\n\x07\x63ontent\x18\x01 \x01(\x0b\x32\x05.File\x12\x14\n\x05style\x18\x02 \x01(\x0b\x32\x05.File\",\n\x08Image_x2\x12\x0b\n\x03img\x18\x01 \x01(\x0c\x12\x13\n\x0bimg_compose\x18\x02 \x01(\x0c\"\x06\n\x04Null\"\x14\n\x05Image\x12\x0b\n\x03img\x18\x01 \x01(\x0c\"1\n\x0bTaskRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\x05\x12\x11\n\ttask_name\x18\x02 \x01(\t\"\x1e\n\x0b\x43ommonReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\",\n\x04\x46ile\x12\x11\n\tfile_name\x18\x01 \x01(\t\x12\x11\n\tfile_data\x18\x02 \x01(\x0c\"C\n\x0fResourceRequest\x12\x13\n\x04\x61\x64\x64r\x18\x01 \x01(\x0b\x32\x05.Addr\x12\x1b\n\x08resource\x18\x02 \x01(\x0b\x32\t.Resource\" \n\x04\x41\x64\x64r\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\"H\n\x08Resource\x12\x11\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x04.CPU\x12\x14\n\x03mem\x18\x02 \x01(\x0b\x32\x07.Memory\x12\x13\n\x04\x64isc\x18\x03 \x01(\x0b\x32\x05.Disc\"=\n\x03\x43PU\x12\x11\n\tuse_ratio\x18\x01 \x01(\x02\x12\x10\n\x08real_num\x18\x02 \x01(\x05\x12\x11\n\tlogic_num\x18\x03 \x01(\x05\"8\n\x06Memory\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\"6\n\x04\x44isc\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\x32\xaa\x04\n\x0bTaskService\x12)\n\ttask_test\x12\x0c.TaskRequest\x1a\x0c.CommonReply\"\x00\x12+\n\x12task_transfer_file\x12\x05.File\x1a\x0c.CommonReply\"\x00\x12\x30\n\x0ctask_get_res\x12\x10.ResourceRequest\x1a\x0c.CommonReply\"\x00\x12$\n\nsend_image\x12\x06.Image\x1a\x0c.CommonReply\"\x00\x12(\n\x10task_yolox_vedio\x12\x06.Image\x1a\x06.Image\"\x00(\x01\x30\x01\x12$\n\x10task_yolox_image\x12\x06.Image\x1a\x06.Image\"\x00\x12#\n\x0ftask_lic_detect\x12\x06.Image\x1a\x06.Image\"\x00\x12/\n\x16task_linear_regression\x12\x05.Null\x1a\x0c.CommonReply\"\x00\x12(\n\x0ftask_num_detect\x12\x05.Null\x1a\x0c.CommonReply\"\x00\x12,\n\x13task_monet_transfer\x12\x05.Null\x1a\x0c.CommonReply\"\x00\x12\x1d\n\ntask_yolo5\x12\x05.File\x1a\x06.Image\"\x00\x12#\n\x0ctask_compose\x12\t.Image_x2\x1a\x06.Image\"\x00\x12)\n\x13task_style_transfer\x12\x08.File_x2\x1a\x06.Image\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\ntask.proto\"\x0b\n\tHeartBeat\"7\n\x07\x46ile_x2\x12\x16\n\x07\x63ontent\x18\x01 \x01(\x0b\x32\x05.File\x12\x14\n\x05style\x18\x02 \x01(\x0b\x32\x05.File\",\n\x08Image_x2\x12\x0b\n\x03img\x18\x01 \x01(\x0c\x12\x13\n\x0bimg_compose\x18\x02 \x01(\x0c\"\x06\n\x04Null\"\x14\n\x05Image\x12\x0b\n\x03img\x18\x01 \x01(\x0c\"1\n\x0bTaskRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\x05\x12\x11\n\ttask_name\x18\x02 \x01(\t\"\x1e\n\x0b\x43ommonReply\x12\x0f\n\x07success\x18\x01 \x01(\x08\",\n\x04\x46ile\x12\x11\n\tfile_name\x18\x01 \x01(\t\x12\x11\n\tfile_data\x18\x02 \x01(\x0c\"C\n\x0fResourceRequest\x12\x13\n\x04\x61\x64\x64r\x18\x01 \x01(\x0b\x32\x05.Addr\x12\x1b\n\x08resource\x18\x02 \x01(\x0b\x32\t.Resource\" \n\x04\x41\x64\x64r\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\x05\"H\n\x08Resource\x12\x11\n\x03\x63pu\x18\x01 \x01(\x0b\x32\x04.CPU\x12\x14\n\x03mem\x18\x02 \x01(\x0b\x32\x07.Memory\x12\x13\n\x04\x64isc\x18\x03 \x01(\x0b\x32\x05.Disc\"=\n\x03\x43PU\x12\x11\n\tuse_ratio\x18\x01 \x01(\x02\x12\x10\n\x08real_num\x18\x02 \x01(\x05\x12\x11\n\tlogic_num\x18\x03 \x01(\x05\"8\n\x06Memory\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\"6\n\x04\x44isc\x12\r\n\x05total\x18\x01 \x01(\x03\x12\x0c\n\x04used\x18\x02 \x01(\x03\x12\x11\n\tavailable\x18\x03 \x01(\x03\x32\xd4\x04\n\x0bTaskService\x12)\n\ttask_test\x12\x0c.TaskRequest\x1a\x0c.CommonReply\"\x00\x12+\n\x12task_transfer_file\x12\x05.File\x1a\x0c.CommonReply\"\x00\x12\x30\n\x0ctask_get_res\x12\x10.ResourceRequest\x1a\x0c.CommonReply\"\x00\x12$\n\nsend_image\x12\x06.Image\x1a\x0c.CommonReply\"\x00\x12(\n\x10task_yolox_vedio\x12\x06.Image\x1a\x06.Image\"\x00(\x01\x30\x01\x12$\n\x10task_yolox_image\x12\x06.Image\x1a\x06.Image\"\x00\x12#\n\x0ftask_lic_detect\x12\x06.Image\x1a\x06.Image\"\x00\x12/\n\x16task_linear_regression\x12\x05.Null\x1a\x0c.CommonReply\"\x00\x12(\n\x0ftask_num_detect\x12\x05.Null\x1a\x0c.CommonReply\"\x00\x12,\n\x13task_monet_transfer\x12\x05.Null\x1a\x0c.CommonReply\"\x00\x12\x1d\n\ntask_yolo5\x12\x05.File\x1a\x06.Image\"\x00\x12#\n\x0ctask_compose\x12\t.Image_x2\x1a\x06.Image\"\x00\x12)\n\x13task_style_transfer\x12\x08.File_x2\x1a\x06.Image\"\x00\x12(\n\nkeep_alive\x12\n.HeartBeat\x1a\x0c.CommonReply\"\x00\x62\x06proto3'
 )
 
 
+
+
+_HEARTBEAT = _descriptor.Descriptor(
+  name='HeartBeat',
+  full_name='HeartBeat',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=14,
+  serialized_end=25,
+)
 
 
 _FILE_X2 = _descriptor.Descriptor(
@@ -59,8 +84,8 @@ _FILE_X2 = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=14,
-  serialized_end=69,
+  serialized_start=27,
+  serialized_end=82,
 )
 
 
@@ -98,8 +123,8 @@ _IMAGE_X2 = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=71,
-  serialized_end=115,
+  serialized_start=84,
+  serialized_end=128,
 )
 
 
@@ -123,8 +148,8 @@ _NULL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=117,
-  serialized_end=123,
+  serialized_start=130,
+  serialized_end=136,
 )
 
 
@@ -155,8 +180,8 @@ _IMAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=125,
-  serialized_end=145,
+  serialized_start=138,
+  serialized_end=158,
 )
 
 
@@ -194,8 +219,8 @@ _TASKREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=147,
-  serialized_end=196,
+  serialized_start=160,
+  serialized_end=209,
 )
 
 
@@ -226,8 +251,8 @@ _COMMONREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=198,
-  serialized_end=228,
+  serialized_start=211,
+  serialized_end=241,
 )
 
 
@@ -265,8 +290,8 @@ _FILE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=230,
-  serialized_end=274,
+  serialized_start=243,
+  serialized_end=287,
 )
 
 
@@ -304,8 +329,8 @@ _RESOURCEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=276,
-  serialized_end=343,
+  serialized_start=289,
+  serialized_end=356,
 )
 
 
@@ -343,8 +368,8 @@ _ADDR = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=345,
-  serialized_end=377,
+  serialized_start=358,
+  serialized_end=390,
 )
 
 
@@ -389,8 +414,8 @@ _RESOURCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=379,
-  serialized_end=451,
+  serialized_start=392,
+  serialized_end=464,
 )
 
 
@@ -435,8 +460,8 @@ _CPU = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=453,
-  serialized_end=514,
+  serialized_start=466,
+  serialized_end=527,
 )
 
 
@@ -481,8 +506,8 @@ _MEMORY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=516,
-  serialized_end=572,
+  serialized_start=529,
+  serialized_end=585,
 )
 
 
@@ -527,8 +552,8 @@ _DISC = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=574,
-  serialized_end=628,
+  serialized_start=587,
+  serialized_end=641,
 )
 
 _FILE_X2.fields_by_name['content'].message_type = _FILE
@@ -538,6 +563,7 @@ _RESOURCEREQUEST.fields_by_name['resource'].message_type = _RESOURCE
 _RESOURCE.fields_by_name['cpu'].message_type = _CPU
 _RESOURCE.fields_by_name['mem'].message_type = _MEMORY
 _RESOURCE.fields_by_name['disc'].message_type = _DISC
+DESCRIPTOR.message_types_by_name['HeartBeat'] = _HEARTBEAT
 DESCRIPTOR.message_types_by_name['File_x2'] = _FILE_X2
 DESCRIPTOR.message_types_by_name['Image_x2'] = _IMAGE_X2
 DESCRIPTOR.message_types_by_name['Null'] = _NULL
@@ -552,6 +578,13 @@ DESCRIPTOR.message_types_by_name['CPU'] = _CPU
 DESCRIPTOR.message_types_by_name['Memory'] = _MEMORY
 DESCRIPTOR.message_types_by_name['Disc'] = _DISC
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+HeartBeat = _reflection.GeneratedProtocolMessageType('HeartBeat', (_message.Message,), {
+  'DESCRIPTOR' : _HEARTBEAT,
+  '__module__' : 'task_pb2'
+  # @@protoc_insertion_point(class_scope:HeartBeat)
+  })
+_sym_db.RegisterMessage(HeartBeat)
 
 File_x2 = _reflection.GeneratedProtocolMessageType('File_x2', (_message.Message,), {
   'DESCRIPTOR' : _FILE_X2,
@@ -653,8 +686,8 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=631,
-  serialized_end=1185,
+  serialized_start=644,
+  serialized_end=1240,
   methods=[
   _descriptor.MethodDescriptor(
     name='task_test',
@@ -783,6 +816,16 @@ _TASKSERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_FILE_X2,
     output_type=_IMAGE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='keep_alive',
+    full_name='TaskService.keep_alive',
+    index=13,
+    containing_service=None,
+    input_type=_HEARTBEAT,
+    output_type=_COMMONREPLY,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

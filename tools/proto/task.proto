@@ -3,6 +3,8 @@ syntax = "proto3";
 //python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. task.proto
 
 service TaskService{
+
+//  test
   rpc task_test(TaskRequest)returns(CommonReply){}
   rpc task_transfer_file(File)returns(CommonReply){}
   rpc task_get_res(ResourceRequest)returns(CommonReply){}
@@ -18,6 +20,14 @@ service TaskService{
   rpc task_yolo5(File)returns(Image){}
   rpc task_compose(Image_x2)returns(Image){}
   rpc task_style_transfer(File_x2)returns(Image){}
+
+//  keep_alive
+  rpc keep_alive(HeartBeat)returns(CommonReply){}
+
+}
+
+message HeartBeat{
+
 }
 
 message File_x2{
