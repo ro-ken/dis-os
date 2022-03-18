@@ -1,5 +1,6 @@
 import os
 import time
+import random
 
 import numpy as np
 import psutil
@@ -152,3 +153,30 @@ def imshow(title, image):
     cv2.imshow(title, image)
     cv2.waitKey()
 
+
+def get_random():
+    taskarray = []
+
+    def product():
+        taskarray = []
+        for i in range(9):
+            number = random.randint(0, 4)
+            taskarray.append(number)
+        # print(taskarray)
+        s = test(taskarray)
+        if s == 0:
+            product()
+        taskarray.sort()
+        return taskarray
+
+    def test(taskarray):
+        repeat = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        for i in range(9):
+            repeat[taskarray[i]] = repeat[taskarray[i]] + 1
+        for i in range(len(repeat)):
+            # print(repeat[i])
+            if repeat[i] > 3:
+                return 0
+        return 1
+
+    return product()

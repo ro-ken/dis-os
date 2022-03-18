@@ -1,3 +1,5 @@
+import time
+
 from cv2 import cv2
 
 from tools import utils
@@ -7,7 +9,6 @@ from tools.proto import task_pb2, task_pb2_grpc
 
 
 def read_times(cap, times):
-
     for _ in range(times):
         cap.read()
     return cap.read()
@@ -15,24 +16,60 @@ def read_times(cap, times):
 
 class TaskHandler():
 
-    def __init__(self,stub,client):
+    def __init__(self, stub, client):
         self.stub = stub
         self.client = client
 
-        self.task_list = [self.task_linear_regression,                 # 0
-                          self.task_yolox_image,        # 1
-                          self.task_yolo5,              # 2
-                          self.task_compose,            # 3
-                          self.task_lic_detect,         # 4
-                          self.task_num_detect,         # 5
-                          self.task_monet_transfer,     # 6
-                          self.task_style_transfer]     # 7
+        self.task_list = [self.task_linear_regression,  # 0
+                          self.task_yolox_image,  # 1
+                          self.task_yolo5,  # 2
+                          self.task_compose,  # 3
+                          self.task_lic_detect,  # 4
+                          self.task_num_detect,  # 5
+                          self.task_monet_transfer,  # 6
+                          self.task_style_transfer]  # 7
+
+    # 应用测试, 测试应用调用时间、消耗资源(CPU、内存), 结果保存在 ./oputput/out_time.txt文件下
+    def five_solution(self):
+        path = ROOT + 'output/out_time.txt'
+        utils.write_time_start(path, arch + ' solution_1', time.time(), 'w')
+        self.solution(win=[2], mac=[1, 0, 5], smp=[2], hwj=[2, 3], ywd=[4])
+        utils.write_time_end(path, arch + ' solution_1', time.time())
+
+        utils.write_time_start(path, arch + ' solution_2', time.time())
+        self.solution(win=[2, 2], mac=[], smp=[2, 2], hwj=[], ywd=[])
+        utils.write_time_end(path, arch + ' solution_2', time.time())
+
+        utils.write_time_start(path, arch + ' solution_3', time.time())
+        self.solution(win=[1, 1, 2, 2, 4, 4], mac=[], smp=[1, 1, 2, 2, 4, 4], hwj=[], ywd=[])
+        utils.write_time_end(path, arch + ' solution_3', time.time())
+
+        utils.write_time_start(path, arch + ' solution_4', time.time())
+        self.solution(win=[3, 3, 4, 4], mac=[], smp=[3, 3, 4, 4], hwj=[], ywd=[])
+        utils.write_time_end(path, arch + ' solution_4', time.time())
+
+        utils.write_time_start(path, arch + ' solution_5', time.time())
+        self.solution(win=[2, 4, 4], mac=[], smp=[2, 4, 4], hwj=[], ywd=[])
+        utils.write_time_end(path, arch + ' solution_5', time.time())
+
+    # 节点环境检测, 根据不同的节点调用不同的应用接口
+    def solution(self, win, mac, smp, hwj, ywd):
+        if arch == "win":
+            self.do_task_by_ids(win)
+        elif arch == "mac":
+            self.do_task_by_ids(mac)
+        elif arch == "smp":
+            self.do_task_by_ids(smp)
+        elif arch == "hwj":
+            self.do_task_by_ids(hwj)
+        elif arch == "ywd":
+            self.do_task_by_ids(ywd)
 
     def do_task_by_ids(self, task_ids):
         for id in task_ids:
             self.do_task_by_id(id)
 
-    def do_task_by_id(self,task_id):
+    def do_task_by_id(self, task_id):
         self.task_list[task_id]()
 
     def task_test(self):
@@ -109,7 +146,6 @@ class TaskHandler():
         utils.client_task_end("task_num_detect")
         return reply
 
-
     def task_monet_transfer(self):
         utils.client_task_start("task_monet_transfer")
 
@@ -118,7 +154,6 @@ class TaskHandler():
 
         utils.client_task_end("task_monet_transfer")
         return reply
-
 
     def task_yolo5(self):
         utils.client_task_start("task_yolo5")

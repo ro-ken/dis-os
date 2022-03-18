@@ -225,5 +225,5 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         return task_pb2.CommonReply(success=True)
 
     def keep_alive(self, request, context):
-        print("server reserve keepalive")
+        # print("server receive keepalive")
         return task_pb2.CommonReply(success=True)
