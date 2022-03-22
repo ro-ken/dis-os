@@ -56,7 +56,7 @@ class Performance():
         return cpu_ave, mem_ave
     
     # 线性回归性能测试
-    def task_linear_regression(self):
+    def task_linear_regression(self,loads):
         cpuinfo_list = []
         meminfo_list = []
         # 开启资源监控线程
@@ -87,7 +87,7 @@ class Performance():
 
     # yolox性能测试
     #   load为待处理的图片字节流集合
-    def task_yolox_image(self, loads):
+    def task_yolox_image(self):
         # 获取当前资源
         resource_start = self.GetResources()
         results = []
