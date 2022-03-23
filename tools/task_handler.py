@@ -30,6 +30,44 @@ class TaskHandler():
                           self.task_style_transfer]  # 7
 
     # 应用测试, 测试应用调用时间、消耗资源(CPU、内存), 结果保存在 ./oputput/out_time.txt文件下
+    def per_task_time(self):
+        path = ROOT + 'output/{}_per_task_time.txt'.format(arch)
+        utils.write_time_start(path, arch + ' task_0', time.time(), 'w')
+        self.solution(win=[0], mac=[0], smp=[0], hwj=[0], ywd=[0])
+        utils.write_time_end(path, arch + ' task_0', time.time())
+
+        utils.write_time_start(path, arch + ' task_1', time.time())
+        self.solution(win=[1], mac=[1], smp=[1], hwj=[1], ywd=[1])
+        utils.write_time_end(path, arch + ' task_1', time.time())
+
+        if arch != "ywd":
+            utils.write_time_start(path, arch + ' task_2', time.time())
+            self.solution(win=[2], mac=[2], smp=[2], hwj=[2], ywd=[2])
+            utils.write_time_end(path, arch + ' task_2', time.time())
+
+        utils.write_time_start(path, arch + ' task_3', time.time())
+        self.solution(win=[3], mac=[3], smp=[3], hwj=[3], ywd=[3])
+        utils.write_time_end(path, arch + ' task_3', time.time())
+
+        utils.write_time_start(path, arch + ' task_4', time.time())
+        self.solution(win=[4], mac=[4], smp=[4], hwj=[4], ywd=[4])
+        utils.write_time_end(path, arch + ' task_4', time.time())
+
+        utils.write_time_start(path, arch + ' task_5', time.time())
+        self.solution(win=[5], mac=[5], smp=[5], hwj=[5], ywd=[5])
+        utils.write_time_end(path, arch + ' task_5', time.time())
+
+        utils.write_time_start(path, arch + ' task_6', time.time())
+        self.solution(win=[6], mac=[6], smp=[6], hwj=[6], ywd=[6])
+        utils.write_time_end(path, arch + ' task_6', time.time())
+
+        if arch == "win":
+            utils.write_time_start(path, arch + ' task_7', time.time())
+            self.solution(win=[7], mac=[7], smp=[7], hwj=[7], ywd=[7])
+            utils.write_time_end(path, arch + ' task_7', time.time())
+
+
+    # 应用测试, 测试应用调用时间、消耗资源(CPU、内存), 结果保存在 ./oputput/out_time.txt文件下
     def five_solution(self):
         path = ROOT + 'output/out_time.txt'
         utils.write_time_start(path, arch + ' solution_1', time.time(), 'w')

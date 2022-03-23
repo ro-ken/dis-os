@@ -55,7 +55,8 @@ class ClientThread(threading.Thread):
             # 依次调用七个应用
             # self.task_test()
             # self.task_handler.five_solution()
-            asyncio.run(self.async_task())
+            # asyncio.run(self.async_task())
+            self.task_handler.per_task_time()
 
     # 异步协同执行
     async def async_task(self):

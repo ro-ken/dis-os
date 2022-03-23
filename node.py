@@ -64,7 +64,7 @@ class Node:
         self.server_t.start()
         time.sleep(1)
         self.create_clients()
-        self.do_work()
+        # self.do_work()
 
     # 通过调度模块方法获取节点地址, 开始进行测试
     def do_work(self):
