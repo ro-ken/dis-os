@@ -154,12 +154,12 @@ def imshow(title, image):
     cv2.waitKey()
 
 
-def get_random():
+def get_random(num):
     taskarray = []
 
     def product():
         taskarray = []
-        for i in range(9):
+        for i in range(num):
             number = random.randint(0, 4)
             taskarray.append(number)
         # print(taskarray)
@@ -170,8 +170,10 @@ def get_random():
         return taskarray
 
     def test(taskarray):
-        repeat = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        for i in range(9):
+        repeat = []
+        for i in range(num):
+            repeat.append(0)
+        for i in range(num):
             repeat[taskarray[i]] = repeat[taskarray[i]] + 1
         for i in range(len(repeat)):
             # print(repeat[i])

@@ -44,6 +44,7 @@ class ClientThread(threading.Thread):
         self.port = port
         self.addr = addr  # 节点地址
         self.task_queue = []
+        self.disconnect = False # 连接是否已经断开
 
     # 启动client发送任务
     def run(self) -> None:
@@ -55,14 +56,14 @@ class ClientThread(threading.Thread):
             # 依次调用七个应用
             # self.task_test()
             # self.task_handler.five_solution()
-            # asyncio.run(self.async_task())
-            self.task_handler.per_task_time()
+            asyncio.run(self.async_task())
+            # self.task_handler.per_task_time()
 
     # 异步协同执行
     async def async_task(self):
         await asyncio.gather(
-            self.keep_alive(),
-            self.do_task(),
+            # self.keep_alive(),
+                self.do_task()
         )
 
     # 保持连接
@@ -88,17 +89,23 @@ class ClientThread(threading.Thread):
 
     # 处理任务队列里的任务
     async def do_task(self):
-        addr = str(self.host) + str(self.port)
-        path = ROOT + 'output/' + addr + 'out_time.txt'
+        addr = str(self.host) + "_" + str(self.port)
+        path = ROOT + 'output/' + addr + '_out_time.txt'
         utils.write_time_start(path, arch, addr, 'w')
         while True:
             if len(self.task_queue) == 0:
                 await asyncio.sleep(1)
             else:
-                print(self.task_queue)
+                # print(self.task_queue)
                 task_id = self.task_queue.pop()
                 utils.write_time_start(path, arch + " task id :" + str(task_id), time.time())
-                self.task_handler.do_task_by_id(task_id)
+                try:
+                    self.task_handler.do_task_by_id(task_id)
+                except:
+                    print("server:{}发生异常!!!".format(addr))
+                    self.task_queue.append(task_id)
+                    self.disconnect = True
+                    break
                 utils.write_time_end(path, arch + " task id :" + str(task_id), time.time())
             await asyncio.sleep(0.1)
 
