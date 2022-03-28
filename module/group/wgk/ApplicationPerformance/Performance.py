@@ -4,8 +4,8 @@ import cv2
 import json
 import time
 
-from model.api import api_yolo_x
-from model.api import api_linear_regression
+from app.api import api_yolo_x
+from app.api import api_linear_regression
 import GetResources
 
 from tools import  task_handler

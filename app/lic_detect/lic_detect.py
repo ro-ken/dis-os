@@ -6,7 +6,7 @@ import argparse
 from itertools import product as product
 from math import ceil
 from PIL import Image, ImageDraw, ImageFont
-from tools.settings import arch
+from settings import arch
 
 CHARS = ['京', '沪', '津', '渝', '冀', '晋', '蒙', '辽', '吉', '黑',
          '苏', '浙', '皖', '闽', '赣', '鲁', '豫', '鄂', '湘', '粤',

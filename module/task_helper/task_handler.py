@@ -4,8 +4,8 @@ from cv2 import cv2
 
 from tools import utils
 from tools.utils import ROOT
-from tools.settings import *
-from tools.proto import task_pb2, task_pb2_grpc
+from settings import *
+from module.proto import task_pb2, task_pb2_grpc
 
 
 def read_times(cap, times):
@@ -14,11 +14,10 @@ def read_times(cap, times):
     return cap.read()
 
 
-class TaskHandler():
+class TaskHandler:
 
-    def __init__(self, stub, client):
+    def __init__(self, stub):
         self.stub = stub
-        self.client = client
 
         self.task_list = [self.task_linear_regression,  # 0
                           self.task_yolox_image,  # 1
@@ -132,25 +131,18 @@ class TaskHandler():
 
         utils.client_task_end("task_transfer_file")
 
-    def task_get_res(self):
-        utils.client_task_start("task_get_res")
-
-        resource = utils.get_resources()
-        request = task_pb2.ResourceRequest(addr=self.client.addr, resource=resource)
-        reply = self.stub.task_get_res(request)
-        if show_result:
-            print("send_resource.reply:", reply)
-
-        utils.client_task_end("task_get_res")
-
-    # def send_image(self, img_path):
-    #     utils.client_task_start("task_test")
+    # 发送资源函数，已弃用
+    # def task_get_res(self):
+    #     utils.client_task_start("task_get_res")
     #
-    #     img_req = utils.get_image_req(img_path)
-    #     reply = self.stub.send_image(img_req)
-    #     print("send_img.reply:", reply)
+    #     resource = utils.get_resources()
+    #     request = task_pb2.ResourceRequest(addr=self.client.addr, resource=resource)
+    #     reply = self.stub.task_get_res(request)
+    #     if show_result:
+    #         print("send_resource.reply:", reply)
     #
-    #     utils.client_task_end("task_test")
+    #     utils.client_task_end("task_get_res")
+
 
     def task_yolox_image(self):
         utils.client_task_start("task_yolox_image")

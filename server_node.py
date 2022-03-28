@@ -9,13 +9,13 @@ from cv2 import cv2
 
 # tool
 from tools import utils
-from tools.settings import arch
-from tools.task_service import TaskService
+from settings import arch
+from module.task_helper.task_service import TaskService
 from tools.utils import ROOT
-from tools.proto import task_pb2_grpc, task_pb2
+from module.proto import task_pb2_grpc, task_pb2
 
 # model
-from model.api import *
+from app.app_api import *
 
 '''
     Class:      ServerThread

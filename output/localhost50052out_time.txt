@@ -1,3 +1,0 @@
-win start time :localhost50052
-win task id :1 start time :1648084186.4156399
-win task id :1 end time :1648084188.0436473

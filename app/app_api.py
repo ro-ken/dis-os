@@ -1,18 +1,18 @@
 from tools.utils import ROOT
 
 # model
-from model.linear_regression import linear_regression
-from model.yolo_x.tools import yolo_x
-from model.yolo_5 import yolo_5
-from model.compose import compose
-from model.lic_detect import lic_detect
-from model.num_detect.classifier import num_detect
-from model.monet_transfer import monet_transfer
+from app.linear_regression import linear_regression
+from app.yolo_x.tools import yolo_x
+from app.yolo_5 import yolo_5
+from app.compose import compose
+from app.lic_detect import lic_detect
+from app.num_detect.classifier import num_detect
+from app.monet_transfer import monet_transfer
 
-from tools.settings import arch
+from settings import arch
 
 if arch == "win" or arch == "mac":
-    from model.style_transfer import style_transfer
+    from app.style_transfer import style_transfer
 
 
 def api_linear_regression():

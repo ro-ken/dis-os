@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 from torchvision.utils import make_grid
 
-from model import GeneratorResNet, Discriminator
+from app import GeneratorResNet, Discriminator
 
 import argparse
 

@@ -1,16 +1,12 @@
-
-
 # packge
 from cv2 import cv2
 
+# app
+from app.app_api import *
+from module.proto import task_pb2, task_pb2_grpc
 # tool
 from tools import utils
-from tools.settings import arch
-from tools.utils import ROOT
-from tools.proto import task_pb2, task_pb2_grpc
 
-# model
-from model.api import *
 
 # 实现服务
 class TaskService(task_pb2_grpc.TaskServiceServicer):
@@ -39,6 +35,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     output:
                 protobuf 的 message CommonReply类
     '''
+
     def task_transfer_file(self, request, context):
         utils.server_task_start("task_transfer_file")
 
@@ -60,6 +57,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     output:
                 protobuf 的 message CommonReply类
     '''
+
     def task_get_res(self, request, context):
         utils.server_task_start("task_get_res")
 
@@ -83,6 +81,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     output:
                 protobuf 的 message CommonReply类
     '''
+
     def send_image(self, request, context):
         # 任务开始运行提示
         utils.server_task_start("send_image")
@@ -110,6 +109,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     output:
                 protobuf 的 message Image
     '''
+
     def task_yolox_image(self, request, context):
         utils.server_task_start("task_yolox_image")
 
@@ -132,6 +132,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     output:
                 protobuf 的 message Image steam
     '''
+
     def task_yolox_vedio(self, request_iterator, context):
         utils.server_task_start("task_yolox_vedio")
 
@@ -150,11 +151,11 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def task_yolo5(self, request, context):
         utils.server_task_start("task_yolo5")
 
-        in_path = ROOT + 'model/yolo_5/input/' + request.file_name
+        in_path = ROOT + 'app/yolo_5/input/' + request.file_name
         utils.write_file(in_path, request.file_data)
         # detect.start(in_path)     # 非windows错误
         yolo_5.start(None)
-        out_path = ROOT + 'model/yolo_5/output/' + request.file_name
+        out_path = ROOT + 'app/yolo_5/output/' + request.file_name
         img_req = utils.get_image_req(out_path)
 
         utils.server_task_end("task_yolo5")
@@ -163,12 +164,12 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
     def task_style_transfer(self, request, context):
         utils.server_task_start("task_style_transfer")
 
-        content_path = ROOT + 'model/style_transfer/input/' + request.content.file_name
+        content_path = ROOT + 'app/style_transfer/input/' + request.content.file_name
         utils.write_file(content_path, request.content.file_data)
-        style_path = ROOT + 'model/style_transfer/input/' + request.style.file_name
+        style_path = ROOT + 'app/style_transfer/input/' + request.style.file_name
         utils.write_file(style_path, request.style.file_data)
         style_transfer.start(content_path, style_path)
-        out_path = ROOT + 'model/style_transfer/output/' + 'out.jpg'
+        out_path = ROOT + 'app/style_transfer/output/' + 'out.jpg'
         img_req = utils.get_image_req(out_path)
 
         utils.server_task_end("task_style_transfer")
@@ -203,6 +204,15 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         return reply
 
     def task_compose(self, request, context):
+        """
+
+        Args:
+            request:
+            context:
+
+        Returns:
+
+        """
         utils.server_task_start("task_compose")
 
         str_encode = request.img
@@ -217,6 +227,15 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         return reply
 
     def task_monet_transfer(self, request, context):
+        """
+
+        Args:
+            request:
+            context:
+
+        Returns:
+
+        """
         utils.server_task_start("task_monet_transfer")
 
         monet_transfer.start()
