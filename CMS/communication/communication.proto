@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+service Communication {
+    rpc TaskRoute(TaskRouteRequest) returns(TaskRouteReply){}
+    rpc ImageRoute(ImageRouteRequest)returns(ImageRouteReplay){}
+    rpc VideoHeadRoute(VideoHeadRouteRequest)returns(VideoHeadRouteReplay){}
+    rpc VideoDataRoute(stream VideoDataRouteRequest)returns(VideoDataRouteReplay){}
+}
+
+
+// 任务查询报文
+message TaskRouteRequest{
+    int32 SourceNode = 1;  // 源节点
+    int32 TargetNode = 2; // 目标节点
+    int32 TaskNumber = 3;  // 请求任务编号
+}
+message TaskRouteReply{
+    bool recepted = 1;
+    string remark = 2;
+}
+
+// 图像数据报文
+message ImageRouteRequest{
+    int32 SourceNode = 1;
+    int32 TargetNode = 2;
+    int32 TaskNumber = 3;
+    bytes ImageInfo = 4;
+}
+message ImageRouteReplay{
+    bool recepted = 1;
+    string remark = 2;
+    int32 ImageSign = 3;
+}
+
+// 视频头报文
+// 视频头报文会被目标节点接收并写入json文件保存，等待数据报文输出完毕后根据视频头报文信息重组视频
+message VideoHeadRouteRequest{
+    int32 SourceNode = 1;
+    int32 TargetNode = 2;
+    int32 TaskNumber = 3;
+    int32 VideoFps = 4;
+    int32 VideoHeight = 5;
+    int32 VideoWidth = 6;
+}
+message VideoHeadRouteReplay{
+    bool recepted = 1;
+    string remark = 2;
+}
+
+// 视频数据报文
+message VideoDataRouteRequest{
+    int32 SourceNode = 1;
+    int32 TargetNode = 2;
+    int32 TaskNumber = 3;
+    bytes VideoFrame = 4;
+}
+message VideoDataRouteReplay{
+    bool recepted = 1;
+    string remark = 2;
+}
