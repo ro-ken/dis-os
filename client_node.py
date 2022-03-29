@@ -27,19 +27,18 @@ from module.task_helper import client_handler
 
 class ClientThread(threading.Thread):
 
-    def __init__(self, name, host, port, node_addr):
+    def __init__(self, ip, port, node):
         threading.Thread.__init__(self)
-        self.name = name
-        self.host = host
+        self.ip = ip
         self.port = port
-        self.node_addr = node_addr  # node的server地址
+        self.node = node  # client依附的节点
         self.task_queue = []  # 待处理队列
         self.disconnect = False  # 连接是否已经断开
         self.handler = None
 
     # 启动client发送任务
     def run(self) -> None:
-        with grpc.insecure_channel(self.host + ":" + str(self.port)) as channel:
+        with grpc.insecure_channel(self.ip + ":" + str(self.port)) as channel:
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.handler = client_handler.ClientHandler(self, stub)
 
@@ -51,8 +50,8 @@ class ClientThread(threading.Thread):
 
 
 # 启动测试代码
-def start(host, port):
-    client = ClientThread("client", host, port, None)
+def start(ip, port):
+    client = ClientThread(ip, port, None)
     client.start()
     client.handler.add_tasks(range(7))
     client.join()

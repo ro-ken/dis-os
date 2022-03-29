@@ -14,7 +14,7 @@ class NodeHandler:
     def create_clients(self):
         for node in self.master.node_list:
             ip, port = node[0], node[1]
-            client_t = client_node.ClientThread("client", ip, port, self.master.server_t.addr)
+            client_t = client_node.ClientThread(ip, port, self.master)
             client_t.start()
             self.master.client_list.append(client_t)
             time.sleep(1)

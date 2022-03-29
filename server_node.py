@@ -1,21 +1,14 @@
-
 # packge
 import threading
-import time
 from concurrent import futures
-import grpc
-import numpy as np
-from cv2 import cv2
 
-# tool
-from tools import utils
-from settings import arch
-from module.task_helper.task_service import TaskService
-from tools.utils import ROOT
+import grpc
+
 from module.proto import task_pb2_grpc, task_pb2
+# tool
+from module.task_helper.task_service import TaskService
 
 # model
-from app.app_api import *
 
 '''
     Class:      ServerThread
@@ -29,13 +22,15 @@ from app.app_api import *
                 self.addr - grpc server的ip地址
                 self.node - 当前节点硬件资源特征抽象
 '''
+
+
 class ServerThread(threading.Thread):
-    def __init__(self, name, port):
+    def __init__(self, node, ip, port):
         threading.Thread.__init__(self)
-        self.name = name
         self.port = port
-        self.addr = None
-        self.node = None
+        self.ip = ip
+        self.node = node
+        # self.addr = task_pb2.Addr(ip=self.ip, port=self.port)
 
     # 开启服务器
     def run(self) -> None:
@@ -55,15 +50,14 @@ class ServerThread(threading.Thread):
 
         # 运行grpc server
         server.start()
-        self.addr = task_pb2.Addr(ip='localhost', port=self.port)
-        print("server start... port = " + str(self.port))
+        print("server start... ip = {} , port = {}\n".format(self.ip, str(self.port)))
         server.wait_for_termination()
 
 
 def start(port):
-    server = ServerThread("server", port)
-    server.start()
-    return server
+    server_t = ServerThread(None, "localhost", port)
+    server_t.start()
+    return server_t
 
 
 if __name__ == '__main__':

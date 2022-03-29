@@ -1,4 +1,3 @@
-
 import time
 
 import server_node
@@ -14,19 +13,13 @@ class Node:
     # {"localhost:50051":resource}
     node_resources = {}
 
-    server_t = None
-    # 可有多个发送者，每个client连接一个server
-    client_list = []
-
-    # 本节点待处理的任务队列
-    task_queue = []
-
-    def __init__(self, server_t):
-        server_t.node = self
-        self.server_t = server_t
-        self.node_list = settings.node_list
-        self.scheduler = sched_api.Scheduler(self, self.node_list, self.node_resources)
-        self.handler = node_handler.NodeHandler(self)
+    def __init__(self, port):
+        self.server_t = server_node.ServerThread(self,settings.server_ip, port)    # 节点的 server 线程
+        self.node_list = settings.node_list     # 可连接的节点列表
+        self.scheduler = sched_api.Scheduler(self, self.node_list, self.node_resources)     # 初始化调度器
+        self.handler = node_handler.NodeHandler(self)   # 节点的辅助类，一些业务函数在里面
+        self.client_list = []   # 可有多个发送者，每个client连接一个server
+        self.task_queue = []  # 本节点待处理的任务队列
 
     # 运行grpc server, 调用do_work
     def start(self):
@@ -37,8 +30,7 @@ class Node:
 
 
 if __name__ == '__main__':
-    server_t = server_node.ServerThread("server", 50051)
-    node = Node(server_t)
+    node = Node(50051)
     node.start()
 
     time.sleep(60 * 60 * 24)

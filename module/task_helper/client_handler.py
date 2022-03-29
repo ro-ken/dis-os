@@ -45,7 +45,7 @@ class ClientHandler:
 
     # 处理任务队列里的任务
     async def do_task(self):
-        addr = str(self.master.host) + "_" + str(self.master.port)
+        addr = str(self.master.ip) + "_" + str(self.master.port)
         path = ROOT + 'output/' + addr + '_out_time.txt'
         utils.write_time_start(path, arch, addr, 'w')
         while True:
