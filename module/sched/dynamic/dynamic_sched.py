@@ -19,13 +19,13 @@ class Scheduler(IScheduler):
 
     # 根据资源调度
     def sched_by_resource(self):
-        if len(self.node_resources) == 0:
+        if len(self.node.node_resources) == 0:
             ip = self.node.server_t.addr.ip
             port = self.node.server_t.addr.port
             return ip, port
         else:
-            addr = utils.select_by_resource(self.node_resources)
+            addr = utils.select_by_resource(self.node.node_resources)
             return addr.ip, addr.port
 
-    def divide_tasks(self):
+    def divide_tasks(self, task_list):
         pass

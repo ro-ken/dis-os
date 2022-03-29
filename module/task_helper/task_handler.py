@@ -2,10 +2,10 @@ import time
 
 from cv2 import cv2
 
+from module.proto import task_pb2
+from settings import *
 from tools import utils
 from tools.utils import ROOT
-from settings import *
-from module.proto import task_pb2, task_pb2_grpc
 
 
 def read_times(cap, times):
@@ -16,7 +16,8 @@ def read_times(cap, times):
 
 class TaskHandler:
 
-    def __init__(self, stub):
+    def __init__(self,master, stub):
+        self.master = master
         self.stub = stub
 
         self.task_list = [self.task_linear_regression,  # 0
@@ -130,18 +131,6 @@ class TaskHandler:
             print(reply)
 
         utils.client_task_end("task_transfer_file")
-
-    # 发送资源函数，已弃用
-    # def task_get_res(self):
-    #     utils.client_task_start("task_get_res")
-    #
-    #     resource = utils.get_resources()
-    #     request = task_pb2.ResourceRequest(addr=self.client.addr, resource=resource)
-    #     reply = self.stub.task_get_res(request)
-    #     if show_result:
-    #         print("send_resource.reply:", reply)
-    #
-    #     utils.client_task_end("task_get_res")
 
 
     def task_yolox_image(self):
@@ -281,3 +270,13 @@ class TaskHandler:
 
         if show_result:
             utils.imshow("task_lic_detect", img_res)
+
+    # 发送心跳包
+    def keep_alive(self):
+        ip = self.master.node.server_t.ip
+        port = self.master.node.server_t.port
+        addr = task_pb2.Address(ip=ip,port=port)
+        res = utils.get_res()
+        package = task_pb2.HeartBeat(addr=addr,res=res)
+        reply = self.stub.keep_alive(package)
+        return reply

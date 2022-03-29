@@ -60,12 +60,16 @@ def select_by_resource(node_resources):
     ip = key.split(':')[0]
     port = key.split(':')[1]
 
-    addr = task_pb2.Addr(ip=ip, port=port)
+    addr = task_pb2.Address(ip=ip, port=port)
     return addr
 
+def addr_key(addr):
+    ip = addr.ip
+    port = addr.port
+    return gen_node_key(ip,port)
 
-def addr2key(addr):
-    return addr.ip + ":" + str(addr.port)
+def gen_node_key(ip, port):
+    return ip + ":" + str(port)
 
 
 def img_encode(img, img_type):
@@ -86,8 +90,6 @@ def get_image_req(img_path, type='.jpg'):
     str_encode = img_encode(img, type)
     img_req = task_pb2.Image(img=str_encode)
     return img_req
-
-
 
 
 def imshow(title, image):

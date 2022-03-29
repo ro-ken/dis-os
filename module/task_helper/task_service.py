@@ -47,31 +47,6 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         return reply
 
     '''
-    function:   task_get_res
-    describe:   request方向response方发送request节点上的节点资源使用情况(CPU, 内存, 硬盘IO)
-    input:      
-                request         - protobuf 的 message ResourceRequest 类
-                    attribute:
-                    - Addr addr             - 节点地址
-                    - Resource resource     - 节点资源数据结构
-    output:
-                protobuf 的 message CommonReply类
-    '''
-
-    def task_get_res(self, request, context):
-        utils.server_task_start("task_get_res")
-
-        addr = request.addr
-        resource = request.resource
-        # 把资源放入节点资源表中
-        self.node.node_resources[utils.addr2key(addr)] = resource
-        # print(self.node.node_resources)
-        reply = task_pb2.CommonReply(success=True)
-
-        utils.server_task_end("task_get_res")
-        return reply
-
-    '''
     function:   send_image【yolox应用专用】【兼容性不强啊庆庆】【该函数早期版本没删?】
     describe:   request方向response方发送图片给yolox应用进行处理, 处理完毕后在response方显示处理后的图像
     input:      
@@ -243,6 +218,16 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_monet_transfer")
         return task_pb2.CommonReply(success=True)
 
+
     def keep_alive(self, request, context):
-        # print("server receive keepalive")
+        addr = request.addr
+        res = request.res
+        key = utils.addr_key(addr)
+        # 没有则创建，有则更新
+        if key not in self.node.conn_node_list.keys():
+            node = self.node.handler.create_node_to_table(addr.ip,addr.port)
+            node.res = res
+        else:
+            node = self.node.conn_node_list.get(key)
+            node.res = res
         return task_pb2.CommonReply(success=True)

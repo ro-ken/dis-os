@@ -1,5 +1,6 @@
 import asyncio
 import threading
+from time import sleep
 
 import grpc
 
@@ -53,9 +54,10 @@ class ClientThread(threading.Thread):
 def start(ip, port):
     client = ClientThread(ip, port, None)
     client.start()
+    sleep(1)
     client.handler.add_tasks(range(7))
     client.join()
 
 
 if __name__ == '__main__':
-    start('localhost', 50051)
+    start('localhost', 50052)

@@ -31,16 +31,14 @@ def get_file_req(file_path) -> object:
     file_req = task_pb2.File(file_name=get_file_name(file_path), file_data=file_data)
     return file_req
 
-
-def get_resources():
+# 获取本机资源
+def get_res():
     cpu = task_pb2.CPU(use_ratio=psutil.cpu_percent(0),
                        real_num=psutil.cpu_count(logical=False),
                        logic_num=psutil.cpu_count())
     mem = task_pb2.Memory(total=psutil.virtual_memory().total,
-                          used=psutil.virtual_memory().used,
                           available=psutil.virtual_memory().available)
     disc = task_pb2.Disc(total=psutil.disk_usage('/').total,
-                         used=psutil.disk_usage('/').used,
                          available=psutil.disk_usage('/').free)
 
     resource = task_pb2.Resource(cpu=cpu, mem=mem, disc=disc)
@@ -48,6 +46,6 @@ def get_resources():
 
 
 def save_resource(path,type='a+'):
-    resource = get_resources()
+    resource = get_res()
     data = str(resource) + '\n'
     write_file(path, data, type)

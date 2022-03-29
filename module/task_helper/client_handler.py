@@ -12,25 +12,24 @@ class ClientHandler:
 
     def __init__(self, master, stub):
         self.master = master  # client节点
-        self.stub = stub
-        self.task_handler = task_handler.TaskHandler(stub)
+        self.task_handler = task_handler.TaskHandler(master,stub)
 
     # 异步协同执行
     async def async_task(self):
         await asyncio.gather(
-            # self.keep_alive(),
+            self.keep_alive(),
             self.do_task()
         )
 
     # 保持连接
     async def keep_alive(self):
-
+        i = 0
         while True:
-            request = task_pb2.HeartBeat()
-            reply = self.stub.keep_alive(request)
-            # print(reply)
+            reply = self.task_handler.keep_alive()
+            print(reply,i)
+            i += 1
             # 每秒发送一次
-            await asyncio.sleep(1)
+            await asyncio.sleep(10)
 
     # 应用调用接口封装, 调用全部的7个应用
     async def task_test(self):

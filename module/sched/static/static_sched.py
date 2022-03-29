@@ -4,10 +4,8 @@ from .static_tbl import task_node_table
 
 class Scheduler(IScheduler):
 
-    def __init__(self, node, nodes, node_resources):
-        super().__init__(node, nodes, node_resources)
 
-    def divide_tasks(self, task_list, node_resources):
+    def divide_tasks(self, task_list):
         res = {"smp": [], "ywd": [], "hwj": []}
         t_time = {"smp": 0, "ywd": 0, "hwj": 0}
 

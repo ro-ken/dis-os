@@ -7,7 +7,6 @@ service TaskService{
 //  test
   rpc task_test(TaskRequest)returns(CommonReply){}
   rpc task_transfer_file(File)returns(CommonReply){}
-  rpc task_get_res(ResourceRequest)returns(CommonReply){}
   rpc send_image(Image)returns(CommonReply){}
   rpc task_yolox_vedio(stream Image)returns(stream Image){}
 
@@ -27,7 +26,8 @@ service TaskService{
 }
 
 message HeartBeat{
-
+  Address addr = 1;
+  Resource res = 2;
 }
 
 message File_x2{
@@ -66,12 +66,7 @@ message File{
 }
 
 
-message ResourceRequest{
-  Addr addr = 1;
-  Resource resource = 2;
-}
-
-message Addr{
+message Address{
   string ip = 1;
   int32 port = 2;
 }
@@ -91,12 +86,10 @@ message CPU{
 
 message Memory{
   int64 total = 1;
-  int64 used = 2;
-  int64 available = 3;
+  int64 available = 2;
 }
 
 message Disc{
   int64 total = 1;
-  int64 used = 2;
-  int64 available = 3;
+  int64 available = 2;
 }

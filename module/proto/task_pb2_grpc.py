@@ -26,11 +26,6 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.File.SerializeToString,
                 response_deserializer=task__pb2.CommonReply.FromString,
                 )
-        self.task_get_res = channel.unary_unary(
-                '/TaskService/task_get_res',
-                request_serializer=task__pb2.ResourceRequest.SerializeToString,
-                response_deserializer=task__pb2.CommonReply.FromString,
-                )
         self.send_image = channel.unary_unary(
                 '/TaskService/send_image',
                 request_serializer=task__pb2.Image.SerializeToString,
@@ -101,12 +96,6 @@ class TaskServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def task_transfer_file(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def task_get_res(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -191,11 +180,6 @@ def add_TaskServiceServicer_to_server(servicer, server):
             'task_transfer_file': grpc.unary_unary_rpc_method_handler(
                     servicer.task_transfer_file,
                     request_deserializer=task__pb2.File.FromString,
-                    response_serializer=task__pb2.CommonReply.SerializeToString,
-            ),
-            'task_get_res': grpc.unary_unary_rpc_method_handler(
-                    servicer.task_get_res,
-                    request_deserializer=task__pb2.ResourceRequest.FromString,
                     response_serializer=task__pb2.CommonReply.SerializeToString,
             ),
             'send_image': grpc.unary_unary_rpc_method_handler(
@@ -295,23 +279,6 @@ class TaskService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TaskService/task_transfer_file',
             task__pb2.File.SerializeToString,
-            task__pb2.CommonReply.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def task_get_res(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TaskService/task_get_res',
-            task__pb2.ResourceRequest.SerializeToString,
             task__pb2.CommonReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

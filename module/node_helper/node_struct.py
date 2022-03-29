@@ -1,8 +1,7 @@
+class NodeInfo:
 
-
-class node_info:
-    
-    def __init__(self,name):
-        self.id = 0
+    def __init__(self, key, client):
+        self.key = key
         self.res = None
-        self.name = name
+        self.name = None
+        self.client = client
