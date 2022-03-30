@@ -1,9 +1,9 @@
 # packge
 import threading
 from concurrent import futures
-
 import grpc
 
+from tools.node_settings import *
 from module.proto import task_pb2_grpc, task_pb2
 # tool
 from module.task_helper.task_service import TaskService
@@ -35,7 +35,7 @@ class ServerThread(threading.Thread):
     # 开启服务器
     def run(self) -> None:
         # 初始化 grpc server
-        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))    # 10个线程池，每个线程池为一个client服务
         service = TaskService(self.node)
         task_pb2_grpc.add_TaskServiceServicer_to_server(service, server)
 
@@ -47,6 +47,8 @@ class ServerThread(threading.Thread):
             except:
                 # print(str(self.port) + "端口已被占用！")
                 self.port += 1
+                self.node.name = port_name[self.port]
+                self.node.node_list = [[server_ip, 50051]]
 
         # 运行grpc server
         server.start()

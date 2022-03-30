@@ -36,6 +36,7 @@ class ClientThread(threading.Thread):
         self.task_queue = []  # 待处理队列
         self.disconnect = False  # 连接是否已经断开
         self.handler = None
+        self.stop = False
 
     # 启动client发送任务
     def run(self) -> None:
@@ -60,4 +61,4 @@ def start(ip, port):
 
 
 if __name__ == '__main__':
-    start('localhost', 50052)
+    start('localhost', 50051)

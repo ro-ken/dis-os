@@ -277,6 +277,7 @@ class TaskHandler:
         port = self.master.node.server_t.port
         addr = task_pb2.Address(ip=ip,port=port)
         res = utils.get_res()
-        package = task_pb2.HeartBeat(addr=addr,res=res)
+        name = self.master.node.name
+        package = task_pb2.HeartBeat(name=name,addr=addr,res=res)
         reply = self.stub.keep_alive(package)
         return reply

@@ -27,5 +27,5 @@ class Scheduler(IScheduler):
             addr = utils.select_by_resource(self.node.node_resources)
             return addr.ip, addr.port
 
-    def divide_tasks(self, task_list):
+    def divide_tasks(self, task_list,node_list):
         pass

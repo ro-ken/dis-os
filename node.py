@@ -15,6 +15,8 @@ class Node:
         self.task_queue = []  # 本节点待处理的任务队列
         self.scheduler = sched_api.Scheduler(self)  # 初始化调度器
         self.handler = node_handler.NodeHandler(self)  # 节点的辅助类，一些业务函数在里面
+        self.name = settings.arch   # 给每个节点起个名字
+        self.node_list = settings.node_list
 
     def start(self):
         self.server_t.start()  # 启动服务器

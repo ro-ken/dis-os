@@ -26,8 +26,9 @@ service TaskService{
 }
 
 message HeartBeat{
-  Address addr = 1;
-  Resource res = 2;
+  string name = 1;
+  Address addr = 2;
+  Resource res = 3;
 }
 
 message File_x2{
