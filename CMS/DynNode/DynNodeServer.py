@@ -1,99 +1,120 @@
-import Const
+from Const import NodeTable
 import socket
 import time
 import threading
+import json
 
-class DynNode():
+# 格式化消息
+def GenerateMessage(type, data):
+    if  isinstance(type, str) != True or isinstance(data, str) != True:
+        return None
+    message = {}
+    message['type'] = type
+    message['data'] = data
+    return message
+
+# 节点加入集群
+def NodeJoinEvent(data, addr):
+    ip = addr[0]
+    port = addr[1]
+    success, label = NodeTable.NodeJoin(ip, port)
+    if success == False:
+        print('【%s】[%s]  Error: Reject this node join system, please check your apply!', time.ctime(), ip)
+    print('【%s】[%s]  OK: This Node success join system!', time.ctime(), ip)
+
+# 节点退出集群
+def NodeRemoveEvent(data, addr):
+    ip = addr[0]
+    port = addr[1]
+    success, label = NodeTable.NodeRemove(ip, port)
+    if success == False:
+        print('【%s】[%s]  Error: Reject system remove this node, please check your apply!', time.ctime(), ip)
+    print('【%s】[%s]  OK: System success remove this node!', time.ctime(), ip)
+
+
+# socket server处理逻辑
+def InteractionServer(message, addr):
+    message_type = message['type']
+    if message_type == 'JOIN':
+        NodeJoinEvent(message['data'],addr)
+    if message_type == 'REMOVE':
+        NodeRemoveEvent(message['data'],addr)
+    print('【%s】[%s]  Error: unknown message type!', time.ctime(), addr[0])
+    return False
+
+
+# socket server线程
+class socketserver(threading.Thread):
+    def __init__(self, server):
+        super(socketserver, self).__init__()
+        self._stop_event = threading.Event()
+        self.server = server
+
+    # 字节流转为字典
+    def BytesToDict(self, bytesmessage):
+        return json.loads(bytesmessage)
+    
+    def stop(self):
+        self._stop_event.set()
+
+    def stopped(self):
+        return self._stop_event.is_set()
+
+    def run(self):
+        while self.stopped != True:
+            ReceiveData = self.server.recvfrom(1024)
+            message = self.BytesToDict(ReceiveData[0])
+            addr = ReceiveData[1]
+            InteractionServer(message, addr)
+
+# 动态节点服务类
+class DynNodeServer():
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
         self.encoding = 'utf-8'
         self.server = None
         self.client = None
+
+    # 字典转为字节流
+    def DictToBytes(self, dictmessage):
+        return json.dumps(dictmessage).encode(self.encoding)
+
+    # 字节流转为字典
+    def BytesToDict(self, bytesmessage):
+        return json.loads(bytesmessage)
     
     # 启动socket server
     def StartSocketServer(self):
-        pass
+        # 设置广播模式socket server
+        runserver = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        runserver.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        runserver.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        runserver.bind(('', self.port))
 
-    # 修改ip, port
-    def ModServerRoute(self):
-        pass
+        self.server = socketserver(runserver)
+        self.server.start()
+        print("Successful: The socket server starting...")
+
+    
+    def StartSocketClient(self):
+        # 设置广播模式的socket client
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.client.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
     # 发送广播
-    def Broadcast(self):
-        pass
-    
+    def Broadcast(self, message,targetport):
+        if self.client == None:
+            print("Error: not run client!")
+            return False
+        bytesmessage = self.DictToBytes(message)
+        self.client.sendto(bytesmessage, ('255.255.255.255', targetport))
+        return True
+
+        
     # 结束socket server
     def KillSocketServer(self):
-        pass
-
-# # -*- coding:utf-8 -*-
-
-
-
-
-# from socket import *
-# from time import ctime, sleep
-# import threading
-# class ChatRoomPlus:
-#     def __init__(self):
-#         # 全局参数配置
-#         self.encoding = "utf-8"  # 使用的编码方式
-#         self.broadcastPort = 7788   # 广播端口
- 
-#          # 创建广播接收器
-#         self.recvSocket = socket(AF_INET, SOCK_DGRAM)
-#         self.recvSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-#         self.recvSocket.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
-#         self.recvSocket.bind(('', self.broadcastPort))
- 
-#          # 创建广播发送器
-#         self.sendSocket = socket(AF_INET, SOCK_DGRAM)
-#         self.sendSocket.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
- 
-#          # 其他
-#         self.threads = []
- 
-#     def send(self):
-#         """发送广播"""
- 
-#         print("UDP发送器启动成功...")
-#         self.sendSocket.sendto("***加入了聊天室".encode(self.encoding), ('255.255.255.255', self.broadcastPort))
-#         while True:
-#             sendData = input("请输入需要发送的消息:")
- 
-#             self.sendSocket.sendto(sendData.encode(self.encoding), ('255.255.255.255', self.broadcastPort))
-#              # print("【%s】%s:%s" % (ctime(), "我", sendData))
- 
-#             sleep(1)
- 
-#     def recv(self):
-#         """接收广播"""
- 
-#         print("UDP接收器启动成功...")
-#         while True:
-#             # 接收数据格式：(data, (ip, port))
-#             recvData = self.recvSocket.recvfrom(1024)
-
-#             print("【%s】[%s : %s] : %s" % (ctime(), recvData[1][0], recvData[1][1], recvData[0].decode(self.encoding)))
- 
-#             sleep(1)
- 
-#     def start(self):
-#         """启动线程"""
-#         t1 = threading.Thread(target=self.recv)
-#         t2 = threading.Thread(target=self.send)
-#         self.threads.append(t1)
-#         self.threads.append(t2)
- 
-#         for t in self.threads:
-#             t.setDaemon(True)
-#             t.start()
- 
-#         while True:
-#             pass
- 
-
-# if __name__ == "__main__":
-#      demo = ChatRoomPlus()
-#      demo.start()
+        self.server.stop()
+        self.client.close()
+        self.server = None
+        self.client = None

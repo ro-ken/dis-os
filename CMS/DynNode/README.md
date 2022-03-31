@@ -2,6 +2,29 @@
 
 * DynNode module负责节点管理, 包括节点动态加入和退出, 节点间控制交流和命令交流(不包括数据交流, 原因见下文)
 
+## Module structure
+
+```
+DynNode modlue
++-- Const.py
+    +-- class Node
+        +-- NodeJoin
+        +-- NodeRemove
+        +-- NodeModSource
++-- DynNode.py
++-- DynNodeServer.py
++-- REASME.md
+```
+## Const.py
+
+* class Node是节点表类
+* class Node公开了三个方法：
+    * NodeJoin: 新节点加入集群
+    * NodeRemove: 节点移出集群
+    * NodeModSource: 修改节点硬件资源特征
+
+* NodeTable是使用class node生成的节点表, 集群中每一个节点都维护一张节点表, 存储集群中其他节点的ip和port, 并所有节点表都相等.
+
 
 ## 备注
 
