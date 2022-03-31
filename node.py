@@ -13,10 +13,12 @@ class Node:
         self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
         self.conn_node_list = {}  # 连接的节点列表
         self.task_queue = []  # 本节点待处理的任务队列
+        self.fail_task_queue = []  # 执行失败的任务队列
         self.scheduler = sched_api.Scheduler(self)  # 初始化调度器
         self.handler = node_handler.NodeHandler(self)  # 节点的辅助类，一些业务函数在里面
         self.name = settings.arch   # 给每个节点起个名字
         self.node_list = settings.node_list
+        self.task_seq = 0   # 表示第几波任务
 
     def start(self):
         self.server_t.start()  # 启动服务器

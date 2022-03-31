@@ -18,22 +18,28 @@ def select_min_time_node(use_time, task) -> str:
 
 
 def get_node_names(node_list):
-    name_list = []
+    name_key_dict = {}
     for key in node_list:
-        # ip = key.split(":")[0]
-        # name = node_settings.ip_name[ip]
         name = node_list[key].name
-        name_list.append(name)
-    return name_list
+        name_key_dict[name]=key
+    return name_key_dict
+
+
+def name_to_key(name_res, name_key_dict):
+    key_res = {}
+    for name in name_key_dict:
+        key_res[name_key_dict[name]] = name_res[name]
+    return key_res
 
 
 class Scheduler(IScheduler):
 
     def divide_tasks(self, task_list,node_list):
 
-        name_list = get_node_names(node_list)
-        res = self.simple_greed(task_list,name_list)
-        return res
+        name_key_dict = get_node_names(node_list)
+        name_res = self.simple_greed(task_list,name_key_dict.keys())
+        key_res = name_to_key(name_res,name_key_dict)     # 返回字典用地址作为key
+        return key_res
 
         # 选择最小时间的节点
 

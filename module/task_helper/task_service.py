@@ -211,16 +211,13 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         if settings.env != "dev":
             # 没有则创建，有则更新
             if key not in self.node.conn_node_list.keys():
-                self.node.conn_node_list[key]=None
-                print("keys={},key={}".format(self.node.conn_node_list.keys(),key))
                 node = self.node.handler.create_node_to_table(addr.ip, addr.port)
-                node.name = name
-                node.res = res
+                node.name,node.res = name,res
                 print("加入节点 addr={},name={}".format(key,name))
                 print("当前连接节点：{}",self.node.conn_node_list.keys())
             else:
                 node = self.node.conn_node_list.get(key)
-                node.res = res
+                node.name,node.res = name,res
         if settings.show_server_heart_res:
             print("server :get {} heartbeat time={}".format(name, int(time.time())%100))
         return task_pb2.CommonReply(success=True)

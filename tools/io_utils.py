@@ -15,14 +15,17 @@ def write_file(path, data, type='wb'):
     f.write(data)
     f.close()
 
+def write_task_seq(path,seq,task_list,type='a+'):
+    data = "the {} times,task_list:{},time={}\n".format(seq,task_list,time.time())
+    write_file(path,data,type)
 
-def write_time_start(path, title, time=time.time(),type='a+'):
-    data = title + " start time :" + str(time) + '\n'
+def write_time_start(path, title, now=time.time(),type='a+'):
+    data = title + " start time :" + str(now) + '\n'
     write_file(path, data, type)
 
 
-def write_time_end(path, title, time):
-    data = title + " end time :" + str(time) + '\n'
+def write_time_end(path, title, now=time.time()):
+    data = title + " end time :" + str(now) + '\n'
     write_file(path, data, 'a+')
 
 def get_file_req(file_path) -> object:

@@ -1,5 +1,6 @@
 import asyncio
 import threading
+import time
 from time import sleep
 
 import grpc
@@ -44,12 +45,7 @@ class ClientThread(threading.Thread):
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.handler = client_handler.ClientHandler(self, stub)
 
-            # 依次调用七个应用
-            # self.task_test()
-            # self.task_handler.five_solution()
             asyncio.run(self.handler.async_task())
-            # self.task_handler.per_task_time()
-
 
 # 启动测试代码
 def start(ip, port):

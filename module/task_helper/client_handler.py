@@ -24,17 +24,18 @@ class ClientHandler:
 
     # 保持连接
     async def keep_alive(self):
+        await asyncio.sleep(1)  # 等node把表项先创建好
         while not self.master.stop:
             try:
                 reply = self.task_handler.keep_alive()
                 if settings.show_client_heart_res:
-                    print("client:send {}:{} time={} relpy {} ".format(self.master.ip, self.master.port, int(time.time()) % 100, reply))
+                    print("client heartbeat:send {}:{} time={} ".format(self.master.ip, self.master.port,
+                                                                       int(time.time()) % 100))
                 # 每秒发送一次
             except:
                 self.disconnection()
                 break
             await asyncio.sleep(settings.heart_rate)
-        print("{}:{} client stop".format(self.master.ip, self.master.port))
 
     # 应用调用接口封装, 调用全部的7个应用
     async def task_test(self):
@@ -50,7 +51,7 @@ class ClientHandler:
     # 处理任务队列里的任务
     async def do_task(self):
         name = ip_name[self.master.ip]  # ip到名字的映射
-        if settings.env == "local_exp":
+        if settings.env == "lo_exp":
             name = port_name[self.master.port]
         addr = str(self.master.ip) + "_" + str(self.master.port)
         path = ROOT + 'output/' + name + '_task_time.txt'
@@ -60,22 +61,29 @@ class ClientHandler:
                 await asyncio.sleep(1)
             else:
                 # print(self.task_queue)
-                task_id = self.master.task_queue.pop()
-                utils.write_time_start(path, arch + " task id :" + str(task_id), time.time())
+                task_id = self.master.task_queue.pop(0)
+                utils.write_time_start(path, arch + " task id :" + str(task_id))
                 try:
                     self.task_handler.do_task_by_id(task_id)
                 except:
-                    self.disconnection()
                     self.master.task_queue.append(task_id)
+                    self.disconnection()
                     break
-                utils.write_time_end(path, name + " task id :" + str(task_id), time.time())
-            await asyncio.sleep(0.1)
+                utils.write_time_end(path, name + " task id :" + str(task_id))
+                if len(self.master.task_queue) == 0:
+                    utils.write_file(path, 'the task seq {} finish!\n\n'.format(self.master.node.task_seq), 'a+')
+
+            # await asyncio.sleep(0.1)
 
     # 给client添加任务
     def add_tasks(self, task_list):
         self.master.task_queue.extend(task_list)
 
     def disconnection(self):
-        addr = str(self.master.ip) + "_" + str(self.master.port)
-        print("server:{} 发生异常!!!".format(addr))
-        self.master.disconnect = True
+        key = utils.gen_node_key(self.master.ip, self.master.port)
+        print("server:{} 连接失败!!!".format(key))
+        self.master.node.fail_task_queue.extend(self.master.task_queue)  # 把剩余的任务加入失败任务队列
+        self.master.node.conn_node_list.pop(key)  # 从表中移出该节点
+        self.master.stop = True
+        print("{} client stop".format(key))
+        print("当前剩余连接节点：{}".format(self.master.node.conn_node_list.keys()))
