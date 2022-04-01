@@ -1,6 +1,7 @@
 from module.sched.sched import IScheduler
+from tools.utils import ROOT
 from .static_tbl import task_node_table
-from tools import node_settings
+from tools import node_settings, utils
 
 
 def select_min_time_node(use_time, task) -> str:
@@ -56,4 +57,6 @@ class Scheduler(IScheduler):
             res[node].append(task)
             use_time[node] += task_node_table[node][task].time
         print(use_time)
+        path = ROOT + 'output/task_seq.txt'
+        utils.write_task_seq(path, self.node.task_seq, use_time)
         return res

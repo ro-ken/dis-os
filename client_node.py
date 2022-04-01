@@ -31,13 +31,13 @@ class ClientThread(threading.Thread):
 
     def __init__(self, ip, port, node):
         threading.Thread.__init__(self)
-        self.ip = ip
-        self.port = port
+        self.ip = ip    # 要连接的server的ip
+        self.port = port   # 要连接server的port
         self.node = node  # client依附的节点
         self.task_queue = []  # 待处理队列
         self.disconnect = False  # 连接是否已经断开
-        self.handler = None
-        self.stop = False
+        self.handler = None # 客户节点的辅助类
+        self.stop = False   # 若为True 该线程结束
 
     # 启动client发送任务
     def run(self) -> None:

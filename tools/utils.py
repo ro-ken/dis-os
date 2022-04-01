@@ -4,6 +4,7 @@ import random
 import numpy as np
 from cv2 import cv2
 from .io_utils import *
+from .random_num import *
 from module.proto import task_pb2
 
 ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
@@ -103,7 +104,7 @@ def get_random(num):
     def product():
         taskarray = []
         for i in range(num):
-            number = random.randint(0, 4)
+            number = random.randint(0, 5)
             taskarray.append(number)
         # print(taskarray)
         s = test(taskarray)

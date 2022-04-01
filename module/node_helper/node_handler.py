@@ -46,9 +46,8 @@ class NodeHandler:
     async def do_fail_task(self):
         while True:
             await asyncio.sleep(1)
-            if len(self.master.fail_task_queue) >0 and len(self.master.conn_node_list)>0:
+            if len(self.master.fail_task_queue) > 0 and len(self.master.conn_node_list) > 0:
                 pass
-
 
     def create_client(self, ip, port):
         client_t = client_node.ClientThread(ip, port, self.master)
@@ -69,8 +68,8 @@ class NodeHandler:
         await asyncio.gather(
             # self.rm_useless_node(),  # 保持连接
             self.gen_task(),  # 生成任务
-            self.do_task() , # 执行任务
-            self.do_fail_task() # 执行失败的任务
+            self.do_task(),  # 执行任务
+            self.do_fail_task()  # 执行失败的任务
         )
 
     # 检测是否有节点已经断开
@@ -93,19 +92,20 @@ class NodeHandler:
         if self.master.name == "win":
             self.create_tasks(settings.init_task_num)
             while True:
+                print("==========times = {} ==========".format(self.master.task_seq))
                 await asyncio.sleep(settings.dynamic_gen_task_rate)
                 self.create_tasks(settings.dynamic_gen_task_num)
 
     def create_tasks(self, task_num):
         path = ROOT + 'output/task_seq.txt'
         self.master.task_seq += 1
-        task_list = utils.get_random(task_num)
+        task_list = utils.random_list(task_num, 0, 5, 3)
         self.queue.extend(task_list)
 
-        if self.master.task_seq == 1:   # 第一次写刷新文件
-            utils.write_task_seq(path,self.master.task_seq, task_list,'w')
+        if self.master.task_seq == 1:  # 第一次写刷新文件
+            utils.write_task_seq(path, self.master.task_seq, task_list, 'w')
         else:
-            utils.write_task_seq(path,self.master.task_seq, task_list)
+            utils.write_task_seq(path, self.master.task_seq, task_list)
 
     # 把任务下发
     def assign_tasks(self, queue):

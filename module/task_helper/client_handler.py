@@ -30,7 +30,7 @@ class ClientHandler:
                 reply = self.task_handler.keep_alive()
                 if settings.show_client_heart_res:
                     print("client heartbeat:send {}:{} time={} ".format(self.master.ip, self.master.port,
-                                                                       int(time.time()) % 100))
+                                                                        int(time.time()) % 100))
                 # 每秒发送一次
             except:
                 self.disconnection()
@@ -54,7 +54,7 @@ class ClientHandler:
         if settings.env == "lo_exp":
             name = port_name[self.master.port]
         addr = str(self.master.ip) + "_" + str(self.master.port)
-        path = ROOT + 'output/' + name + '_task_time.txt'
+        path = ROOT + 'output/' + name + "_" + str(self.master.node.task_seq) + '_task_time.txt'
         utils.write_time_start(path, name, addr, 'w')
         while not self.master.stop:
             if len(self.master.task_queue) == 0:
@@ -62,18 +62,18 @@ class ClientHandler:
             else:
                 # print(self.task_queue)
                 task_id = self.master.task_queue.pop(0)
-                utils.write_time_start(path, arch + " task id :" + str(task_id))
+                utils.write_time_start(path, name + " task id :" + str(task_id), time.time())
                 try:
                     self.task_handler.do_task_by_id(task_id)
                 except:
                     self.master.task_queue.append(task_id)
                     self.disconnection()
                     break
-                utils.write_time_end(path, name + " task id :" + str(task_id))
+                utils.write_time_end(path, name + " task id :" + str(task_id), time.time())
                 if len(self.master.task_queue) == 0:
                     utils.write_file(path, 'the task seq {} finish!\n\n'.format(self.master.node.task_seq), 'a+')
 
-            # await asyncio.sleep(0.1)
+            await asyncio.sleep(0.1)
 
     # 给client添加任务
     def add_tasks(self, task_list):
@@ -86,4 +86,4 @@ class ClientHandler:
         self.master.node.conn_node_list.pop(key)  # 从表中移出该节点
         self.master.stop = True
         print("{} client stop".format(key))
-        print("当前剩余连接节点：{}".format(self.master.node.conn_node_list.keys()))
+        print("当前剩余连接节点：{}".format(list(self.master.node.conn_node_list.keys())))

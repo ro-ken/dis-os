@@ -54,6 +54,7 @@ class ServerThread(threading.Thread):
         server.start()
         print("server start... ip = {} , port = {}\n".format(self.ip, str(self.port)))
         server.wait_for_termination()
+        print("server 线程结束！！！")
 
 
 def start(port):

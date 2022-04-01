@@ -16,14 +16,15 @@ class Node:
         self.fail_task_queue = []  # 执行失败的任务队列
         self.scheduler = sched_api.Scheduler(self)  # 初始化调度器
         self.handler = node_handler.NodeHandler(self)  # 节点的辅助类，一些业务函数在里面
-        self.name = settings.arch   # 给每个节点起个名字
-        self.node_list = settings.node_list
-        self.task_seq = 0   # 表示第几波任务
+        self.name = settings.arch  # 给每个节点起个名字
+        self.node_list = settings.node_list  # 所有已知节点集合
+        self.task_seq = 0  # 表示第几波任务
 
     def start(self):
         self.server_t.start()  # 启动服务器
         self.handler.create_node_table()  # 初始化可连接的节点表
         asyncio.run(self.handler.async_task())  # 执行异步任务
+
 
 if __name__ == '__main__':
     node = Node(50051)
