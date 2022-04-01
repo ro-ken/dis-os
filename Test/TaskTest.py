@@ -98,9 +98,9 @@ def RandomTask_LoadList(task_number, start_label, end_label, max_times, load_dic
     
     return TaskList
 
-if __name__ == '__main__':
-    task_list = RandomTask(10, 0, 6, 3, 10)
-    print(task_list)
-    a = {1:2,2:4,3:4,4:5}
-    task_list = RandomTask_LoadList(10, 1, 4,3, a)
-    print(task_list)
+# if __name__ == '__main__':
+#     task_list = RandomTask(10, 0, 6, 3, 10)
+#     print(task_list)
+#     a = {1:2,2:4,3:4,4:5}
+#     task_list = RandomTask_LoadList(10, 1, 4,3, a)
+#     print(task_list)
