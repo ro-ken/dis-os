@@ -33,24 +33,33 @@ port_name = {
     name_port["hwj"]: "hwj"
 }
 
-
 # 配置每个节点所要连接的其他节点列表
 if env == "dev":
     node_list = [
         ['localhost', 50051]
     ]
 elif env == "exp":
-    if arch == "win":       # windows和其他节点连接
+    server_ip = name_ip[arch]
+    if p2p:
         node_list = [
-            [name_ip["smp"], 50051]
+            [name_ip["win"], 50051]
+            , [name_ip["smp"], 50051]
             , [name_ip["ywd"], 50051]
             , [name_ip["hwj"], 50051]
         ]
     else:
-        node_list = [
-            [name_ip["win"], 50051]     # 暂时其他节点只和windows连接
-        ]
-    server_ip = name_ip[arch]
+        if arch == "win":  # windows和其他节点连接
+            node_list = [
+                [name_ip["win"], 50051]
+                , [name_ip["smp"], 50051]
+                , [name_ip["ywd"], 50051]
+                , [name_ip["hwj"], 50051]
+            ]
+        else:
+            node_list = [
+                [name_ip["win"], 50051]  # 暂时其他节点只和windows连接
+            ]
+
 else:
     if arch == "win":
         node_list = [

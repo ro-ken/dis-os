@@ -2,6 +2,7 @@ import time
 
 from cv2 import cv2
 
+import settings
 from module.proto import task_pb2
 from settings import *
 from tools import utils
@@ -16,7 +17,7 @@ def read_times(cap, times):
 
 class TaskHandler:
 
-    def __init__(self,master, stub):
+    def __init__(self, master, stub):
         self.master = master
         self.stub = stub
 
@@ -65,7 +66,6 @@ class TaskHandler:
             utils.write_time_start(path, arch + ' task_7', time.time())
             self.solution(win=[7], mac=[7], smp=[7], hwj=[7], ywd=[7])
             utils.write_time_end(path, arch + ' task_7', time.time())
-
 
     # 应用测试, 测试应用调用时间、消耗资源(CPU、内存), 结果保存在 ./oputput/out_time.txt文件下
     def five_solution(self):
@@ -131,7 +131,6 @@ class TaskHandler:
             print(reply)
 
         utils.client_task_end("task_transfer_file")
-
 
     def task_yolox_image(self):
         utils.client_task_start("task_yolox_image")
@@ -210,10 +209,6 @@ class TaskHandler:
         cap = cv2.VideoCapture(vedio)
         img_width = 360
         img_height = 640
-        # 1280.0 720.0
-        # print(cap.set(3,640.0))
-        # print(cap.set(4,360.0))
-        # cap.set(10, 130)
         while True:
             ret, frame = read_times(cap, 5)
             if ret:
@@ -275,9 +270,9 @@ class TaskHandler:
     def keep_alive(self):
         ip = self.master.node.server_t.ip
         port = self.master.node.server_t.port
-        addr = task_pb2.Address(ip=ip,port=port)
+        addr = task_pb2.Address(ip=ip, port=port)
         res = utils.get_res()
         name = self.master.node.name
-        package = task_pb2.HeartBeat(name=name,addr=addr,res=res)
-        reply = self.stub.keep_alive(package)
+        package = task_pb2.HeartBeat(name=name, addr=addr, res=res)
+        reply = self.stub.keep_alive(package, timeout=settings.keep_alive_time_out)
         return reply

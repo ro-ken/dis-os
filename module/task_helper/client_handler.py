@@ -33,6 +33,7 @@ class ClientHandler:
                                                                         int(time.time()) % 100))
                 # 每秒发送一次
             except:
+                print("keep_alive 异常")
                 self.disconnection()
                 break
             await asyncio.sleep(settings.heart_rate)

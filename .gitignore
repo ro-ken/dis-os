@@ -3,4 +3,4 @@ __pycache__/
 test/
 /output/
 */output/*
-/app/
+app/

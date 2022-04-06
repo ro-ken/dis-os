@@ -30,7 +30,6 @@ class ServerThread(threading.Thread):
         self.port = port
         self.ip = ip
         self.node = node
-        # self.addr = task_pb2.Addr(ip=self.ip, port=self.port)
 
     # 开启服务器
     def run(self) -> None:
@@ -48,7 +47,7 @@ class ServerThread(threading.Thread):
                 # print(str(self.port) + "端口已被占用！")
                 self.port += 1
                 self.node.name = port_name[self.port]
-                self.node.node_list = [[server_ip, 50051]]
+                self.node.node_list = [[server_ip, 50051]]  # 只有dev才会被占用
 
         # 运行grpc server
         server.start()

@@ -45,6 +45,7 @@ class ClientThread(threading.Thread):
             stub = task_pb2_grpc.TaskServiceStub(channel)
             self.handler = client_handler.ClientHandler(self, stub)
 
+            # self.handler.task_handler.per_task_time()
             asyncio.run(self.handler.async_task())
 
 # 启动测试代码
