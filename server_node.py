@@ -27,16 +27,16 @@ from module.task_helper.task_service import TaskService
 class ServerThread(threading.Thread):
     def __init__(self, node, ip, port):
         threading.Thread.__init__(self)
-        self.port = port
-        self.ip = ip
-        self.node = node
+        self.node = node    # server依附的node
+        self.ip = ip        # grpc server的ip
+        self.port = port    # grpc server的port
 
     # 开启服务器
     def run(self) -> None:
         # 初始化 grpc server
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))    # 10个线程池，每个线程池为一个client服务
-        service = TaskService(self.node)
-        task_pb2_grpc.add_TaskServiceServicer_to_server(service, server)
+        service = TaskService(self.node)    # grpc实现的服务
+        task_pb2_grpc.add_TaskServiceServicer_to_server(service, server)    # 注册进去
 
         # 配置端口
         while True:
@@ -44,10 +44,9 @@ class ServerThread(threading.Thread):
                 server.add_insecure_port("[::]:" + str(self.port))
                 break
             except:
-                # print(str(self.port) + "端口已被占用！")
-                self.port += 1
+                self.port += 1  # 端口被占用，只有dev模式下才会被占用
                 self.node.name = port_name[self.port]
-                self.node.node_list = [[server_ip, 50051]]  # 只有dev才会被占用
+                self.node.node_list = [[server_ip, 50051]]
 
         # 运行grpc server
         server.start()

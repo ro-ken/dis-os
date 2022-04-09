@@ -18,9 +18,10 @@ def read_times(cap, times):
 class TaskHandler:
 
     def __init__(self, master, stub):
-        self.master = master
-        self.stub = stub
+        self.master = master    # client节点
+        self.stub = stub    # 代理
 
+        # 任务编号
         self.task_list = [self.task_linear_regression,  # 0
                           self.task_yolox_image,  # 1
                           self.task_yolo5,  # 2

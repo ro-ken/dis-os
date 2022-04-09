@@ -12,8 +12,8 @@ from tools import utils
 class NodeHandler:
 
     def __init__(self, master):
-        self.master = master
-        self.queue = master.task_queue
+        self.master = master    # 主节点
+        self.queue = master.task_queue  # 节点任务队列
 
     # 对每个node建立一个client与之连接
     def create_node_table(self):
@@ -32,13 +32,10 @@ class NodeHandler:
 
     # 通过调度模块方法获取节点地址, 开始进行测试
     async def do_task(self):
-        # 暂时只让windows发送任务
-        # if self.master.name != "win":
-        #     return
-        await asyncio.sleep(5)  # 等待连接完成
+
         while True:
-            print(self.master.conn_node_list.keys(), self.queue)
             if len(self.master.conn_node_list) > 0 and len(self.queue) > 0:
+                print(self.master.conn_node_list.keys(), self.queue)
                 self.assign_tasks(self.queue)
             await asyncio.sleep(1)
 
@@ -65,10 +62,15 @@ class NodeHandler:
 
     # 动态生成任务
     async def gen_task(self):
+        await asyncio.sleep(settings.wait_conn_time)  # 等待连接完成
+
         self.create_tasks(settings.init_task_num)
         while True:
-            print("==========times = {} ==========".format(self.master.task_seq))
             await asyncio.sleep(settings.dynamic_gen_task_rate)
+            # 前一轮任务还没有处理完，此轮任务取消
+            if len(self.master.fail_task_queue) > 0 or len(self.master.fail_task_queue) > 0:
+                continue
+            print("==========times = {} ==========".format(self.master.task_seq))
             self.create_tasks(settings.dynamic_gen_task_num)
 
     def create_tasks(self, task_num):

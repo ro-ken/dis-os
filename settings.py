@@ -18,7 +18,8 @@ show_client_heart_res = True  # 实时显示client心跳结果
 if arch == "win":
     show_server_heart_res = True
 
-init_task_num = 10  # 初始任务数量
+init_task_num = 15  # 初始任务数量
+wait_conn_time = 5  # 第一次任务分配时间
 dynamic_gen_task = True  # 是否动态生成任务
-dynamic_gen_task_rate = 40  # 动态生成任务的频率 （单位/s）
-dynamic_gen_task_num = 8  # 每次动态生成任务数量
+dynamic_gen_task_rate = 50  # 动态生成任务的频率 （单位/s）
+dynamic_gen_task_num = 15  # 每次动态生成任务数量
