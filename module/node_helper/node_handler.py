@@ -12,7 +12,7 @@ from tools import utils
 class NodeHandler:
 
     def __init__(self, master):
-        self.master = master    # 主节点
+        self.master = master  # 主节点
         self.queue = master.task_queue  # 节点任务队列
 
     # 对每个node建立一个client与之连接
@@ -34,7 +34,7 @@ class NodeHandler:
     async def do_task(self):
 
         while True:
-            if len(self.master.conn_node_list) > 0 and len(self.queue) > 0:
+            if len(self.queue) > 0 and len(self.master.conn_node_list) > 0:  # 有任务，有资源则执行
                 print(self.master.conn_node_list.keys(), self.queue)
                 self.assign_tasks(self.queue)
             await asyncio.sleep(1)
@@ -59,20 +59,21 @@ class NodeHandler:
         self.master.conn_node_list[key] = node
         return node
 
-
     # 动态生成任务
     async def gen_task(self):
+        if settings.gen_task is False:
+            return  # 不生成任务返回
+
         await asyncio.sleep(settings.wait_conn_time)  # 等待连接完成
 
-        self.create_tasks(settings.init_task_num)
-        while True:
-            await asyncio.sleep(settings.dynamic_gen_task_rate)
-            # 前一轮任务还没有处理完，此轮任务取消
-            if len(self.master.fail_task_queue) > 0 or len(self.master.fail_task_queue) > 0:
-                continue
-            print("==========times = {} ==========".format(self.master.task_seq))
-            self.create_tasks(settings.dynamic_gen_task_num)
+        task_num = 1 if settings.single_task else settings.dynamic_gen_task_num
 
+        while True:
+            print("==========times = {} ==========".format(self.master.task_seq))
+            self.create_tasks(task_num)
+            await asyncio.sleep(settings.dynamic_gen_task_rate)
+
+    # 随机生成任务并添加到队列
     def create_tasks(self, task_num):
         path = ROOT + 'output/task_seq.txt'
         self.master.task_seq += 1
@@ -86,10 +87,10 @@ class NodeHandler:
 
     # 把任务下发
     def assign_tasks(self, queue):
-        task_res = self.master.scheduler.divide_tasks(queue, self.master.conn_node_list)
+        task_res = self.master.scheduler.sched(queue, self.master.conn_node_list) # 划分任务
         queue.clear()  # 清空队列
-        # print(task_res)
-        for key in task_res.keys():
+
+        for key in task_res.keys():  # 添加到各自的处理队列
             self.master.conn_node_list[key].client.handler.add_tasks(task_res[key])
 
         path = ROOT + 'output/task_seq.txt'

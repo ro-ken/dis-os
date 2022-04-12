@@ -1,3 +1,4 @@
+import settings
 from tools import utils
 
 
@@ -9,12 +10,8 @@ class IScheduler:
         self.nodes = node.conn_node_list  # 所有节点
         self.loop_turn = 0
 
-    # 动态选择一个节点
-    def choose_node(self):
-        pass
-
-    # 从任务集群中划分出几个任务
-    def divide_tasks(self, task_list, node_list) -> map:
+    #
+    def sched(self, task_list, node_list):
         """
 
         Args:
@@ -26,7 +23,19 @@ class IScheduler:
                 例如：{key1:[1,2,3],key2:[2,3,4],key3:[1,4]}
 
         """
-        pass
+        if settings.single_task:
+            task = task_list.pop(0)  # 每次分配一个任务
+            self.single_task_sched(task, node_list)
+        else:
+            self.multi_task_sched(task_list, node_list)
+
+    # 单任务分配，可以重写,默认调用多任务分配方案
+    def single_task_sched(self, task, node_list):
+        self.multi_task_sched([task], node_list)
+
+    # 多任务分配，必须重写
+    def multi_task_sched(self, task_list, node_list):
+        raise NotImplementedError
 
 
 class TaskCost:

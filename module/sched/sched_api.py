@@ -5,8 +5,11 @@ from settings import sched_type
 
 # 根据不同配置用不同的调度器
 
-if sched_type == "static":
-    from .static.static_sched import Scheduler
+if sched_type == "simple_greed":
+    from .greed.simple_greed_sched import Scheduler
+
+if sched_type == "global_greed":
+    from .greed.global_greed_sched import Scheduler
 
 elif sched_type == "dynamic":
     from .dynamic.dynamic_sched import Scheduler
