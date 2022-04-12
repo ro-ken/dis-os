@@ -2,9 +2,14 @@ import json
 import time
 import socket
 
-port = 7788
+SOCKET_UDP_SERVER_PORT = 7788
 
 MESSAGE_TYPE = ['JOIN', 'REMOVE']
+
+# 获取本机计算机名称
+hostname = socket.gethostname()
+# 获取本机ip
+SOCKET_UDP_SERVER_IP = socket.gethostbyname(hostname)
 
 class Node:
     def __init__(self, ip, port):
@@ -61,10 +66,5 @@ class Node:
     # 修改节点资源抽象表
     def NodeModSource(self):
         pass
-
-# 获取本机计算机名称
-hostname = socket.gethostname()
-# 获取本机ip
-ip = socket.gethostbyname(hostname)
     
-NodeTable = Node(ip, port)
+NodeTable = Node(SOCKET_UDP_SERVER_IP, SOCKET_UDP_SERVER_PORT)

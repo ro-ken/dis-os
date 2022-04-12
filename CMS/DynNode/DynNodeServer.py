@@ -5,40 +5,47 @@ import threading
 import json
 
 # 传入要传递的内容, 格式化为标准消息格式
-def GenerateMessage(type, data):
+def GenerateMessage(type, udp_server_ip, udp_server_port, data):
     # 检查传入的数据可靠性
     if isinstance(type, str) != True or isinstance(data, str) != True:
         return None
     if type not in Const.MESSAGE_TYPE:
         return None
+    if isinstance(udp_server_ip, str) != True or isinstance(udp_server_port, int) != True:
+        return None 
     
     # 构建消息
     message = {}
     message['type'] = type
+    message['udp_server_ip'] = udp_server_ip
+    message['udp_server_port'] = udp_server_port
     message['data'] = data
     return message
 
 # 节点加入集群处理逻辑
-def NodeJoinEvent(data, addr):
-    node_ip = addr[0]
-    node_port = addr[1]
+def NodeJoinEvent(message, addr):
+    node_ip = message['udp_server_ip']
+    node_port = message['udp_server_port']
+    extern_data = message['data']
     success, node_label = Const.NodeTable.NodeJoin(node_ip, node_port)
     if success == False:
-        print('【%s】[%s]  Error: Reject this node join system, please check your apply!' % time.ctime(), node_ip)
+        print('【%s】[%s]  Error: Reject this node join system, please check your application!' % (time.ctime(), node_ip))
         return False
-    print('【%s】[%s]  OK: This Node success join system, the node label is %d' % time.ctime(), node_ip, node_label)
-    print('【%s】[%s]  OK: This new node want to speak : %s' % time.ctime(), node_ip, data)
+    print('【%s】[%s]  OK: This Node success join system, the node label is %d' % (time.ctime(), node_ip, node_label))
+    print('【%s】[%s]  OK: This new node want to speak : %s' % (time.ctime(), node_ip, extern_data))
     return True
 
 # 节点退出集群处理逻辑
-def NodeRemoveEvent(data, addr):
-    node_ip = addr[0]
-    node_port = addr[1]
+def NodeRemoveEvent(message, addr):
+    node_ip = message['udp_server_ip']
+    node_port = message['udp_server_port']
+    extern_data = message['data']
     success, node_label = Const.NodeTable.NodeRemove(node_ip, node_port)
     if success == False:
-        print('【%s】[%s]  Error: Reject system remove this node, please check your apply!' % time.ctime(), node_ip)
+        print('【%s】[%s]  Error: Reject system remove this node, please check your apply!' % (time.ctime(), node_ip))
         return False
-    print('【%s】[%s]  OK: System success remove this node, the node label is %d' % time.ctime(), node_ip, node_label)
+    print('【%s】[%s]  OK: System success remove this node, the node label is %d' % (time.ctime(), node_ip, node_label))
+    print('【%s】[%s]  OK: This remove node want to speak : %s' % (time.ctime(), node_ip, extern_data))
     return True
 
 
@@ -46,12 +53,12 @@ def NodeRemoveEvent(data, addr):
 def InteractionServer(message, addr):
     message_type = message['type']
     if message_type == 'JOIN':
-        success = NodeJoinEvent(message['data'],addr)
+        success = NodeJoinEvent(message,addr)
         return True
     if message_type == 'REMOVE':
-        success = NodeRemoveEvent(message['data'],addr)
+        success = NodeRemoveEvent(message,addr)
         return success
-    print('【%s】[%s]  Error: unknown message type!' % time.ctime(), addr[0])
+    print('【%s】[%s]  Error: unknown message type!' % (time.ctime(), addr[0]))
     return False
 
 
@@ -109,6 +116,7 @@ class DynNodeServer():
         runserver.bind(('', self.port))
 
         self.server = socketserver(runserver)
+        self.server.setDaemon(True)
         self.server.start()
         print("Successful: The socket server starting...")
 
