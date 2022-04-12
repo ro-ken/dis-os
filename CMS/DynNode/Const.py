@@ -4,14 +4,19 @@ import socket
 
 port = 7788
 
+MESSAGE_TYPE = ['JOIN', 'REMOVE']
+
 class Node:
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
         # 节点列表
         self.NodeTable = {}
+        self.NodeTable[0] = str(ip) + ':' + str(port)
+        
         # 节点资源抽象表
         self.NodeSourceTable = {}
+        self.NodeSourceTable[0] = {}
         print("【%s】[%s:%d] Tip: NodeTable has been created!" % (time.ctime(), self.ip, self.port))
 
     # 给新加入的节点分配标号

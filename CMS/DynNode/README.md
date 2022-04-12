@@ -4,7 +4,7 @@
 
 ## Module structure
 
-```
+```python
 DynNode modlue
 +-- Const.py
     +-- class Node
@@ -13,7 +13,20 @@ DynNode modlue
         +-- NodeModSource
 +-- DynNode.py
 +-- DynNodeServer.py
-+-- REASME.md
++-- README.md
+
+'''
+message format
+"message type is a dict"
+message = {
+    type : message_type,
+    data : message_data, // 用来传递一些附加信息
+}
+allowed message type:
+    +- JOIN     - 节点加入集群
+    +- REMOVE   - 节点移出集群
+因为此处我们只是使用socket作为节点动态管理, 暂时不考虑用作数据传输, 故消息格式比较简单
+'''
 ```
 ## Const.py
 
@@ -23,7 +36,7 @@ DynNode modlue
     * NodeRemove: 节点移出集群
     * NodeModSource: 修改节点硬件资源特征
 
-* NodeTable是使用class node生成的节点表, 集群中每一个节点都维护一张节点表, 存储集群中其他节点的ip和port, 并所有节点表都相等.
+* NodeTable是使用class node生成的节点表, 集群中每一个节点都维护一张节点表, 存储集群中其他节点的ip和port, 并所有节点表都维护一个状态.
 
 
 ## 备注
