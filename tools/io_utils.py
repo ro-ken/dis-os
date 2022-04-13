@@ -15,11 +15,13 @@ def write_file(path, data, type='wb'):
     f.write(data)
     f.close()
 
-def write_task_seq(path,seq,task_list,type='a+'):
-    data = "the {} times,task_list:{},time={}\n".format(seq,task_list,time.time())
-    write_file(path,data,type)
 
-def write_time_start(path, title, now=time.time(),type='a+'):
+def write_task_seq(path, seq, task_list, type='a+'):
+    data = "the {} times,task_list:{},time={}\n".format(seq, task_list, time.time())
+    write_file(path, data, type)
+
+
+def write_time_start(path, title, now=time.time(), type='a+'):
     data = title + " start time :" + str(now) + '\n'
     write_file(path, data, type)
 
@@ -28,11 +30,13 @@ def write_time_end(path, title, now=time.time()):
     data = title + " end time :" + str(now) + '\n'
     write_file(path, data, 'a+')
 
+
 def get_file_req(file_path) -> object:
     f = open(file_path, 'rb')
     file_data = f.read()
     file_req = task_pb2.File(file_name=get_file_name(file_path), file_data=file_data)
     return file_req
+
 
 # 获取本机资源
 def get_res():
@@ -48,7 +52,7 @@ def get_res():
     return resource
 
 
-def save_resource(path,type='a+'):
+def save_resource(path, type='a+'):
     resource = get_res()
     data = str(resource) + '\n'
     write_file(path, data, type)

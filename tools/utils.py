@@ -118,3 +118,11 @@ def str_to_list(str):
     for i in str_list:
         res.append(int(i))
     return res
+
+
+def get_allocated_tasks(node_list):
+    res = {}
+    for node in node_list.values():
+        res[node.name] = node.tasks
+
+    return res
