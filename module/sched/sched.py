@@ -25,13 +25,13 @@ class IScheduler:
         """
         if settings.single_task:
             task = task_list.pop(0)  # 每次分配一个任务
-            self.single_task_sched(task, node_list)
+            return self.single_task_sched(task, node_list)
         else:
-            self.multi_task_sched(task_list, node_list)
+            return self.multi_task_sched(task_list, node_list)
 
     # 单任务分配，可以重写,默认调用多任务分配方案
     def single_task_sched(self, task, node_list):
-        self.multi_task_sched([task], node_list)
+        return self.multi_task_sched([task], node_list)
 
     # 多任务分配，必须重写
     def multi_task_sched(self, task_list, node_list):

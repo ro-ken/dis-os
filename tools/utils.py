@@ -113,6 +113,8 @@ def list_to_str(list):
 def str_to_list(str):
     str_list = str.split(",")
     res = []
+    if str == "":
+        return res
     for i in str_list:
         res.append(int(i))
     return res
