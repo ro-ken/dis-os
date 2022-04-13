@@ -2,7 +2,7 @@ arch = "win"  # 本机架构：win , mac , smp , hwj , ywd
 env = "exp"  # 环境：”dev“本机开发，”exp“，联机实验，”lo_exp“,本地实验
 
 p2p = True  # 是否是对等模式
-sched_type = "global_greed"  # 调度类型：simple_greed , global_greed ,
+sched_type = "global_greed"  # 调度类型：simple_greed , global_greed , cpu_res
 
 heart_rate = 2  # 设置心跳频率（单位/s）
 keep_alive_time_out = 2  # 心跳超时时间（单位/s）
