@@ -85,12 +85,13 @@ class NodeHandler:
         else:
             utils.write_task_seq(path, self.master.task_seq, task_list)
 
-    # 把任务下发
+    # 分配任务
     def assign_tasks(self, queue):
-        task_res = self.master.scheduler.sched(queue, self.master.conn_node_list) # 划分任务
+        task_res = self.master.scheduler.sched(queue, self.master.conn_node_list)  # 划分任务
         queue.clear()  # 清空队列
 
         for key in task_res.keys():  # 添加到各自的处理队列
+            self.master.conn_node_list[key].client.handler.task_handler.update_tasks(True,task_res[key])    # 先通知节点更新任务
             self.master.conn_node_list[key].client.handler.add_tasks(task_res[key])
 
         path = ROOT + 'output/task_seq.txt'

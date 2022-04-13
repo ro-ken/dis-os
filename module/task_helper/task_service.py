@@ -207,17 +207,30 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         name = request.name
         addr = request.addr
         res = request.res
+        tasks = utils.str_to_list(request.tasks)
         key = utils.addr_key(addr)
-        if settings.env != "dev":
-            # 没有则创建，有则更新
-            if key not in self.node.conn_node_list.keys():
-                node = self.node.handler.create_node_to_table(addr.ip, addr.port)
-                node.name,node.res = name,res
-                print("加入节点 addr={},name={}".format(key,name))
-                print("当前连接节点：{}",self.node.conn_node_list.keys())
-            else:
-                node = self.node.conn_node_list.get(key)
-                node.name,node.res = name,res
+
+        # 没有则创建，有则更新
+        if key not in self.node.conn_node_list.keys():
+            node = self.node.handler.create_node_to_table(addr.ip, addr.port)
+            print("加入节点 addr={},name={}".format(key, name))
+            print("当前连接节点：{}", self.node.conn_node_list.keys())
+        else:
+            node = self.node.conn_node_list.get(key)
+        node.name, node.res, node.tasks = name, res, tasks
         if settings.show_server_heart_res:
-            print("server :get {} heartbeat time={}".format(name, int(time.time())%100))
+            print("server :get {} heartbeat time={}".format(name, int(time.time()) % 100))
+        return task_pb2.CommonReply(success=True)
+
+    def update_tasks(self, request, context):
+        add_task = request.add_task
+        tasks = utils.str_to_list(request.tasks)
+        if add_task:  # 添加任务
+            self.node.allocated_task_queue.extend(tasks)
+            print("server :add tasks {}".format(tasks))
+        else:  # 删除任务
+            for task in tasks:
+                self.node.allocated_task_queue.remove(task)
+                print("server :rm tasks {}".format(task))
+
         return task_pb2.CommonReply(success=True)

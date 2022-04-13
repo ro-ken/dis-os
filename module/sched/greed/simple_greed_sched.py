@@ -3,6 +3,7 @@ from tools import utils
 from tools.utils import ROOT
 from .utils import *
 
+# 简单贪心调度器
 class Scheduler(IScheduler):
 
     def multi_task_sched(self, task_list, node_list):

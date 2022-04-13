@@ -66,6 +66,7 @@ class ClientHandler:
                 utils.write_time_start(path, name + " task id :" + str(task_id), time.time())
                 try:
                     self.task_handler.do_task_by_id(task_id)
+                    self.task_handler.update_tasks(False, [task_id])    # 通知节点删除该任务
                 except:
                     self.master.task_queue.append(task_id)
                     self.disconnection()
@@ -74,12 +75,13 @@ class ClientHandler:
                 if len(self.master.task_queue) == 0:
                     utils.write_file(path, 'the task seq {} finish!\n\n'.format(self.master.node.task_seq), 'a+')
 
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.1)    # take a break
 
     # 给client添加任务
     def add_tasks(self, task_list):
         self.master.task_queue.extend(task_list)
 
+    # 断开连接
     def disconnection(self):
         key = utils.gen_node_key(self.master.ip, self.master.port)
         print("server:{} 连接失败!!!".format(key))

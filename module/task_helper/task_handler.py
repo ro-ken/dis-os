@@ -18,8 +18,8 @@ def read_times(cap, times):
 class TaskHandler:
 
     def __init__(self, master, stub):
-        self.master = master    # client节点
-        self.stub = stub    # 代理
+        self.master = master  # client节点
+        self.stub = stub  # 代理
 
         # 任务编号
         self.task_list = [self.task_linear_regression,  # 0
@@ -274,6 +274,14 @@ class TaskHandler:
         addr = task_pb2.Address(ip=ip, port=port)
         res = utils.get_res()
         name = self.master.node.name
-        package = task_pb2.HeartBeat(name=name, addr=addr, res=res)
+        tasks = utils.list_to_str(self.master.node.allocated_task_queue)
+        package = task_pb2.HeartBeat(name=name, addr=addr, res=res,tasks=tasks)
         reply = self.stub.keep_alive(package, timeout=settings.keep_alive_time_out)
+        return reply
+
+    # 更新对应节点的任务
+    def update_tasks(self, add_task, tasks):
+        tasks = utils.list_to_str(tasks)
+        package = task_pb2.TaskPackage(add_task=add_task, tasks=tasks)
+        reply = self.stub.update_tasks(package)
         return reply

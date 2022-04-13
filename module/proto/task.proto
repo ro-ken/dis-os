@@ -22,13 +22,20 @@ service TaskService{
 
 //  keep_alive
   rpc keep_alive(HeartBeat)returns(CommonReply){}
+  rpc update_tasks(TaskPackage)returns(CommonReply){}
 
+}
+
+message TaskPackage{
+  bool add_task = 1; // 添加任务为True,删减任务为False
+  string tasks = 2; // 任务编号 用‘，’隔开 例 ‘1,3,4’
 }
 
 message HeartBeat{
   string name = 1;
   Address addr = 2;
   Resource res = 3;
+  string tasks = 4; //当前节点还需要处理的任务
 }
 
 message File_x2{
@@ -40,8 +47,6 @@ message Image_x2{
   bytes img = 1;
   bytes img_compose = 2;
 }
-
-
 
 message Null{
 

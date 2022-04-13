@@ -64,10 +64,12 @@ def select_by_resource(node_resources):
     addr = task_pb2.Address(ip=ip, port=port)
     return addr
 
+
 def addr_key(addr):
     ip = addr.ip
     port = addr.port
-    return gen_node_key(ip,port)
+    return gen_node_key(ip, port)
+
 
 def gen_node_key(ip, port):
     return ip + ":" + str(port)
@@ -98,31 +100,19 @@ def imshow(title, image):
     cv2.waitKey()
 
 
-def get_random(num):
-    taskarray = []
+def list_to_str(list):
+    res = ""
 
-    def product():
-        taskarray = []
-        for i in range(num):
-            number = random.randint(0, 5)
-            taskarray.append(number)
-        # print(taskarray)
-        s = test(taskarray)
-        if s == 0:
-            product()
-        taskarray.sort()
-        return taskarray
+    for i in list:
+        res = res + str(i) + ","
 
-    def test(taskarray):
-        repeat = []
-        for i in range(num):
-            repeat.append(0)
-        for i in range(num):
-            repeat[taskarray[i]] = repeat[taskarray[i]] + 1
-        for i in range(len(repeat)):
-            # print(repeat[i])
-            if repeat[i] > 3:
-                return 0
-        return 1
+    res = res[:-1]  # 删去最后的 ‘,’
+    return res
 
-    return product()
+
+def str_to_list(str):
+    str_list = str.split(",")
+    res = []
+    for i in str_list:
+        res.append(int(i))
+    return res
