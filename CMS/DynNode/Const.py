@@ -2,7 +2,7 @@ import json
 import time
 import socket
 
-SOCKET_UDP_SERVER_PORT = 7788
+SOCKET_UDP_SERVER_PORT = 10034
 
 MESSAGE_TYPE = ['JOIN', 'REMOVE']
 

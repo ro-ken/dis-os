@@ -116,7 +116,7 @@ class DynNodeServer():
         runserver.bind(('', self.port))
 
         self.server = socketserver(runserver)
-        self.server.setDaemon(True)
+        # self.server.setDaemon(True)
         self.server.start()
         print("Successful: The socket server starting...")
 
