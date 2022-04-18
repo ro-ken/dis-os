@@ -1,5 +1,12 @@
 # dis-os
 
+
+## 项目地址
+
+**github**：https://github.com/ro-ken/dis-os
+**gitee**：https://gitee.com/ro_ken/dis-os
+
+
 ## 目录结构
 
 - dataset：数据集
@@ -87,3 +94,4 @@
 
 ## 系统结构图
 
+![模型2 0](https://user-images.githubusercontent.com/56027589/163784283-dfe88b36-7190-4420-874c-b84f02b7e778.png)
