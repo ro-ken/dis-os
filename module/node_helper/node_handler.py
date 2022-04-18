@@ -15,6 +15,13 @@ class NodeHandler:
         self.master = master  # 主节点
         self.queue = master.task_queue  # 节点任务队列
 
+    # 将本节点加入集群
+    def join_cluster(self):
+        if settings.node_discovery == "manual":
+            self.create_node_table()  # 根据配置表连接
+        else:
+            self.master.dyn_server.join_broadcast(self.master.name)
+
     # 对每个node建立一个client与之连接
     def create_node_table(self):
         time.sleep(0.5)
@@ -51,6 +58,15 @@ class NodeHandler:
         time.sleep(0.5)
         return client_t
 
+    # 新节点加入集群
+    def new_node_join(self, ip, port, name):
+        node = self.create_node_to_table(ip, port)
+        key = utils.gen_node_key(ip, port)
+        print("新节点接入 addr={},name={}".format(key, name))
+        print("当前连接节点：{}".format(self.master.conn_node_list.keys()))
+        return node
+
+    # 创建一个节点对象并添加到表里
     def create_node_to_table(self, ip, port):
         key = utils.gen_node_key(ip, port)
         client_t = self.create_client(ip, port)
@@ -98,3 +114,4 @@ class NodeHandler:
             self.master.conn_node_list[key].client.handler.add_tasks(task_res[key])
 
         utils.write_task_seq(path, self.master.task_seq, task_res)
+

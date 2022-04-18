@@ -212,9 +212,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         # 没有则创建，有则更新
         if key not in self.node.conn_node_list.keys():
-            node = self.node.handler.create_node_to_table(addr.ip, addr.port)
-            print("加入节点 addr={},name={}".format(key, name))
-            print("当前连接节点：{}", self.node.conn_node_list.keys())
+            node = self.node.handler.new_node_join(addr.ip, addr.port,name)
         else:
             node = self.node.conn_node_list.get(key)
         node.name, node.res, node.tasks = name, res, tasks

@@ -5,12 +5,14 @@ import server_node
 from module.node_helper import node_handler
 from module.sched import sched_api
 from tools import node_settings as settings
+from module.node_discovery.dyn_node_server import DynNodeServer
 
 
 class Node:
 
     def __init__(self, port):
         self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
+        self.dyn_server = DynNodeServer(self)  # 节点动态发现的udp server
         self.conn_node_list = {}  # 连接的节点列表
         self.task_queue = []  # 本节点待处理的任务队列
         self.fail_task_queue = []  # 执行失败的任务队列
@@ -23,7 +25,8 @@ class Node:
 
     def start(self):
         self.server_t.start()  # 启动服务器
-        self.handler.create_node_table()  # 初始化可连接的节点表
+        self.dyn_server.StartSocketServer()  # 启动设备发现服务器，监听有无节点加入
+        self.handler.join_cluster()  # 将本节点加入集群
         asyncio.run(self.handler.async_task())  # 执行异步任务
 
 

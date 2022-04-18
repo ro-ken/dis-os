@@ -1,7 +1,11 @@
 from settings import *
+import socket
 
 node_list = []
 server_ip = "localhost"
+
+udp_server_port = 10000  # udp监听端口
+
 
 name_ip = {
     "win": '192.168.31.236',
@@ -34,11 +38,8 @@ port_name = {
 }
 
 # 配置每个节点所要连接的其他节点列表
-if env == "dev":
-    node_list = [
-        ['localhost', 50051]
-    ]
-elif env == "exp":
+
+if env == "exp":
     server_ip = name_ip[arch]
     if p2p:
         node_list = [
