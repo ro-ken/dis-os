@@ -1,5 +1,6 @@
 import os
 import random
+import socket
 
 import numpy as np
 from cv2 import cv2
@@ -126,3 +127,17 @@ def get_allocated_tasks(node_list):
         res[node.name] = node.tasks
 
     return res
+
+def get_host_ip():
+    """
+    查询本机ip地址
+    :return: ip
+    """
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', 80))
+        ip = s.getsockname()[0]
+    finally:
+        s.close()
+
+    return ip

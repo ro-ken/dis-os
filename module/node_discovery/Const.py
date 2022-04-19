@@ -2,6 +2,7 @@ import json
 import time
 import socket
 from tools.node_settings import udp_server_port
+from tools import utils
 
 SOCKET_UDP_SERVER_PORT = udp_server_port
 
@@ -10,7 +11,9 @@ MESSAGE_TYPE = ['JOIN', 'REMOVE']
 # 获取本机计算机名称
 hostname = socket.gethostname()
 # 获取本机ip
-SOCKET_UDP_SERVER_IP = socket.gethostbyname(hostname)
+# SOCKET_UDP_SERVER_IP = socket.gethostbyname(hostname)
+SOCKET_UDP_SERVER_IP = utils.get_host_ip()
+
 
 
 class Node:
