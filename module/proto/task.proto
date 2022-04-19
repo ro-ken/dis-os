@@ -29,6 +29,7 @@ service TaskService{
 message TaskPackage{
   bool add_task = 1; // 添加任务为True,删减任务为False
   string tasks = 2; // 任务编号 用‘，’隔开 例 ‘1,3,4’
+  Address addr = 3;
 }
 
 message HeartBeat{

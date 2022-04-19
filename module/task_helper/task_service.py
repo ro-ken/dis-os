@@ -9,6 +9,7 @@ from app.app_api import *
 from module.proto import task_pb2, task_pb2_grpc
 # tool
 from tools import utils
+from tools.utils import mytime
 
 
 # 实现服务
@@ -207,7 +208,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         name = request.name
         addr = request.addr
         res = request.res
-        tasks = utils.str_to_list(request.tasks)
+        tasks = eval(request.tasks)
         key = utils.addr_key(addr)
 
         # 没有则创建，有则更新
@@ -221,14 +222,22 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         return task_pb2.CommonReply(success=True)
 
     def update_tasks(self, request, context):
+        addr = request.addr
+        key = utils.addr_key(addr)
+        node = self.node.conn_node_list.get(key)
         add_task = request.add_task
-        tasks = utils.str_to_list(request.tasks)
+        tasks = eval(request.tasks)
         if add_task:  # 添加任务
-            self.node.allocated_task_queue.extend(tasks)
+            self.node.allocated_task_queue.extend(tasks)        # 在对应的待执行表添加
+            node.run_tasks.extend(tasks)                        # 任务发送节点也添加
+            node.task_start_time = mytime()   # 开始运行，记录时间
             print("server :add tasks {}".format(tasks))
+
         else:  # 删除任务
             for task in tasks:
-                self.node.allocated_task_queue.remove(task)
+                self.node.allocated_task_queue.remove(task)        # 在对应的待执行表移出
+                node.run_tasks.remove(task)                          # 任务发送节点也移出
+                node.task_start_time = mytime()    # 运行结束，重置时间
                 print("server :rm tasks {}".format(task))
 
         return task_pb2.CommonReply(success=True)

@@ -1,6 +1,5 @@
 import os
 import time
-
 import psutil
 
 from module.proto import task_pb2
@@ -15,18 +14,20 @@ def write_file(path, data, type='wb'):
     f.write(data)
     f.close()
 
+def mytime(int_len=100000,point_len=2):
+    return round(time.time()%int_len,point_len)
 
 def write_task_seq(path, seq, task_list, type='a+'):
-    data = "the {} times,task_list:{},time={}\n".format(seq, task_list, time.time())
+    data = "the {} times,task_list:{},time={}\n".format(seq, task_list, mytime())
     write_file(path, data, type)
 
 
-def write_time_start(path, title, now=time.time(), type='a+'):
+def write_time_start(path, title, now, type='a+'):
     data = title + " start time :" + str(now) + '\n'
     write_file(path, data, type)
 
 
-def write_time_end(path, title, now=time.time()):
+def write_time_end(path, title, now):
     data = title + " end time :" + str(now) + '\n'
     write_file(path, data, 'a+')
 

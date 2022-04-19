@@ -38,7 +38,10 @@ def get_init_time(node_list):
         name = node_list[key].name
         task_list = node_list[key].tasks
         t_time = 0
-        for task in task_list:
-            t_time += task_node_table[name][task].time
+        for item in task_list:
+            task , cost = item[0], item [1]         # 取出任务号 和 实际运行时间
+            static_time = task_node_table[name][task].time
+            cost = min(static_time,cost)    # 如果实际运行实际比预计还长，那么时间算0，不能出现负数
+            t_time += static_time - cost    # 贪心时间加上去
         name_time_list[name] = t_time
     return name_time_list

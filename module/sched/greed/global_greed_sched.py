@@ -27,6 +27,7 @@ class Scheduler(IScheduler):
             node = select_min_time_node(use_time, task)
             res[node].append(task)
             use_time[node] += task_node_table[node][task].time
+            use_time[node] = round(use_time[node],2)    # 保留小数
         print(use_time)
         path = ROOT + 'output/task_seq.txt'
         utils.write_task_seq(path, self.node.task_seq, use_time)

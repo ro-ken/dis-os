@@ -2,10 +2,10 @@ import asyncio
 import time
 
 import settings
-from module.proto import task_pb2
 from module.task_helper import task_handler
-from tools.node_settings import *
 from tools import utils
+from tools.utils import mytime
+from tools.node_settings import *
 from tools.utils import ROOT
 
 
@@ -63,19 +63,19 @@ class ClientHandler:
             else:
                 # print(self.task_queue)
                 task_id = self.master.task_queue.pop(0)
-                utils.write_time_start(path, name + " task id :" + str(task_id), time.time())
+                utils.write_time_start(path, name + " task id :" + str(task_id), mytime())
                 try:
                     self.task_handler.do_task_by_id(task_id)
-                    self.task_handler.update_tasks(False, [task_id])    # 通知节点删除该任务
+                    self.task_handler.update_tasks(False, [task_id])  # 通知节点删除该任务
                 except:
                     self.master.task_queue.append(task_id)
                     self.disconnection()
                     break
-                utils.write_time_end(path, name + " task id :" + str(task_id), time.time())
+                utils.write_time_end(path, name + " task id :" + str(task_id), mytime())
                 if len(self.master.task_queue) == 0:
                     utils.write_file(path, 'the task seq {} finish!\n\n'.format(self.master.node.task_seq), 'a+')
 
-            await asyncio.sleep(0.1)    # take a break
+            await asyncio.sleep(0.1)  # take a break
 
     # 给client添加任务
     def add_tasks(self, task_list):

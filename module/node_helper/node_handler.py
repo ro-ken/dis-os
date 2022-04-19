@@ -42,7 +42,7 @@ class NodeHandler:
 
         while True:
             if len(self.queue) > 0 and len(self.master.conn_node_list) > 0:  # 有任务，有资源则执行
-                print(self.master.conn_node_list.keys(), self.queue)
+                print(list(self.master.conn_node_list.keys()), self.queue)
                 self.assign_tasks(self.queue)
             await asyncio.sleep(1)
 

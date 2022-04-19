@@ -1,4 +1,4 @@
-from app import api
+from app import app_api as api
 from tools import utils
 
 path = utils.ROOT + 'output/resource.txt'

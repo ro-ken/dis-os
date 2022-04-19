@@ -17,7 +17,6 @@ class ClientThread(threading.Thread):
         self.port = port   # 要连接server的port
         self.node = node  # client依附的节点
         self.task_queue = []  # 待处理队列
-        self.disconnect = False  # 连接是否已经断开
         self.handler = None # 客户节点的辅助类
         self.stop = False   # 若为True 该线程结束
 

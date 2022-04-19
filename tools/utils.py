@@ -1,6 +1,7 @@
 import os
 import random
 import socket
+import time
 
 import numpy as np
 from cv2 import cv2
@@ -14,24 +15,22 @@ ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
 # 输出提示，表明任务开始调用
 def server_task_start(task_name):
     print('--------------{} server start'.format(task_name))
-    # print(time.time())
+
 
 
 # 输出提示，表明任务结束调用
 def server_task_end(task_name):
     print('--------------{} server end'.format(task_name))
-    # print(time.time())
+
 
 
 def client_task_start(task_name):
     print('--------{} client start'.format(task_name))
-    # print(time.time())
+
 
 
 def client_task_end(task_name):
     print('--------{} client end'.format(task_name))
-    print()
-    # print(time.time())
 
 
 def calc_weight(resource):
