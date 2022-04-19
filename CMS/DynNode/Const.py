@@ -3,13 +3,19 @@ import time
 import socket
 
 SOCKET_UDP_SERVER_PORT = 10034
+__SOCKET_UDP_GET_IP_PORT = 80
 
 MESSAGE_TYPE = ['JOIN', 'REMOVE']
 
-# 获取本机计算机名称
-hostname = socket.gethostname()
-# 获取本机ip
-SOCKET_UDP_SERVER_IP = socket.gethostbyname(hostname)
+def get_host_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('8.8.8.8', __SOCKET_UDP_GET_IP_PORT))
+        ip = s.getsockname()[0]
+    finally:
+        s.close()
+
+    return ip
 
 class Node:
     def __init__(self, ip, port):
@@ -66,5 +72,7 @@ class Node:
     # 修改节点资源抽象表
     def NodeModSource(self):
         pass
-    
+
+SOCKET_UDP_SERVER_IP = get_host_ip()
+
 NodeTable = Node(SOCKET_UDP_SERVER_IP, SOCKET_UDP_SERVER_PORT)

@@ -9,28 +9,8 @@ def num_match_all(target_str):
     num_pattern = re.compile(r'\d+')
     return num_pattern.findall(target_str)
 
-
-# 获取一次cpu的使用情况
-def get_cpuinfo():
-    raw_cpuinfo = os.popen('cat /proc/stat | grep cpu').readline()
-    cpuinfo_list =  num_match(raw_cpuinfo)
-    user = int(cpuinfo_list[0])
-    nice = int(cpuinfo_list[1])
-    system = int(cpuinfo_list[2])
-    idle = int(cpuinfo_list[3])
-    cpu = 100 * (user + nice +  system) / (user + nice +  system + idle)
-    return cpu
-
-# 获取磁盘使用情况
-def get_meminfo():
-    raw_meminfo = os.popen('cat /proc/meminfo | grep Mem').readlines()
-    total =  num_match(raw_meminfo[0])[0]
-    free = num_match(raw_meminfo[1])[0]
-    avilable = num_match(raw_meminfo[2])[0]
-    return (int(total), int(free), int(avilable))
-
 '''
-# 通过proc获取CPU使用情况
+# 通过proc获取CPU使用情况: cat /proc/stat | grep cpu
 # 通过proc获取的CPU使用情况每一列参数含义如下: 
     # 1. CPU标识, 用来标识是哪一个CPU, 第一行为所有CPU的总使用情况 
     # 2. user: 从系统启动开始累计到当前时刻, 用户态的CPU时间(单位:jiffies) , 不包含 nice值为负进程。1jiffies=0.01秒
@@ -55,10 +35,26 @@ def GetCPUUsage():
     return cpu
 
 
-# 获取内存使用情况
+'''
+# 获取内存使用情况: cat /proc/meminfo | grep Mem
+每一行参数含义如下:
+1. MemTotal: 内存总使用量
+2. MemFree: 剩余可使用内存量
+3. MemAvailable: 还可以被应用程序所使用的内存量
+'''
+
 def GetMEMUsage():
-    pass
+    raw_meminfo = os.popen('cat /proc/meminfo | grep Mem').readlines()
+    match_result = num_match_all(raw_meminfo[0])
+    total =  match_result[0]
+    free = match_result[0]
+    avilable = match_result[0]
+    return (int(total), int(free), int(avilable))
 
 # 获取磁盘使用情况
 def GetDISKUsage():
     pass
+
+# if __name__ == '__main__':
+#     print(GetCPUUsage())
+#     print(GetMEMUsage())
