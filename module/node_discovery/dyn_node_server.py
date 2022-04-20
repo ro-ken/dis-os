@@ -64,7 +64,7 @@ class DynNodeServer():
         self.server = socketserver(self, runserver)
         # self.server.setDaemon(True)
         self.server.start()
-        print("Successful: The socket server starting...")
+        # print("Successful: The socket server starting...")
 
     def StartSocketClient(self):
         # 设置广播模式的socket client

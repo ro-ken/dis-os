@@ -14,11 +14,15 @@ def write_file(path, data, type='wb'):
     f.write(data)
     f.close()
 
-def mytime(int_len=100000,point_len=2):
-    return round(time.time()%int_len,point_len)
 
-def write_task_seq(path, seq, task_list, type='a+'):
-    data = "the {} times,task_list:{},time={}\n".format(seq, task_list, mytime())
+def mytime(int_len=100000, point_len=2):
+    return round(time.time() % int_len, point_len)
+
+
+def write_task_seq(path, seq, task_list, info, type='a+', new_line=False):
+    data = "the {} times, {} , {} , time={}\n".format(seq, task_list, info, mytime())
+    if new_line:
+        data = '\n' + data
     write_file(path, data, type)
 
 

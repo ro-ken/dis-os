@@ -13,16 +13,7 @@ from module.task_helper.task_service import TaskService
 '''
     Class:      ServerThread
     功能：      线程, 封装grpc的服务器启动代码, 继承threading模块的Thread类, 重写了run方法,
-    function:
-                __init__    - 初始化线程类的属性
-                run         - 封装grpc的服务器启动代码
-    attribute: 
-                self.name - 
-                self.port - grpc server的端口号
-                self.addr - grpc server的ip地址
-                self.node - 当前节点硬件资源特征抽象
 '''
-
 
 class ServerThread(threading.Thread):
     def __init__(self, node, ip, port):

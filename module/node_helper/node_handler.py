@@ -17,10 +17,10 @@ class NodeHandler:
 
     # 将本节点加入集群
     def join_cluster(self):
-        if settings.node_discovery == "manual":
-            self.create_node_table()  # 根据配置表连接
-        else:
+        if settings.node_discovery == "auto":
             self.master.dyn_server.join_broadcast(self.master.name)
+        else:
+            self.create_node_table()  # 根据配置表连接
 
     # 对每个node建立一个client与之连接
     def create_node_table(self):
@@ -97,21 +97,24 @@ class NodeHandler:
         self.queue.extend(task_list)
 
         if self.master.task_seq == 1:  # 第一次写刷新文件
-            utils.write_task_seq(path, self.master.task_seq, task_list, 'w')
+            utils.write_task_seq(path, self.master.task_seq, 'new tasks', task_list, type='w')
         else:
-            utils.write_task_seq(path, self.master.task_seq, task_list)
+            utils.write_task_seq(path, self.master.task_seq, 'new tasks', task_list, new_line=True)
 
     # 分配任务
     def assign_tasks(self, queue):
+        path = ROOT + 'output/task_seq.txt'
+        self.write_rest_tasks(path)
         task_res = self.master.scheduler.sched(queue, self.master.conn_node_list)  # 划分任务
         queue.clear()  # 清空队列
-        path = ROOT + 'output/task_seq.txt'
-        allocated_tasks = utils.get_allocated_tasks(self.master.conn_node_list)
-        utils.write_task_seq(path, self.master.task_queue, allocated_tasks)
 
         for key in task_res.keys():  # 添加到各自的处理队列
             self.master.conn_node_list[key].client.handler.task_handler.update_tasks(True, task_res[key])  # 先通知节点更新任务
             self.master.conn_node_list[key].client.handler.add_tasks(task_res[key])
 
-        utils.write_task_seq(path, self.master.task_seq, task_res)
+        task_res_by_name = utils.key_list_name(self.master.conn_node_list,task_res)    # 结果用name呈现
+        utils.write_task_seq(path, self.master.task_seq, 'assign result', task_res_by_name)
 
+    def write_rest_tasks(self, path):
+        rest_tasks = utils.get_allocated_tasks(self.master.conn_node_list)
+        utils.write_task_seq(path, self.master.task_seq, 'rest tasks', rest_tasks)

@@ -1,12 +1,9 @@
-import os
-import random
 import socket
-import time
 
 import numpy as np
 from cv2 import cv2
 from .io_utils import *
-from .random_num import *
+from .random_num import random_list
 from module.proto import task_pb2
 
 ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
@@ -17,16 +14,13 @@ def server_task_start(task_name):
     print('--------------{} server start'.format(task_name))
 
 
-
 # 输出提示，表明任务结束调用
 def server_task_end(task_name):
     print('--------------{} server end'.format(task_name))
 
 
-
 def client_task_start(task_name):
     print('--------{} client start'.format(task_name))
-
 
 
 def client_task_end(task_name):
@@ -127,6 +121,7 @@ def get_allocated_tasks(node_list):
 
     return res
 
+
 def get_host_ip():
     """
     查询本机ip地址
@@ -140,3 +135,12 @@ def get_host_ip():
         s.close()
 
     return ip
+
+# 把{key:[]}换成{name:[]}
+def key_list_name(node_list, res_list):
+    name_list = {}
+    for key in res_list:
+        node = node_list[key]
+        name_list[node.name] = res_list[key]
+
+    return name_list

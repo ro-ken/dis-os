@@ -72,4 +72,4 @@ class Node:
     def NodeModSource(self):
         pass
     
-NodeTable = Node(SOCKET_UDP_SERVER_IP, SOCKET_UDP_SERVER_PORT)
+# NodeTable = Node(SOCKET_UDP_SERVER_IP, SOCKET_UDP_SERVER_PORT)

@@ -24,7 +24,7 @@ class ClientHandler:
 
     # 保持连接
     async def keep_alive(self):
-        await asyncio.sleep(1)  # 等node把表项先创建好
+
         while not self.master.stop:
             try:
                 reply = self.task_handler.keep_alive()
@@ -51,9 +51,11 @@ class ClientHandler:
 
     # 处理任务队列里的任务
     async def do_task(self):
-        name = ip_name[self.master.ip]  # ip到名字的映射
-        if settings.env == "lo_exp":
-            name = port_name[self.master.port]
+        # name = ip_name[self.master.ip]  # ip到名字的映射
+        # if settings.env == "dev":
+        #     name = port_name[self.master.port]
+        key = utils.gen_node_key(self.master.ip,self.master.port)
+        name = self.master.node.conn_node_list[key].name
         addr = str(self.master.ip) + "_" + str(self.master.port)
         path = ROOT + 'output/' + name + "_" + str(self.master.node.task_seq) + '_task_time.txt'
         utils.write_time_start(path, name, addr, 'w')

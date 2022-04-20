@@ -275,7 +275,7 @@ class TaskHandler:
         name = self.master.node.name
         task_time_list = self.list_add_time(self.master.node.allocated_task_queue)
         tasks = str(task_time_list)
-        package = task_pb2.HeartBeat(name=name, addr=addr, res=res,tasks=tasks)
+        package = task_pb2.HeartBeat(name=name, addr=addr, res=res, tasks=tasks)
         reply = self.stub.keep_alive(package, timeout=settings.keep_alive_time_out)
         return reply
 
@@ -283,7 +283,7 @@ class TaskHandler:
     def update_tasks(self, add_task, tasks):
         addr = self.get_node_addr()
         tasks = str(tasks)
-        package = task_pb2.TaskPackage(add_task=add_task, tasks=tasks,addr=addr)
+        package = task_pb2.TaskPackage(add_task=add_task, tasks=tasks, addr=addr)
         reply = self.stub.update_tasks(package)
         return reply
 
@@ -300,11 +300,13 @@ class TaskHandler:
             res.append([task, 0])  # 初始化
 
         for node in self.master.node.conn_node_list.values():
-            if len(node.run_tasks) != 0 and node.task_start_time != 0 :
-                task = node.run_tasks[0]    # 正在执行的任务
-                cost = mytime() - node.task_start_time   # 获取运行了多久
+            if len(node.run_tasks) != 0 and node.task_start_time != 0:
+                task = node.run_tasks[0]  # 正在执行的任务
+                cost = mytime() - node.task_start_time  # 获取运行了多久
+                cost = round(cost, 2)
                 for item in res:
                     if item[0] == task and item[1] == 0:
                         item[1] = cost
+                        break
 
         return res

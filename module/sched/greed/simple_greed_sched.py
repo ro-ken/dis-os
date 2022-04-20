@@ -3,6 +3,7 @@ from tools import utils
 from tools.utils import ROOT
 from .utils import *
 
+
 # 简单贪心调度器
 class Scheduler(IScheduler):
 
@@ -27,6 +28,5 @@ class Scheduler(IScheduler):
             use_time[node] += task_node_table[node][task].time
         print(use_time)
         path = ROOT + 'output/task_seq.txt'
-        utils.write_task_seq(path, self.node.task_seq, use_time)
+        utils.write_task_seq(path, self.node.task_seq, 'use_time', use_time)
         return res
-
