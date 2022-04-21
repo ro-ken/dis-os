@@ -81,8 +81,8 @@ class DynNodeServer():
 
     # 广播节点加入
     def join_broadcast(self,name):
-        message = {'type': 'JOIN', 'udp_server_ip': self.ip,
-                   'udp_server_port': self.port, 'name': name}
+        message = {'type': 'JOIN', 'node_server_ip': self.node.server_t.ip,
+                   'node_server_port': self.node.server_t.port, 'name': name}
         self.Broadcast(message,self.port)
 
     # 结束socket server
@@ -94,10 +94,10 @@ class DynNodeServer():
 
     # 节点加入集群处理逻辑
     def NodeJoinEvent(self, message, addr):
-        node_ip = message['udp_server_ip']
-        node_port = message['udp_server_port']
+        node_ip = message['node_server_ip']
+        node_port = message['node_server_port']
         name = message['name']
-        self.node.handler.new_node_join(node_ip, self.node.server_t.port, name) # 添加到表里
+        self.node.handler.new_node_join(node_ip, node_port, name) # 添加到表里
         return True
 
     # 节点退出集群处理逻辑

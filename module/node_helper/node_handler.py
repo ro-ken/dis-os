@@ -33,8 +33,8 @@ class NodeHandler:
     async def async_task(self):
         await asyncio.gather(
             self.gen_task(),  # 生成任务
-            self.do_task(),  # 执行任务
-            self.do_fail_task()  # 执行失败的任务
+            self.do_task(),  # 处理任务
+            self.do_fail_task()  # 处理失败的任务
         )
 
     # 通过调度模块方法获取节点地址, 开始进行测试
@@ -60,18 +60,18 @@ class NodeHandler:
 
     # 新节点加入集群
     def new_node_join(self, ip, port, name):
-        node = self.create_node_to_table(ip, port)
+        node = self.create_node_to_table(ip, port, name)
         key = utils.gen_node_key(ip, port)
         print("新节点接入 addr={},name={}".format(key, name))
         print("当前连接节点：{}".format(self.master.conn_node_list.keys()))
         return node
 
     # 创建一个节点对象并添加到表里
-    def create_node_to_table(self, ip, port):
+    def create_node_to_table(self, ip, port, name=''):
         key = utils.gen_node_key(ip, port)
         client_t = self.create_client(ip, port)
         # 生成一个表项添加到节点列表
-        node = NodeInfo(key, client_t)
+        node = NodeInfo(key, client_t, name)
         self.master.conn_node_list[key] = node
         return node
 
@@ -112,7 +112,7 @@ class NodeHandler:
             self.master.conn_node_list[key].client.handler.task_handler.update_tasks(True, task_res[key])  # 先通知节点更新任务
             self.master.conn_node_list[key].client.handler.add_tasks(task_res[key])
 
-        task_res_by_name = utils.key_list_name(self.master.conn_node_list,task_res)    # 结果用name呈现
+        task_res_by_name = utils.key_list_name(self.master.conn_node_list, task_res)  # 结果用name呈现
         utils.write_task_seq(path, self.master.task_seq, 'assign result', task_res_by_name)
 
     def write_rest_tasks(self, path):

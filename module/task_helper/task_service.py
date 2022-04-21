@@ -12,11 +12,11 @@ from tools import utils
 from tools.utils import mytime
 
 
-# 实现服务
+# grpc server端实现proto定义的服务
 class TaskService(task_pb2_grpc.TaskServiceServicer):
 
     def __init__(self, node):
-        self.node = node
+        self.node = node    # server依附的node
 
     # 测试grpc server服务是否成功运行
     def task_test(self, request, context):

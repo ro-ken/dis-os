@@ -22,7 +22,7 @@
     - node_handler.py：节点的辅助类，一些业务函数封装在里面
     - node_struct.py：节点的一些数据结构
   
-  - proto：grpc的接口文件（自己生成）
+  - proto：grpc的定义的接口
   - sched：节点的任务调度器
 
     - sched.py：调度器接口，具体的调度类要继承这个接口类

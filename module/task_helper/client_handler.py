@@ -31,12 +31,11 @@ class ClientHandler:
                 if settings.show_client_heart_res:
                     print("client heartbeat:send {}:{} time={} ".format(self.master.ip, self.master.port,
                                                                         int(time.time()) % 100))
-                # 每秒发送一次
             except:
                 print("keep_alive 异常")
                 self.disconnection()
                 break
-            await asyncio.sleep(settings.heart_rate)
+            await asyncio.sleep(settings.heart_rate)  # 发送频率
 
     # 应用调用接口封装, 调用全部的7个应用
     async def task_test(self):
@@ -51,10 +50,7 @@ class ClientHandler:
 
     # 处理任务队列里的任务
     async def do_task(self):
-        # name = ip_name[self.master.ip]  # ip到名字的映射
-        # if settings.env == "dev":
-        #     name = port_name[self.master.port]
-        key = utils.gen_node_key(self.master.ip,self.master.port)
+        key = utils.gen_node_key(self.master.ip, self.master.port)
         name = self.master.node.conn_node_list[key].name
         addr = str(self.master.ip) + "_" + str(self.master.port)
         path = ROOT + 'output/' + name + "_" + str(self.master.node.task_seq) + '_task_time.txt'

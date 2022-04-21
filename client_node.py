@@ -13,12 +13,12 @@ class ClientThread(threading.Thread):
 
     def __init__(self, ip, port, node):
         threading.Thread.__init__(self)
-        self.ip = ip    # 要连接的server的ip
-        self.port = port   # 要连接server的port
+        self.ip = ip  # 要连接的server的ip
+        self.port = port  # 要连接server的port
         self.node = node  # client依附的节点
         self.task_queue = []  # 待处理队列
-        self.handler = None # 客户节点的辅助类
-        self.stop = False   # 若为True 该线程结束
+        self.handler = None  # 客户节点的辅助类
+        self.stop = False  # 若为True 该线程结束
 
     # 启动client发送任务
     def run(self) -> None:
@@ -28,6 +28,7 @@ class ClientThread(threading.Thread):
 
             time.sleep(1)  # 等node把表项先创建好
             asyncio.run(self.handler.async_task())
+
 
 # 启动测试代码
 def start(ip, port):
