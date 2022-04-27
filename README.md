@@ -33,6 +33,7 @@
     - client_handler.py：client_handler的辅助类，一些业务函数
     - task_handler.py:grpc接口在client端的函数
     - task_service.py:grpc接口在server端的实现
+    - task_testy.py: 做任务测试
 - tools
 
     - requirements.txt:需要的依赖
@@ -46,48 +47,6 @@
 - server_node.py:server线程
 
 
-## model调用接口
-
-### api
-
-- api.py
-- 拥有所有model的接口
-
-### 线性回归
-
-- linear_regression/linear_regression.py
-- 直接显示结果
-
-### 图像合成
-
-- compose/compose.py
-- 直接显示结果
-
-
-### 车牌识别
-
-- lic_detect/lic_detect.py
-- 直接显示结果
-
-
-### 风格迁移
-
-- style_transfer/style_transfer.py
-- 结果保存在output目录
-
-
-### yolo_5
-
-- yolo_5/yolo_5.py
-
-- 结果保存在output目录
-
-
-### yolo_x
-
-- yolo_x/tools/yolo_x.py
-- 可直接运行 demo.sh
-- 直接显示结果
 
 ## 系统结构原始图
 

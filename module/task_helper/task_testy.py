@@ -4,7 +4,7 @@ from tools.utils import ROOT
 from tools.utils import mytime
 
 
-# 这个类用来做测试
+# 这个类用来做任务测试
 
 class TaskTesty:
 
