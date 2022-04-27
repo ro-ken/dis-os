@@ -55,3 +55,8 @@
 ## 系统结构图
 
 ![模型2 0](https://user-images.githubusercontent.com/56027589/163784283-dfe88b36-7190-4420-874c-b84f02b7e778.png)
+
+## 流程图
+
+![流程图](https://user-images.githubusercontent.com/56027589/165533730-cf12b8a3-fc5d-47f8-b36f-c34efc1d32d5.png)
+
