@@ -7,6 +7,7 @@ import grpc
 
 from module.proto import task_pb2_grpc
 from module.task_helper import client_handler
+from module.task_helper import task_testy
 
 
 class ClientThread(threading.Thread):
@@ -27,8 +28,9 @@ class ClientThread(threading.Thread):
             self.handler = client_handler.ClientHandler(self, stub)
 
             time.sleep(1)  # 等node把表项先创建好
-            asyncio.run(self.handler.async_task())
 
+            asyncio.run(self.handler.async_task())
+            # self.handler.task_test()              # 任务测试
 
 # 启动测试代码
 def start(ip, port):

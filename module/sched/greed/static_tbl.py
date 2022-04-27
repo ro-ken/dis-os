@@ -41,4 +41,5 @@ ywd = [ywd0, ywd1, ywd2, ywd3, ywd4, ywd5, ywd6, ywd7]
 hwj = [hwj0, hwj1, hwj2, hwj3, hwj4, hwj5, hwj6, hwj7]
 win = [win0, win1, win2, win3, win4, win5, win6, win7]
 
-task_node_table = {"smp": smp, "ywd": ywd, "hwj": hwj, "win": win}
+task_node_table = {"smp": smp, "ywd": ywd, "hwj": hwj, "win": win, "win2": win, "win3": win, "smp2": smp, "smp3": smp,
+                   "smp4": smp}

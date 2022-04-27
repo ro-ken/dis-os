@@ -3,6 +3,7 @@ import threading
 from concurrent import futures
 import grpc
 
+import settings
 from tools.node_settings import *
 from module.proto import task_pb2_grpc, task_pb2
 # tool
@@ -15,19 +16,20 @@ from module.task_helper.task_service import TaskService
     功能：      线程, 封装grpc的服务器启动代码, 继承threading模块的Thread类, 重写了run方法,
 '''
 
+
 class ServerThread(threading.Thread):
     def __init__(self, node, ip, port):
         threading.Thread.__init__(self)
-        self.node = node    # server依附的node
-        self.ip = ip        # grpc server的ip
-        self.port = port    # grpc server的port
+        self.node = node  # server依附的node
+        self.ip = ip  # grpc server的ip
+        self.port = port  # grpc server的port
 
     # 开启服务器
     def run(self) -> None:
         # 初始化 grpc server
-        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))    # 10个线程池，每个线程池为一个client服务
-        service = TaskService(self.node)    # grpc实现的服务
-        task_pb2_grpc.add_TaskServiceServicer_to_server(service, server)    # 注册进去
+        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # 10个线程池，每个线程池为一个client服务
+        service = TaskService(self.node)  # grpc实现的服务
+        task_pb2_grpc.add_TaskServiceServicer_to_server(service, server)  # 注册进去
 
         # 配置端口
         while True:
@@ -36,8 +38,8 @@ class ServerThread(threading.Thread):
                 break
             except:
                 self.port += 1  # 端口被占用，只有dev模式下才会被占用
-                self.node.name = port_name[self.port]
-                self.node.node_list = [[server_ip, 50051]]
+                self.node.name = settings.arch + str(self.port % 10)    # 名字依次往下取 win2,win3...
+                # self.node.node_list = [[server_ip, 50051]]
 
         # 运行grpc server
         server.start()

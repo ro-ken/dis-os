@@ -7,6 +7,7 @@ from tools import utils
 from tools.utils import mytime
 from tools.node_settings import *
 from tools.utils import ROOT
+from module.task_helper.task_testy import TaskTesty
 
 
 class ClientHandler:
@@ -21,6 +22,12 @@ class ClientHandler:
             self.keep_alive(),
             self.do_task()
         )
+
+    # 做任务测试
+    def task_test(self):
+        testy = TaskTesty(self.task_handler)
+        testy.do_all_task()
+        # testy.per_task_time()
 
     # 保持连接
     async def keep_alive(self):
@@ -37,16 +44,6 @@ class ClientHandler:
                 break
             await asyncio.sleep(settings.heart_rate)  # 发送频率
 
-    # 应用调用接口封装, 调用全部的7个应用
-    async def task_test(self):
-        self.task_handler.task_linear_regression()
-        self.task_handler.task_yolox_image()
-        self.task_handler.task_yolo5()
-        self.task_handler.task_compose()
-        self.task_handler.task_lic_detect()
-        self.task_handler.task_num_detect()
-        self.task_handler.task_monet_transfer()
-        self.task_handler.task_style_transfer()
 
     # 处理任务队列里的任务
     async def do_task(self):
