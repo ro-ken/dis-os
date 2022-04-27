@@ -66,7 +66,7 @@ class TaskHandler:
     def task_yolox_image(self):
         utils.client_task_start("task_yolox_image")
 
-        img_path = ROOT + '/dataset/001.jpg'
+        img_path = ROOT + '/dataset/gather.png'
         img_req = utils.get_image_req(img_path)
         reply = self.stub.task_yolox_image(img_req)
         str_encode = reply.img

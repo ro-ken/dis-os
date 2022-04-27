@@ -26,7 +26,9 @@ class ClientHandler:
     # 做任务测试
     def task_test(self):
         testy = TaskTesty(self.task_handler)
-        testy.do_all_task()
+        # testy.do_all_task()
+        # self.task_handler.task_yolox_image()
+        testy.test_yolox_time()
         # testy.per_task_time()
 
     # 保持连接

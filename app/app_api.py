@@ -16,38 +16,39 @@ if arch == "win" or arch == "mac":
 
 
 def api_linear_regression():
-    linear_regression.run()
+    return linear_regression.run()
 
 
 def api_yolo_5(img_path=None):
-    yolo_5.start(img_path)
+    return yolo_5.start(img_path)
 
 
 def api_yolo_x(img=None):
-    yolo_x.start(img)
+    return yolo_x.start(img)
 
 
 def api_compose(img=None, img_compose=None):
-    compose.start(img, img_compose)
+    return compose.start(img, img_compose)
 
 
 def api_lic_detect(img=None):
-    lic_detect.start(img)
+    return lic_detect.start(img)
 
 
 def api_num_detect():
-    num_detect.predict_number()
+    return num_detect.predict_number()
 
 
 def api_style_transfer(content_image_path=None, style_image_path=None):
-    style_transfer.start(content_image_path, style_image_path)
+    return style_transfer.start(content_image_path, style_image_path)
 
 
 def api_monet_transfer():
-    monet_transfer.start()
+    return monet_transfer.start()
 
 
-api_list = [api_linear_regression, api_yolo_5, api_yolo_x, api_compose, api_lic_detect, api_num_detect, api_style_transfer]
+api_list = [api_linear_regression, api_yolo_5, api_yolo_x, api_compose, api_lic_detect, api_num_detect,
+            api_style_transfer, api_monet_transfer]
 
 
 def run(list):
@@ -56,7 +57,8 @@ def run(list):
         api_list[i]()
         print("task end" + str(i))
 
+
 if __name__ == '__main__':
-    # run(range(7))
+    run(range(8))
     # api_monet_transfer()
-    api_style_transfer()
+    # api_style_transfer()

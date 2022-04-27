@@ -320,14 +320,14 @@ def main(exp, args,img):
     elif args.demo == "video" or args.demo == "webcam":
         imageflow_demo(predictor, vis_folder, current_time, args)
 
-def start(img):
+def start(img=None,PATH= os.path.split(os.path.realpath(__file__))[0] + '/../' + "datasets/001.jpg"):
     # vedio
     # args = 'video -f ./exps/yolox_tiny.py -c ./weights/coco.pth --path ./datasets/test1.mp4 --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'.split(' ')
     # image
     ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
     EXP = ROOT + "exps/yolox_tiny.py"
     WEIGHT = ROOT + "weights/coco.pth"
-    PATH = ROOT + "datasets/001.jpg"
+    # PATH = ROOT + "datasets/001.jpg"
     # args = 'image -f ./exps/yolox_tiny.py -c ./weights/coco.pth --path ./datasets/001.jpg --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'.split(' ')
     args = 'image -f '+EXP+' -c ' +WEIGHT +' --path ' +PATH+' --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'
     args = args.split(' ')

@@ -1,3 +1,5 @@
+import time
+
 from settings import *
 from tools import utils
 from tools.utils import ROOT
@@ -95,3 +97,17 @@ class TaskTesty:
             self.task_handler.do_task_by_ids(hwj)
         elif arch == "ywd":
             self.task_handler.do_task_by_ids(ywd)
+
+    def test_yolox_time(self):
+
+        times = 5
+        total_time = 0
+
+        for i in range(times):
+            start = time.time()
+            image = self.task_handler.task_yolox_image()
+            end = time.time()
+            print("times {} = {}".format(i, end - start))
+            total_time += end - start
+
+        print("yolox grpc avg time = {}".format(total_time / times))

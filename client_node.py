@@ -29,8 +29,8 @@ class ClientThread(threading.Thread):
 
             time.sleep(1)  # 等node把表项先创建好
 
-            asyncio.run(self.handler.async_task())
-            # self.handler.task_test()              # 任务测试
+            # asyncio.run(self.handler.async_task())
+            self.handler.task_test()              # 任务测试
 
 # 启动测试代码
 def start(ip, port):
