@@ -9,7 +9,7 @@ from module.proto import task_pb2_grpc
 from module.task_helper import client_handler
 from module.task_helper import task_testy
 
-
+# 客户端线程，发送任务
 class ClientThread(threading.Thread):
 
     def __init__(self, ip, port, node):
@@ -19,18 +19,26 @@ class ClientThread(threading.Thread):
         self.node = node  # client依附的节点
         self.task_queue = []  # 待处理队列
         self.handler = None  # 客户节点的辅助类
+        self.stub = None    # grpc 代理
         self.stop = False  # 若为True 该线程结束
 
     # 启动client发送任务
     def run(self) -> None:
         with grpc.insecure_channel(self.ip + ":" + str(self.port)) as channel:
             stub = task_pb2_grpc.TaskServiceStub(channel)
+            self.stub = stub
             self.handler = client_handler.ClientHandler(self, stub)
 
             time.sleep(1)  # 等node把表项先创建好
 
             # asyncio.run(self.handler.async_task())
-            self.handler.task_test()              # 任务测试
+            # self.handler.task_test()              # 任务测试
+            self.wait_for_stop()
+
+    def wait_for_stop(self):
+        while not self.stop:
+            time.sleep(1)
+
 
 # 启动测试代码
 def start(ip, port):

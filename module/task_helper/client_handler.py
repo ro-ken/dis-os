@@ -9,12 +9,12 @@ from tools.node_settings import *
 from tools.utils import ROOT
 from module.task_helper.task_testy import TaskTesty
 
-
+# client 线程的辅助类，处理一些业务
 class ClientHandler:
 
     def __init__(self, master, stub):
         self.master = master  # client节点
-        self.task_handler = task_handler.TaskHandler(master, stub)
+        self.task_handler = task_handler.TaskHandler(master, stub)  # 通过grpc发送任务的辅助类
 
     # 异步协同执行
     async def async_task(self):

@@ -58,13 +58,13 @@ def select_by_resource(node_resources):
     addr = task_pb2.Address(ip=ip, port=port)
     return addr
 
-
+# addr 转 key
 def addr_key(addr):
     ip = addr.ip
     port = addr.port
     return gen_node_key(ip, port)
 
-
+# ip,port 转 key
 def gen_node_key(ip, port):
     return ip + ":" + str(port)
 
@@ -88,30 +88,36 @@ def get_image_req(img_path, type='.jpg'):
     img_req = task_pb2.Image(img=str_encode)
     return img_req
 
-
+# 显示图片
 def imshow(title, image):
     cv2.imshow(title, image)
     cv2.waitKey()
 
+# 显示视频
+def imshow_vedio(title, img_res):
+    cv2.imshow(title, img_res)
+    cv2.waitKey(1)
 
-def list_to_str(list):
-    res = ""
+def get_img_iter(vedio):
 
-    for i in list:
-        res = res + str(i) + ","
+    cap = cv2.VideoCapture(vedio)
+    img_width = 360
+    img_height = 640
+    while True:
+        ret, frame = read_times(cap, 5)
+        if ret:
+            frame = cv2.resize(frame, (img_height, img_width))
+            str_encode = img_encode(frame, '.jpg')
+            request = task_pb2.Image(img=str_encode)
+            yield request
+        else:
+            break
+    cap.release()
 
-    res = res[:-1]  # 删去最后的 ‘,’
-    return res
-
-
-def str_to_list(str):
-    str_list = str.split(",")
-    res = []
-    if str == "":
-        return res
-    for i in str_list:
-        res.append(int(i))
-    return res
+def read_times(cap, times):
+    for _ in range(times):
+        cap.read()
+    return cap.read()
 
 
 def get_allocated_tasks(node_list):
@@ -127,6 +133,7 @@ def get_host_ip():
     查询本机ip地址
     :return: ip
     """
+    global s
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(('8.8.8.8', 80))
@@ -144,3 +151,4 @@ def key_list_name(node_list, res_list):
         name_list[node.name] = res_list[key]
 
     return name_list
+

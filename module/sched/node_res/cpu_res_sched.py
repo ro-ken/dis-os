@@ -1,6 +1,6 @@
 from module.sched.sched import IScheduler
 
-
+# 根据当前CPU使用率进行调度
 class Scheduler(IScheduler):
 
     def single_task_sched(self, task, node_list):

@@ -1,12 +1,15 @@
 import asyncio
 import time
 
+import cv2
+
 import server_node
 import client_node
 from tools import node_settings as settings
 from tools.utils import ROOT
 from .node_struct import NodeInfo
 from tools import utils
+from ..proto import task_pb2
 
 
 class NodeHandler:
@@ -118,3 +121,27 @@ class NodeHandler:
     def write_rest_tasks(self, path):
         rest_tasks = utils.get_allocated_tasks(self.master.conn_node_list)
         utils.write_task_seq(path, self.master.task_seq, 'rest tasks', rest_tasks)
+
+    # 处理视频流
+    def process_vedio_stream(self):
+        time.sleep(1)   # 等待连接完成
+        path = ROOT + '/dataset/test2.mp4'
+        cap = cv2.VideoCapture(0)
+        img_width = 360
+        img_height = 640
+        while True:
+            ret, frame = utils.read_times(cap, 1)
+            if ret:
+                # frame = cv2.resize(frame, (img_height, img_width))
+                str_encode = utils.img_encode(frame, '.jpg')
+                request = task_pb2.Image(img=str_encode)
+                node = self.master.scheduler.get_node()
+                reply = node.client.stub.task_yolox_image(request)
+                str_encode = reply.img
+                img_res = utils.img_decode(str_encode)
+                if settings.show_vedio_stream:
+                    utils.imshow_vedio("vedio_stream", img_res)
+
+            else:
+                break
+        cap.release()

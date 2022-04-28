@@ -8,9 +8,12 @@ class IScheduler:
     def __init__(self, node):
         self.node = node  # 本节点
         self.nodes = node.conn_node_list  # 所有节点
-        self.loop_turn = 0
 
-    #
+    # 从当前节点中选择一个节点
+    def get_node(self):
+        raise NotImplementedError
+
+    # 把任务切分
     def sched(self, task_list, node_list):
         """
 

@@ -10,11 +10,7 @@ from tools.utils import ROOT
 from tools.utils import mytime
 
 
-def read_times(cap, times):
-    for _ in range(times):
-        cap.read()
-    return cap.read()
-
+# 负责封装任务，并向grpc server请求服务
 
 class TaskHandler:
 
@@ -135,27 +131,12 @@ class TaskHandler:
         if show_result:
             utils.imshow("task_style_transfer", img_res)
 
-    def get_img_iter(self, vedio):
-
-        cap = cv2.VideoCapture(vedio)
-        img_width = 360
-        img_height = 640
-        while True:
-            ret, frame = read_times(cap, 5)
-            if ret:
-                frame = cv2.resize(frame, (img_height, img_width))
-                str_encode = utils.img_encode(frame, '.jpg')
-                request = task_pb2.Image(img=str_encode)
-                yield request
-            else:
-                break
-        cap.release()
 
     def task_yolox_vedio(self):
         utils.client_task_start("task_yolox_vedio")
 
         vedio_name = ROOT + '/dataset/test2.mp4'
-        req_iter = self.get_img_iter(vedio_name)
+        req_iter = utils.get_img_iter(vedio_name)
         reply = self.stub.task_yolox_vedio(req_iter)
         for image in reply:
             str_encode = image.img
