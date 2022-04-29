@@ -28,8 +28,6 @@ class TaskHandler:
                           self.task_monet_transfer,  # 6
                           self.task_style_transfer]  # 7
 
-
-
     def do_task_by_ids(self, task_ids):
         for id in task_ids:
             self.do_task_by_id(id)
@@ -59,11 +57,11 @@ class TaskHandler:
 
         utils.client_task_end("task_transfer_file")
 
-    def task_yolox_image(self):
+    def task_yolox_image(self, img=None):
         utils.client_task_start("task_yolox_image")
 
         img_path = ROOT + '/dataset/gather.png'
-        img_req = utils.get_image_req(img_path)
+        img_req = utils.get_image_req(img_path, img=img)
         reply = self.stub.task_yolox_image(img_req)
         str_encode = reply.img
         img_res = utils.img_decode(str_encode)
@@ -72,6 +70,7 @@ class TaskHandler:
 
         if show_result:
             utils.imshow("task_yolox_image", img_res)
+        return img_res
 
     def task_linear_regression(self):
         utils.client_task_start("task_linear_regression")
@@ -130,7 +129,6 @@ class TaskHandler:
 
         if show_result:
             utils.imshow("task_style_transfer", img_res)
-
 
     def task_yolox_vedio(self):
         utils.client_task_start("task_yolox_vedio")

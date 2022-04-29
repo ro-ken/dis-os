@@ -15,7 +15,9 @@ class Node:
         # 基础属性
         self.conn_node_list = {}  # 连接的节点列表
         self.task_queue = []  # 本节点待处理的任务队列
+        self.frame_queue = []  # 本节点待处理的帧任务队列
         self.fail_task_queue = []  # 执行失败的任务队列
+        self.fail_frame_queue = []  # 执行失败的frame队列
         self.allocated_task_queue = []  # 分配给本节点处理的任务队列
         self.name = settings.arch  # 给每个节点起个名字
         self.node_list = settings.node_list  # 所有已知节点集合
@@ -34,7 +36,8 @@ class Node:
         self.dyn_server.StartSocketServer()  # 启动设备发现服务器，监听有无节点加入
         self.handler.join_cluster()  # 将本节点加入集群
         # asyncio.run(self.handler.async_task())  # 执行异步任务
-        self.handler.process_vedio_stream()     # 处理视频流
+        asyncio.run(self.handler.async_stream_video())  # 执行异步任务
+
 
 
 

@@ -17,7 +17,7 @@ from yolox.exp import get_exp
 from yolox.utils import fuse_model, get_model_info, postprocess, vis
 
 IMAGE_EXT = [".jpg", ".jpeg", ".webp", ".bmp", ".png"]
-
+ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
 
 def make_parser():
     parser = argparse.ArgumentParser("YOLOX Demo!")
@@ -320,11 +320,11 @@ def main(exp, args,img):
     elif args.demo == "video" or args.demo == "webcam":
         imageflow_demo(predictor, vis_folder, current_time, args)
 
-def start(img=None,PATH= os.path.split(os.path.realpath(__file__))[0] + '/../' + "datasets/001.jpg"):
+def start(img=None,PATH = ROOT + "datasets/001.jpg"):
     # vedio
     # args = 'video -f ./exps/yolox_tiny.py -c ./weights/coco.pth --path ./datasets/test1.mp4 --conf 0.25 --nms 0.45 --tsize 1280 --save_result --device cpu'.split(' ')
     # image
-    ROOT = os.path.split(os.path.realpath(__file__))[0] + '/../'
+
     EXP = ROOT + "exps/yolox_tiny.py"
     WEIGHT = ROOT + "weights/coco.pth"
     # PATH = ROOT + "datasets/001.jpg"

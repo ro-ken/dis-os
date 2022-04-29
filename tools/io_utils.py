@@ -10,6 +10,9 @@ def get_file_name(path):
 
 
 def write_file(path, data, type='wb'):
+    path_dir = os.path.split(path)[0]
+    if not os.path.exists(path_dir):
+        os.makedirs(path_dir)
     f = open(path, type)
     f.write(data)
     f.close()

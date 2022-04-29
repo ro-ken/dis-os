@@ -40,6 +40,13 @@ class NodeHandler:
             self.do_fail_task()  # 处理失败的任务
         )
 
+    # 异步协同执行处理视频流
+    async def async_stream_video(self):
+        await asyncio.gather(
+            self.gen_frame_task(),  # 生成视频帧并处理
+            self.do_fail_stream_task()  # 处理失败帧的任务
+        )
+
     # 通过调度模块方法获取节点地址, 开始进行测试
     async def do_task(self):
 
@@ -122,9 +129,9 @@ class NodeHandler:
         rest_tasks = utils.get_allocated_tasks(self.master.conn_node_list)
         utils.write_task_seq(path, self.master.task_seq, 'rest tasks', rest_tasks)
 
-    # 处理视频流
-    def process_vedio_stream(self):
-        time.sleep(1)   # 等待连接完成
+    # 自身一个节点处理视频流并实时显示
+    def process_vedio_stream_by_self(self):
+        time.sleep(1)  # 等待连接完成
         path = ROOT + '/dataset/test2.mp4'
         cap = cv2.VideoCapture(0)
         img_width = 360
@@ -145,3 +152,35 @@ class NodeHandler:
             else:
                 break
         cap.release()
+
+    # 处理视频流
+    def process_vedio_stream(self,queue):
+        while len(queue) > 0 and len(self.master.conn_node_list) > 0:
+            node = self.master.scheduler.get_node()     # 获取调度节点
+            node.client.frame_queue.append(queue.pop(0))  # 把任务队列的任务分发给对应节点client执行
+
+    # 生成任务帧
+    async def gen_frame_task(self):
+        time.sleep(1)  # 等待连接完成
+        path = ROOT + '/dataset/test2.mp4'
+        cap = cv2.VideoCapture(0)
+        img_width = 360
+        img_height = 640
+        total = settings.total_frame_num  # 总共待处理帧的数量
+        for i in range(total):
+            ret, frame = utils.read_times(cap, 15)
+            if ret:
+                frame = cv2.resize(frame, (img_height, img_width))
+                self.master.frame_queue.append((frame, i))  # 把帧添加到任务队列里去
+                self.process_vedio_stream(self.master.frame_queue)
+            else:
+                break
+            await asyncio.sleep(0.1)
+        cap.release()
+
+    # 把剩余的任务处理掉
+    async def do_fail_stream_task(self):
+        while True:
+            await asyncio.sleep(1)
+            self.process_vedio_stream(self.master.frame_queue)
+            self.process_vedio_stream(self.master.fail_frame_queue)

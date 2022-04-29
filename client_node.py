@@ -17,10 +17,11 @@ class ClientThread(threading.Thread):
         self.ip = ip  # 要连接的server的ip
         self.port = port  # 要连接server的port
         self.node = node  # client依附的节点
-        self.task_queue = []  # 待处理队列
+        self.task_queue = []  # 待处理队列，里面存任务编号 [序号1，序号2...]
         self.handler = None  # 客户节点的辅助类
         self.stub = None    # grpc 代理
         self.stop = False  # 若为True 该线程结束
+        self.frame_queue = [] # 待处理帧的队列 [（帧1，序号1），（帧2，序号2）...]
 
     # 启动client发送任务
     def run(self) -> None:
@@ -32,7 +33,10 @@ class ClientThread(threading.Thread):
             time.sleep(1)  # 等node把表项先创建好
 
             # asyncio.run(self.handler.async_task())
+            asyncio.run(self.handler.async_stream_video())
+
             # self.handler.task_test()              # 任务测试
+
             self.wait_for_stop()
 
     def wait_for_stop(self):

@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 def getTime():
     return datetime.time()
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 n=0
 path='../pic/'
 

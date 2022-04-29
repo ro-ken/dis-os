@@ -58,11 +58,13 @@ def select_by_resource(node_resources):
     addr = task_pb2.Address(ip=ip, port=port)
     return addr
 
+
 # addr 转 key
 def addr_key(addr):
     ip = addr.ip
     port = addr.port
     return gen_node_key(ip, port)
+
 
 # ip,port 转 key
 def gen_node_key(ip, port):
@@ -82,24 +84,27 @@ def img_decode(str_encode):
     return img
 
 
-def get_image_req(img_path, type='.jpg'):
-    img = cv2.imread(img_path)
+def get_image_req(img_path=None, type='.jpg', img=None):
+    if img is None:
+        img = cv2.imread(img_path)
     str_encode = img_encode(img, type)
     img_req = task_pb2.Image(img=str_encode)
     return img_req
+
 
 # 显示图片
 def imshow(title, image):
     cv2.imshow(title, image)
     cv2.waitKey()
 
+
 # 显示视频
 def imshow_vedio(title, img_res):
     cv2.imshow(title, img_res)
     cv2.waitKey(1)
 
-def get_img_iter(vedio):
 
+def get_img_iter(vedio):
     cap = cv2.VideoCapture(vedio)
     img_width = 360
     img_height = 640
@@ -113,6 +118,7 @@ def get_img_iter(vedio):
         else:
             break
     cap.release()
+
 
 def read_times(cap, times):
     for _ in range(times):
@@ -143,6 +149,7 @@ def get_host_ip():
 
     return ip
 
+
 # 把{key:[]}换成{name:[]}
 def key_list_name(node_list, res_list):
     name_list = {}
@@ -151,4 +158,3 @@ def key_list_name(node_list, res_list):
         name_list[node.name] = res_list[key]
 
     return name_list
-

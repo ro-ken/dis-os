@@ -1,6 +1,8 @@
 import asyncio
 import time
 
+import cv2
+
 import settings
 from module.task_helper import task_handler
 from tools import utils
@@ -8,6 +10,7 @@ from tools.utils import mytime
 from tools.node_settings import *
 from tools.utils import ROOT
 from module.task_helper.task_testy import TaskTesty
+
 
 # client 线程的辅助类，处理一些业务
 class ClientHandler:
@@ -21,6 +24,13 @@ class ClientHandler:
         await asyncio.gather(
             self.keep_alive(),
             self.do_task()
+        )
+
+    # 异步协同执行
+    async def async_stream_video(self):
+        await asyncio.gather(
+            self.keep_alive(),
+            self.process_frame_task()
         )
 
     # 做任务测试
@@ -45,7 +55,6 @@ class ClientHandler:
                 self.disconnection()
                 break
             await asyncio.sleep(settings.heart_rate)  # 发送频率
-
 
     # 处理任务队列里的任务
     async def do_task(self):
@@ -83,7 +92,35 @@ class ClientHandler:
         key = utils.gen_node_key(self.master.ip, self.master.port)
         print("server:{} 连接失败!!!".format(key))
         self.master.node.fail_task_queue.extend(self.master.task_queue)  # 把剩余的任务加入失败任务队列
+        self.master.node.fail_frame_queue.extend(self.master.frame_queue)  # 把剩余的帧任务加入帧失败任务队列
         self.master.node.conn_node_list.pop(key)  # 从表中移出该节点
         self.master.stop = True
         print("{} client stop".format(key))
         print("当前剩余连接节点：{}".format(list(self.master.node.conn_node_list.keys())))
+
+    # 处理视频帧
+    async def process_frame_task(self):
+        key = utils.gen_node_key(self.master.ip, self.master.port)
+        name = self.master.node.conn_node_list[key].name
+        addr = str(self.master.ip) + "_" + str(self.master.port)
+        path = ROOT + 'output/' + name + '_frame_task_time.txt'
+        frame_res_path = ROOT + 'output/frame_res/'
+        utils.write_time_start(path, name, addr, 'w')
+        while not self.master.stop:
+            if len(self.master.frame_queue) == 0:
+                await asyncio.sleep(1)
+            else:
+                # print(self.task_queue)
+                frame_tuple = self.master.frame_queue.pop(0)
+                frame, seq = frame_tuple[0], frame_tuple[1]
+                utils.write_time_start(path, name + " frame seq :" + str(seq), mytime())
+                try:
+                    res = self.task_handler.task_yolox_image(frame)
+                    cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
+                except:
+                    self.master.frame_queue.append(frame_tuple)
+                    self.disconnection()
+                    break
+                utils.write_time_end(path, name + " frame seq :" + str(seq), mytime())
+
+            await asyncio.sleep(0.1)  # take a break

@@ -59,6 +59,7 @@ def run(list):
 
 
 if __name__ == '__main__':
-    run(range(8))
+    # run(range(8))
+    api_yolo_5()
     # api_monet_transfer()
     # api_style_transfer()

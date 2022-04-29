@@ -1,7 +1,7 @@
 from module.sched.sched import TaskCost
 
 smp0 = TaskCost(2.35, 300, 4000, 200)
-smp1 = TaskCost(7.64, 300, 4000, 200)
+smp1 = TaskCost(7.75, 300, 4000, 200)
 smp2 = TaskCost(15.63, 300, 4000, 200)
 smp3 = TaskCost(0.46, 300, 4000, 200)
 smp4 = TaskCost(1.00, 300, 4000, 200)
@@ -19,7 +19,7 @@ ywd6 = TaskCost(33.17, 300, 4000, 200)
 ywd7 = TaskCost(1000000, 300, 4000, 200)
 
 hwj0 = TaskCost(0.95, 300, 4000, 200)
-hwj1 = TaskCost(4.71, 300, 4000, 200)
+hwj1 = TaskCost(4.88, 300, 4000, 200)
 hwj2 = TaskCost(10.48, 300, 4000, 200)
 hwj3 = TaskCost(0.27, 300, 4000, 200)
 hwj4 = TaskCost(0.36, 300, 4000, 200)
