@@ -8,6 +8,7 @@ from .utils import *
 
 class Scheduler(IScheduler):
 
+    # 多任务调度
     def multi_task_sched(self, task_list, node_list):
 
         name_key_dict = get_node_names(node_list)
@@ -19,17 +20,17 @@ class Scheduler(IScheduler):
     # 全局贪心算法
     def global_greed(self, task_list, name_time_dict):
         res = {}  # 返回结果值
-        use_time = {}  # 统计花费的时间
+        node_task_time = {}  # 统计花费的时间
         for name in name_time_dict.keys():
-            use_time[name] = name_time_dict[name]
+            node_task_time[name] = name_time_dict[name]
             res[name] = []
 
         for task in task_list:
-            node = select_min_time_node(use_time, task)
+            node = select_min_time_node(node_task_time, task)
             res[node].append(task)
-            use_time[node] += task_node_table[node][task].time
-            use_time[node] = round(use_time[node], 2)  # 保留小数
-        print(use_time)
+            node_task_time[node] += task_node_table[node][task].time
+            node_task_time[node] = round(node_task_time[node], 2)  # 保留小数
+        print(node_task_time)
         path = ROOT + 'output/task_seq.txt'
-        utils.write_task_seq(path, self.node.task_seq, 'use_time', use_time)
+        utils.write_task_seq(path, self.node.task_seq, 'node_task_time', node_task_time)
         return res

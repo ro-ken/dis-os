@@ -161,14 +161,14 @@ class NodeHandler:
 
     # 生成任务帧
     async def gen_frame_task(self):
-        time.sleep(1)  # 等待连接完成
+        await asyncio.sleep(settings.wait_conn_time)  # 等待连接完成
         path = ROOT + '/dataset/test2.mp4'
         cap = cv2.VideoCapture(0)
         img_width = 360
         img_height = 640
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
-            ret, frame = utils.read_times(cap, 15)
+            ret, frame = utils.read_times(cap, settings.key_frame_rate)
             if ret:
                 frame = cv2.resize(frame, (img_height, img_width))
                 self.master.frame_queue.append((frame, i))  # 把帧添加到任务队列里去
