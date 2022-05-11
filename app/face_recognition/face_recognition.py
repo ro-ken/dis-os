@@ -50,7 +50,7 @@ class Face_Recognizer:
         self.start_time = time.time()
 
         self.font = cv2.FONT_ITALIC
-        self.font_chinese = ImageFont.truetype("simsun.ttc", 30)
+        self.font_chinese = ImageFont.truetype(ROOT + "/simsun.ttc", 30)
 
     # 从 "features_all.csv" 读取录入人脸特征 / Read known faces from "features_all.csv"
     def get_face_database(self):
