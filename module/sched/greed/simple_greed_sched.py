@@ -8,10 +8,11 @@ from .utils import *
 class Scheduler(IScheduler):
 
     def get_node(self):
+        task = 8   # 8号任务为人脸识别
         name_key_dict = get_node_names(self.nodes)   # 先知道有哪些结点，把名字取出来
-        node_task_time = get_node_task_time(self.nodes)        # 获取当前节点运行任务所需时间
+        node_task_time = get_node_task_time(self.nodes,task)        # 获取当前节点运行任务所需时间
         print(node_task_time)
-        node_name = select_min_time_node(node_task_time, 1)         # 选择一个节点
+        node_name = select_min_time_node(node_task_time, task)         # 选择一个节点，
 
         return self.nodes[name_key_dict[node_name]]     # 返回node对象
 

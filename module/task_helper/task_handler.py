@@ -27,6 +27,8 @@ class TaskHandler:
                           self.task_num_detect,  # 5
                           self.task_monet_transfer,  # 6
                           self.task_style_transfer]  # 7
+        #                 task_face_recognition     # 8
+
 
     def do_task_by_ids(self, task_ids):
         for id in task_ids:
@@ -175,6 +177,7 @@ class TaskHandler:
 
         if show_result:
             utils.imshow("task_lic_detect", img_res)
+
 
     def task_face_recognition(self, frame_tuple, target_list):
         utils.client_task_start("task_face_recognition")

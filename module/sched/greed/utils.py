@@ -23,15 +23,17 @@ def get_node_names(node_list):
         name_key_dict[name] = key
     return name_key_dict
 
+
 # 获取节点的任务所需时间，针对 vedio_stream 任务 运行yolox模型 任务编号：1
-def get_node_task_time(node_list):
+def get_node_task_time(node_list, task):
     node_task_time = {}  # 统计花费的时间
     for node in node_list.values():
-        client = node.client    # 结点待运行的任务存与client的frame_queue中
+        client = node.client  # 结点待运行的任务存与client的frame_queue中
         task_num = len(client.frame_queue)  # 获取剩余帧数
-        single_task_time = task_node_table[node.name][1].time   # 获取单任务运行时间
-        node_task_time[node.name] = task_num * single_task_time    # 计算时间
+        single_task_time = task_node_table[node.name][task].time  # 获取单任务运行时间
+        node_task_time[node.name] = task_num * single_task_time  # 计算时间
     return node_task_time
+
 
 # 获取dict的name转为key 返回 {key1：res1,key2：res2...}
 def name_to_key(name_res, name_key_dict):
@@ -48,9 +50,9 @@ def get_init_time(node_list):
         task_list = node_list[key].tasks
         t_time = 0
         for item in task_list:
-            task , cost = item[0], item [1]         # 取出任务号 和 实际运行时间
+            task, cost = item[0], item[1]  # 取出任务号 和 实际运行时间
             static_time = task_node_table[name][task].time
-            cost = min(static_time,cost)    # 如果实际运行实际比预计还长，那么时间算0，不能出现负数
-            t_time += static_time - cost    # 贪心时间加上去
+            cost = min(static_time, cost)  # 如果实际运行实际比预计还长，那么时间算0，不能出现负数
+            t_time += static_time - cost  # 贪心时间加上去
         name_time_list[name] = t_time
     return name_time_list

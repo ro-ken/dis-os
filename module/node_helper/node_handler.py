@@ -175,6 +175,8 @@ class NodeHandler:
             else:
                 break
             await asyncio.sleep(0.1)
+            if self.master.find_target:     # 发现目标，退出
+                break
         cap.release()
 
     # 把剩余的任务处理掉
