@@ -163,14 +163,13 @@ class NodeHandler:
     async def gen_frame_task(self):
         await asyncio.sleep(settings.wait_conn_time)  # 等待连接完成
         path = ROOT + '/dataset/test2.mp4'
-        cap = cv2.VideoCapture(0)
-        img_width = 360
-        img_height = 640
+        cap = cv2.VideoCapture(0)   # 从摄像头获取视频流
+        cap.set(3, 480)  # 640x480
+
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
             ret, frame = utils.read_times(cap, settings.key_frame_rate)
             if ret:
-                frame = cv2.resize(frame, (img_height, img_width))
                 self.master.frame_queue.append((frame, i))  # 把帧添加到任务队列里去
                 self.process_vedio_stream(self.master.frame_queue)
             else:

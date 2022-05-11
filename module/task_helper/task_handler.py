@@ -176,6 +176,23 @@ class TaskHandler:
         if show_result:
             utils.imshow("task_lic_detect", img_res)
 
+    def task_face_recognition(self, frame_tuple, target_list):
+        utils.client_task_start("task_face_recognition")
+
+        img, seq = frame_tuple
+        str_img = utils.img_encode(img, '.jpg')
+        str_names = str(target_list)
+        face_req = task_pb2.FaceRecoRequest(img=str_img, names=str_names, frame_cnt=seq)
+        reply = self.stub.task_face_recognition(face_req)
+        success = reply.success
+        img_res = utils.img_decode(reply.img)
+
+        utils.client_task_end("task_face_recognition")
+
+        if show_result:
+            utils.imshow("task_face_recognition", img_res)
+        return success, img_res
+
     # 发送心跳包
     def keep_alive(self):
         addr = self.get_node_addr()

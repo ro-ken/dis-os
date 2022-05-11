@@ -23,6 +23,11 @@ class Node:
         self.node_list = settings.node_list  # 所有已知节点集合
         self.task_seq = 0  # 表示第几波任务
 
+        # 视频流
+        self.target_list = settings.target_list  # 攻击目标
+        self.find_target = False  # 是否发现目标 （视频流处理任务）
+
+
         # 对象属性
         self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
         self.dyn_server = DynNodeServer(self)  # 节点动态发现的udp server

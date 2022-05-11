@@ -187,6 +187,7 @@ class Predictor(object):
 
 def image_demo(predictor, vis_folder, path, current_time, save_result):
     if os.path.isdir(path):
+    # if type(path) is str:
         files = get_image_list(path)
     else:
         # files = [path]

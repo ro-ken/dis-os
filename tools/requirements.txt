@@ -25,7 +25,10 @@ ninja
 tabulate
 tensorboard
 
-pycocotools>=2.0.2
+# pycocotools>=2.0.2
+# 装不上可用：pip install pycocotools-windows
 
-# tensorflow
-tensorflow
+# tensorflow 较大，单独安装
+
+# 人脸识别
+# dlib 先下载cmake，在安装，装不上可用conda安装 conda install dlib 

@@ -20,6 +20,9 @@ service TaskService{
   rpc task_compose(Image_x2)returns(Image){}
   rpc task_style_transfer(File_x2)returns(Image){}
 
+//  face_reco
+  rpc task_face_recognition(FaceRecoRequest)returns(FaceRecoReply){}
+
 //  keep_alive
   rpc keep_alive(HeartBeat)returns(CommonReply){}
   rpc update_tasks(TaskPackage)returns(CommonReply){}
@@ -37,6 +40,19 @@ message HeartBeat{
   Address addr = 2;
   Resource res = 3;
   string tasks = 4; //当前节点还需要处理的任务
+}
+
+// 人脸识别请求
+message FaceRecoRequest{
+  bytes img = 1;
+  string names = 2;
+  int32 frame_cnt = 3;
+}
+
+//人脸识别响应
+message FaceRecoReply{
+  bytes img = 1;
+  bool success = 2;
 }
 
 message File_x2{

@@ -76,6 +76,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.File_x2.SerializeToString,
                 response_deserializer=task__pb2.Image.FromString,
                 )
+        self.task_face_recognition = channel.unary_unary(
+                '/TaskService/task_face_recognition',
+                request_serializer=task__pb2.FaceRecoRequest.SerializeToString,
+                response_deserializer=task__pb2.FaceRecoReply.FromString,
+                )
         self.keep_alive = channel.unary_unary(
                 '/TaskService/keep_alive',
                 request_serializer=task__pb2.HeartBeat.SerializeToString,
@@ -167,6 +172,13 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def task_face_recognition(self, request, context):
+        """face_reco
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def keep_alive(self, request, context):
         """keep_alive
         """
@@ -242,6 +254,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     servicer.task_style_transfer,
                     request_deserializer=task__pb2.File_x2.FromString,
                     response_serializer=task__pb2.Image.SerializeToString,
+            ),
+            'task_face_recognition': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_face_recognition,
+                    request_deserializer=task__pb2.FaceRecoRequest.FromString,
+                    response_serializer=task__pb2.FaceRecoReply.SerializeToString,
             ),
             'keep_alive': grpc.unary_unary_rpc_method_handler(
                     servicer.keep_alive,
@@ -466,6 +483,23 @@ class TaskService(object):
         return grpc.experimental.unary_unary(request, target, '/TaskService/task_style_transfer',
             task__pb2.File_x2.SerializeToString,
             task__pb2.Image.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def task_face_recognition(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_face_recognition',
+            task__pb2.FaceRecoRequest.SerializeToString,
+            task__pb2.FaceRecoReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
