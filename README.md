@@ -5,7 +5,7 @@
 
 **github**：https://github.com/ro-ken/dis-os
 
-**gitee**：https://gitee.com/ro_ken/dis-os
+**gitee**：https://gitee.com/ro_ken/dis-os   （可能会存在滞后）
 
 
 ## 目录结构
