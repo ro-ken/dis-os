@@ -1,3 +1,5 @@
+
+# 已连接其他节点的一些信息
 class NodeInfo:
 
     def __init__(self, key, client, name):

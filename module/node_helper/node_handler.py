@@ -11,7 +11,7 @@ from .node_struct import NodeInfo
 from tools import utils
 from ..proto import task_pb2
 
-
+# 处理节点业务的辅助函数
 class NodeHandler:
 
     def __init__(self, master):

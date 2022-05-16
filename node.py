@@ -8,6 +8,7 @@ from tools import node_settings as settings
 from module.node_discovery.dyn_node_server import DynNodeServer
 
 
+# 分布式系统主启动类
 class Node:
 
     def __init__(self, port):
