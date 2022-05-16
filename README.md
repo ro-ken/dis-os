@@ -13,7 +13,7 @@
 ```
   .
   ├── dataset           # 数据集
-  ├── exper             # 做的一些实验文件
+  ├── exper             # 做的一些实验测试
   ├── app               # 任务模型
   │   ├── app_api.py           # 供上层调用的任务API
   │   └── app_api_local.py     # 本地的任务测试文件
@@ -50,16 +50,21 @@
 
 ```
 
-## 系统结构原始图
+## 图
+
+### 系统结构原始图
 
 ![交互模型](https://user-images.githubusercontent.com/56027589/155711621-9426b534-ae68-4fb4-b740-144cdedc914a.png)
 
-## 系统结构图
+### 系统结构图
 
+![模型3 0](https://user-images.githubusercontent.com/56027589/168619782-033a2419-f18e-4455-ad6e-1295ecfe8623.png)
 
-## 流程图
+### 流程图
 
 ![流程图](https://user-images.githubusercontent.com/56027589/165533730-cf12b8a3-fc5d-47f8-b36f-c34efc1d32d5.png)
 
-## 数据结构图
+### 数据结构图
+
+![数据结构图](https://user-images.githubusercontent.com/56027589/168620091-6ca23866-02dc-4352-935f-6a82057707b1.jpg)
 
