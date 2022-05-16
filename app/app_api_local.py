@@ -1,19 +1,16 @@
 from tools.utils import ROOT
 
+# 任务本地测试文件
+
 # model
-from app.linear_regression import linear_regression
-from app.yolo_x.tools import yolo_x
-from app.yolo_5 import yolo_5
-from app.compose import compose
-from app.lic_detect import lic_detect
-from app.num_detect.classifier import num_detect
-from app.monet_transfer import monet_transfer
-from app.face_recognition import face_recognition
-
-from settings import arch
-
-if arch == "win" or arch == "mac":
-    from app.style_transfer import style_transfer
+from linear_regression import linear_regression
+from yolo_x.tools import yolo_x
+from yolo_5 import yolo_5
+from compose import compose
+from lic_detect import lic_detect
+from num_detect.classifier import num_detect
+from monet_transfer import monet_transfer
+from face_recognition import face_recognition
 
 
 def api_linear_regression():
@@ -39,11 +36,6 @@ def api_lic_detect(img=None):
 def api_num_detect():
     return num_detect.predict_number()
 
-
-def api_style_transfer(content_image_path=None, style_image_path=None):
-    return style_transfer.start(content_image_path, style_image_path)
-
-
 def api_monet_transfer():
     return monet_transfer.start()
 
@@ -57,8 +49,8 @@ api_list = [api_linear_regression,  # 0
             api_num_detect,         # 2
             api_monet_transfer,     # 3
             api_yolo_x,             # 4
-            api_yolo_5,             # 5
-            api_style_transfer]     # 6
+            api_yolo_5             # 5
+            ]
 
 
 def run(list):
@@ -69,7 +61,7 @@ def run(list):
 
 
 if __name__ == '__main__':
-    run(range(7))
+    run(range(6))
     # run(range(5,8))
     # api_yolo_5()
     # api_monet_transfer()

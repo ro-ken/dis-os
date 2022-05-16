@@ -10,43 +10,45 @@
 
 ## 目录结构
 
-- dataset：数据集
+```
+  .
+  ├── dataset           # 数据集
+  ├── exper             # 做的一些实验文件
+  ├── app               # 任务模型
+  │   ├── app_api.py           # 供上层调用的任务API
+  │   └── app_api_local.py     # 本地的任务测试文件
+  │
+  ├── module           # 一些独立的模块
+  │   ├── group             # 小组成员的个人的文件（无关）
+  │   ├── proto             # grpc的定义的接口
+  │   ├── node_discovery    # udp节点发现模块
+  │   ├── node_helper
+  │   │   ├── node_handler.py    # 节点的辅助类，一些业务函数封装在里面
+  │   │   └── node_struct.py     # 节点的一些数据结构
+  │   │
+  │   ├── sched        # 节点的任务调度器
+  │   │   ├── sched.py        # 调度器接口，具体的调度类要继承这个接口类
+  │   │   └── sched_api.py    # 供上层函数选择用哪个接口  
+  │   │
+  │   └── task_helper         # client、server的辅助类
+  │       ├── client_handler.py    # client_handler的辅助类，一些业务函数
+  │       ├── task_handler.py      # grpc接口在client端的函数
+  │       ├── task_service.py      # grpc接口在server端的实现
+  │       └── task_testy.py        # 做任务测试
+  │    
+  ├── tools
+  │   ├── requirements.txt    # 需要的依赖
+  │   ├── requirements.txt    # 需要的依赖
+  │   ├── utils.py            # 通用的方法
+  │   ├── io_utils.py         # 文件IO通用的方法
+  │   └── random_num.py       # 生成随机数的文件
+  │
+  ├── settings.py             # 主配置文件
+  ├── node.py                 # 启动项目
+  ├── client_node.py          # client线程
+  └── server_node.py          # server线程
 
-- app：任务模型
-
-- module:一些独立的模块
-   
-  - group：小组成员的个人的文件（无关）
-  - node_helper：
-
-    - node_handler.py：节点的辅助类，一些业务函数封装在里面
-    - node_struct.py：节点的一些数据结构
-  
-  - proto：grpc的定义的接口
-  - sched：节点的任务调度器
-
-    - sched.py：调度器接口，具体的调度类要继承这个接口类
-    - sched_api.py：供上层函数选择用哪个接口
-  
-  - task_helper:client、server的辅助类
-     
-    - client_handler.py：client_handler的辅助类，一些业务函数
-    - task_handler.py:grpc接口在client端的函数
-    - task_service.py:grpc接口在server端的实现
-    - task_testy.py: 做任务测试
-- tools
-
-    - requirements.txt:需要的依赖
-    - utils.py:通用的方法
-    - io_utils.py:文件IO通用的方法
-    - random_num.py：生成随机数的文件
-
-- settings.py：主配置文件
-- node.py启动项目
-- client_node.py:client线程
-- server_node.py:server线程
-
-
+```
 
 ## 系统结构原始图
 

@@ -20,14 +20,13 @@ class TaskHandler:
 
         # 任务编号
         self.task_list = [self.task_linear_regression,  # 0
-                          self.task_yolox_image,  # 1
-                          self.task_yolo5,  # 2
-                          self.task_compose,  # 3
-                          self.task_lic_detect,  # 4
-                          self.task_num_detect,  # 5
-                          self.task_monet_transfer,  # 6
-                          self.task_style_transfer]  # 7
-        #                 task_face_recognition     # 8
+                          self.task_compose,  # 1
+                          self.task_num_detect,  # 2
+                          self.task_monet_transfer,  # 3
+                          self.task_yolox_image,  # 4
+                          self.task_yolo5,  # 5
+                          self.task_style_transfer]  # 6
+        #                 task_face_recognition     # 7
 
 
     def do_task_by_ids(self, task_ids):
