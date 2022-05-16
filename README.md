@@ -38,7 +38,7 @@
   │    
   ├── tools
   │   ├── requirements.txt    # 需要的依赖
-  │   ├── requirements.txt    # 需要的依赖
+  │   ├── node_settings       # 主节点的一些配置
   │   ├── utils.py            # 通用的方法
   │   ├── io_utils.py         # 文件IO通用的方法
   │   └── random_num.py       # 生成随机数的文件
