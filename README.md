@@ -7,6 +7,40 @@
 
 **gitee**：https://gitee.com/ro_ken/dis-os   （可能会存在滞后）
 
+## 项目运行
+
+**1、安装库**
+
+> 依赖库文件在tools目录下的requirements.txt文件中，
+>
+> **安装命令**：
+>
+> ```
+> pip install -r requirements.txt -i https://pypi.douban.com/simple
+> ```
+>
+> 有些比较难装的库可单独安装，不然因为一个库，所有库都要重新装一遍
+
+**2、配置**
+
+> 在根目录有个settings.py，是程序的主配置文件
+>
+> 主要是对程序运行的任务进行控制
+>
+> 如果不能运行TensorFlow，arch不要选win
+
+**3、启动**
+
+> 如果库都装安装成功，运行node应该是可以正常启动的
+>
+> ```
+> python node.py
+> ```
+>
+> 在本机也可以启动多个终端运行程序
+>
+> 没有任务的话，不同节点之间能互相发生心跳
+
 
 ## 目录结构
 
@@ -35,7 +69,7 @@
   │       ├── task_handler.py      # grpc接口在client端的函数
   │       ├── task_service.py      # grpc接口在server端的实现
   │       └── task_testy.py        # 做任务测试
-  │    
+  │
   ├── tools
   │   ├── requirements.txt    # 需要的依赖
   │   ├── node_settings       # 主节点的一些配置
@@ -44,7 +78,7 @@
   │   └── random_num.py       # 生成随机数的文件
   │
   ├── settings.py             # 主配置文件
-  ├── node.py                 # 启动项目
+  ├── node.py                 # 主启动类
   ├── client_node.py          # client线程
   └── server_node.py          # server线程
 
