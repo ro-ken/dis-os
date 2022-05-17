@@ -18,19 +18,12 @@ class NodeHandler:
         self.master = master  # 主节点
         self.queue = master.task_queue  # 节点任务队列
 
-    # 将本节点加入集群
-    def join_cluster(self):
-        if settings.node_discovery == "auto":
-            self.master.dyn_server.join_broadcast(self.master.name)
+    # 任务开始执行
+    def task_running(self):
+        if settings.task_type == "tasks":
+            asyncio.run(self.async_task())  # 执行异步所有任务
         else:
-            self.create_node_table()  # 根据配置表连接
-
-    # 对每个node建立一个client与之连接
-    def create_node_table(self):
-        time.sleep(0.5)
-        for item in self.master.node_list:
-            ip, port = item[0], item[1]
-            self.create_node_to_table(ip, port)
+            asyncio.run(self.async_stream_video())  # 执行异步视频流任务
 
     # 异步协同执行
     async def async_task(self):
@@ -185,3 +178,19 @@ class NodeHandler:
             await asyncio.sleep(1)
             self.process_vedio_stream(self.master.frame_queue)
             self.process_vedio_stream(self.master.fail_frame_queue)
+
+    # 将本节点加入集群
+    def join_cluster(self):
+        if settings.node_discovery == "auto":
+            self.master.dyn_server.join_broadcast(self.master.name)
+        else:
+            self.create_node_table()  # 根据配置表连接
+
+    # 对每个node建立一个client与之连接
+    def create_node_table(self):
+        time.sleep(0.5)
+        for item in self.master.node_list:
+            ip, port = item[0], item[1]
+            self.create_node_to_table(ip, port)
+
+

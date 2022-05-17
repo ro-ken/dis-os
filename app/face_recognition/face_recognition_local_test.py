@@ -325,18 +325,19 @@ def main():
     Face_Recognizer_con = Face_Recognizer()
     Face_Recognizer_con.run()
 
+def run():
+    img = cv2.imread('test.jpg')
+    Face_Recognizer_con = Face_Recognizer()
+    success, res_img = Face_Recognizer_con.face_recognition(img, ['rq'], 0)
+    return res_img
 
 def test():
-    img = cv2.imread('test.jpg')
-    cv2.resize(img, (640, 480))
-    Face_Recognizer_con = Face_Recognizer()
     start = time.time()
-    success, res_img = Face_Recognizer_con.face_recognition(img, ['rq'], 0)
+    res_img = run()
     end = time.time()
     print("start time:" + str(start))
     print("end   time:" + str(end))
     print("len = :" + str(end - start))
-    print(success)
     cv2.imshow('face', res_img)
     cv2.waitKey(0)
 

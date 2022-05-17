@@ -10,7 +10,7 @@ from compose import compose
 from lic_detect import lic_detect
 from num_detect.classifier import num_detect
 from monet_transfer import monet_transfer
-from face_recognition import face_recognition
+from face_recognition import face_recognition_local_test
 
 
 def api_linear_regression():
@@ -41,7 +41,7 @@ def api_monet_transfer():
 
 
 def api_face_recognition():
-    return face_recognition.Face_Recognizer().run()
+    return face_recognition_local_test.run()
 
 
 api_list = [api_linear_regression,  # 0
@@ -49,7 +49,8 @@ api_list = [api_linear_regression,  # 0
             api_num_detect,         # 2
             api_monet_transfer,     # 3
             api_yolo_x,             # 4
-            api_yolo_5             # 5
+            api_yolo_5,             # 5
+            api_face_recognition    # 6
             ]
 
 

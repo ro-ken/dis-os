@@ -41,11 +41,8 @@ class Node:
         self.server_t.start()  # 启动服务器
         self.dyn_server.StartSocketServer()  # 启动设备发现服务器，监听有无节点加入
         self.handler.join_cluster()  # 将本节点加入集群
-        # asyncio.run(self.handler.async_task())  # 执行异步任务
-        asyncio.run(self.handler.async_stream_video())  # 执行异步视频流任务
 
-
-
+        self.handler.task_running()     # 执行任务
 
 if __name__ == '__main__':
     node = Node(50051)

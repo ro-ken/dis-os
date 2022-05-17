@@ -8,7 +8,7 @@ from app.compose import compose
 from app.lic_detect import lic_detect
 from app.num_detect.classifier import num_detect
 from app.monet_transfer import monet_transfer
-from app.face_recognition import face_recognition
+from app.face_recognition import face_recognition_local_test
 
 from settings import arch
 
@@ -49,7 +49,7 @@ def api_monet_transfer():
 
 
 def api_face_recognition():
-    return face_recognition.Face_Recognizer().run()
+    return face_recognition_local_test.run()
 
 
 api_list = [api_linear_regression,  # 0
@@ -58,7 +58,9 @@ api_list = [api_linear_regression,  # 0
             api_monet_transfer,     # 3
             api_yolo_x,             # 4
             api_yolo_5,             # 5
-            api_style_transfer]     # 6
+            api_face_recognition    # 6
+            ]
+
 
 
 def run(list):
@@ -69,7 +71,7 @@ def run(list):
 
 
 if __name__ == '__main__':
-    run(range(7))
+    run(range(6))
     # run(range(5,8))
     # api_yolo_5()
     # api_monet_transfer()
