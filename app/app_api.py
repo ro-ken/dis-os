@@ -8,6 +8,8 @@ from app.compose import compose
 from app.lic_detect import lic_detect
 from app.num_detect.classifier import num_detect
 from app.monet_transfer import monet_transfer
+from app.path_planing import path_planning
+from app.face_recognition import face_recognition
 from app.face_recognition import face_recognition_local_test
 
 from settings import arch
@@ -48,8 +50,14 @@ def api_monet_transfer():
     return monet_transfer.start()
 
 
+def api_face_recognition_():
+    return face_recognition.Face_Recognizer()
+
 def api_face_recognition():
     return face_recognition_local_test.run()
+
+def api_path_planning():
+    return path_planning.main()
 
 
 api_list = [api_linear_regression,  # 0

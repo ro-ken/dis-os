@@ -1,49 +1,20 @@
-from module.sched.sched import TaskCost
+# 任务序号 0,1,2...
 
-smp0 = TaskCost(2.35, 300, 4000, 200)
-smp1 = TaskCost(7.75, 300, 4000, 200)
-smp2 = TaskCost(15.63, 300, 4000, 200)
-smp3 = TaskCost(0.46, 300, 4000, 200)
-smp4 = TaskCost(1.00, 300, 4000, 200)
-smp5 = TaskCost(0.01, 300, 4000, 200)
-smp6 = TaskCost(41.54, 300, 4000, 200)
-smp7 = TaskCost(1000000, 300, 4000, 200)
-smp8 = TaskCost(1.14, 300, 4000, 200)
+task_time_smp = [2.53, 0.46, 0.01, 41.54, 7.75, 15.63, 1000000]
+task_time_ywd = [2.53, 0.43, 0.07, 33.17, 6.65, 1000000, 1000000]
+task_time_hwj = [0.95, 0.27, 0.03, 25.47, 4.88, 10.48, 1000000]
+task_time_win = [0.33, 0.23, 0.01, 3.45, 1.34, 2.20, 2.95]
 
-ywd0 = TaskCost(2.53, 300, 4000, 200)
-ywd1 = TaskCost(6.65, 300, 4000, 200)
-ywd2 = TaskCost(1000000, 300, 4000, 200)
-ywd3 = TaskCost(0.43, 300, 4000, 200)
-ywd4 = TaskCost(0.88, 300, 4000, 200)
-ywd5 = TaskCost(0.07, 300, 4000, 200)
-ywd6 = TaskCost(33.17, 300, 4000, 200)
-ywd7 = TaskCost(1000000, 300, 4000, 200)
-ywd8 = TaskCost(1000000, 300, 4000, 200)
+# 静态时间表
+task_time_table = {"smp": task_time_smp, "ywd": task_time_ywd, "hwj": task_time_hwj, "win": task_time_win,
+                   "win2": task_time_win, "win3": task_time_win, "smp2": task_time_smp, "smp3": task_time_smp,
+                   "smp4": task_time_smp}
 
-hwj0 = TaskCost(0.95, 300, 4000, 200)
-hwj1 = TaskCost(4.88, 300, 4000, 200)
-hwj2 = TaskCost(10.48, 300, 4000, 200)
-hwj3 = TaskCost(0.27, 300, 4000, 200)
-hwj4 = TaskCost(0.36, 300, 4000, 200)
-hwj5 = TaskCost(0.03, 300, 4000, 200)
-hwj6 = TaskCost(25.47, 300, 4000, 200)
-hwj7 = TaskCost(1000000, 300, 4000, 200)
-hwj8 = TaskCost(0.35, 300, 4000, 200)
+# 任务运行时间随CPU负载变化的系数
 
-win0 = TaskCost(0.33, 300, 4000, 200)
-win1 = TaskCost(1.34, 300, 4000, 200)
-win2 = TaskCost(2.20, 300, 4000, 200)
-win3 = TaskCost(0.23, 300, 4000, 200)
-win4 = TaskCost(0.15, 300, 4000, 200)
-win5 = TaskCost(0.01, 300, 4000, 200)
-win6 = TaskCost(3.45, 300, 4000, 200)
-win7 = TaskCost(2.95, 300, 4000, 200)
-win8 = TaskCost(0.63, 300, 4000, 200)
+coef_smp = ((0.21, 1.83), (0.02, 0.20), (0.03, -0.01), (3.34, 38.44), (0.85, 5.9), (2.25, 12.64))
+coef_hwj = ((0.085, 0.69), (0.015, 0.123), (0.003, 0.011), (2.506, 21.89), (0.465, 3.86), (1.165, 8.99))
 
-smp = [smp0, smp1, smp2, smp3, smp4, smp5, smp6, smp7, smp8]
-ywd = [ywd0, ywd1, ywd2, ywd3, ywd4, ywd5, ywd6, ywd7, ywd8]
-hwj = [hwj0, hwj1, hwj2, hwj3, hwj4, hwj5, hwj6, hwj7, hwj8]
-win = [win0, win1, win2, win3, win4, win5, win6, win7, win8]
-
-task_node_table = {"smp": smp, "ywd": ywd, "hwj": hwj, "win": win, "win2": win, "win3": win, "smp2": smp, "smp3": smp,
-                   "smp4": smp}
+# 比例系数表
+task_coef_table = {"smp": coef_smp, "hwj": task_time_hwj, "win": coef_hwj, "win2": coef_hwj, "win3": coef_hwj,
+                   "smp2": coef_smp, "smp3": coef_smp, "smp4": coef_smp}

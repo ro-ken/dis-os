@@ -11,6 +11,8 @@ from lic_detect import lic_detect
 from num_detect.classifier import num_detect
 from monet_transfer import monet_transfer
 from face_recognition import face_recognition_local_test
+from path_planing import path_planning
+
 
 
 def api_linear_regression():
@@ -39,6 +41,9 @@ def api_num_detect():
 def api_monet_transfer():
     return monet_transfer.start()
 
+def api_path_planning():
+    return path_planning.main()
+
 
 def api_face_recognition():
     return face_recognition_local_test.run()
@@ -62,7 +67,8 @@ def run(list):
 
 
 if __name__ == '__main__':
-    run(range(6))
+    # run(range(6))
+    api_path_planning()
     # run(range(5,8))
     # api_yolo_5()
     # api_monet_transfer()

@@ -30,11 +30,7 @@ class ClientThread(threading.Thread):
             self.stub = stub
             self.handler = client_handler.ClientHandler(self, stub)
 
-            time.sleep(1)  # 等node把表项先创建好
-
-            # asyncio.run(self.handler.async_task())
-            asyncio.run(self.handler.async_stream_video())
-
+            self.handler.task_running()             # 任务运行
             # self.handler.task_test()              # 任务测试
 
             self.wait_for_stop()

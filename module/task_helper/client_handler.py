@@ -19,8 +19,16 @@ class ClientHandler:
         self.master = master  # client节点
         self.task_handler = task_handler.TaskHandler(master, stub)  # 通过grpc发送任务的辅助类
 
+    def task_running(self):
+        time.sleep(1)  # 等node把表项先创建好
+
+        if settings.task_type == "tasks":
+            asyncio.run(self.async_tasks())
+        else:
+            asyncio.run(self.async_stream_video())
+
     # 异步协同执行
-    async def async_task(self):
+    async def async_tasks(self):
         await asyncio.gather(
             self.keep_alive(),
             self.do_task()
@@ -128,3 +136,4 @@ class ClientHandler:
                 utils.write_time_end(path, name + " frame seq :" + str(seq), mytime())
 
             await asyncio.sleep(0.1)  # take a break
+

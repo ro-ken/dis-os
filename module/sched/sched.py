@@ -39,12 +39,3 @@ class IScheduler:
     # 多任务分配，必须重写
     def multi_task_sched(self, task_list, node_list):
         raise NotImplementedError
-
-
-class TaskCost:
-
-    def __init__(self, time, cpu, mem, disc):
-        self.time = time
-        self.cpu = cpu
-        self.mem = mem
-        self.disc = disc

@@ -101,10 +101,11 @@ message Resource{
   Disc disc = 3;
 }
 
+
 message CPU{
-  float use_ratio = 1;
-  int32 real_num = 2;
-  int32 logic_num = 3;
+  float use_ratio = 1;  //使用率
+  int32 real_num = 2;   //物理个数
+  int32 logic_num = 3;  //逻辑个数
 }
 
 message Memory{

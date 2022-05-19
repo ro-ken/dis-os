@@ -28,7 +28,7 @@ class Scheduler(IScheduler):
         for task in task_list:
             node = select_min_time_node(node_task_time, task)
             res[node].append(task)
-            node_task_time[node] += task_node_table[node][task].time
+            node_task_time[node] += task_time_table[node][task]
             node_task_time[node] = round(node_task_time[node], 2)  # 保留小数
         print(node_task_time)
         path = ROOT + 'output/task_seq.txt'
