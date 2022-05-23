@@ -48,7 +48,7 @@ def get_file_req(file_path) -> object:
 
 # 获取本机资源
 def get_res():
-    cpu = task_pb2.CPU(use_ratio=psutil.cpu_percent(0),
+    cpu = task_pb2.CPU(use_ratio=psutil.cpu_percent(0.1),
                        real_num=psutil.cpu_count(logical=False),
                        logic_num=psutil.cpu_count())
     mem = task_pb2.Memory(total=psutil.virtual_memory().total,

@@ -12,7 +12,7 @@ def run():
         multilist = [[0 for col in range(row_len)] for row in range(size)]
         #print(type(multilist))
         i=str(i*10)
-        f = open("data/local_task_time_cpu_"+i+".txt",encoding="utf-8")
+        f = open("data/smp/local_task_time_cpu_"+i+".txt",encoding="utf-8")
         for line in f.readlines():
             trash, time = line.split(':')
             j,k = time.split('\n')
