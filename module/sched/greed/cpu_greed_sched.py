@@ -36,6 +36,9 @@ class Scheduler(IScheduler):
         print(node_task_time)
         path = ROOT + 'output/task_seq.txt'
         utils.write_task_seq(path, self.node.task_seq, 'node_task_time', node_task_time)
+
+        for node in self.nodes.values():
+            utils.write_task_seq(path, self.node.task_seq, 'node={},cpu'.format(node.name), node.res.cpu.use_ratio)
         return res
 
     # 根据节点CPU换算任务应该运行多久

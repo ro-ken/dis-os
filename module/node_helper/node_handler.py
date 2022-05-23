@@ -80,10 +80,15 @@ class NodeHandler:
 
     # 动态生成任务
     async def gen_task(self):
+
+        await asyncio.sleep(settings.wait_conn_time)  # 等待连接完成
+        # 只生成一批任务
+        if settings.gen_task_one_turn:
+            self.create_tasks(-1)
+            return  # 执行结束返回
         if settings.gen_task is False:
             return  # 不生成任务返回
 
-        await asyncio.sleep(settings.wait_conn_time)  # 等待连接完成
 
         task_num = 1 if settings.single_task else settings.dynamic_gen_task_num
 
@@ -96,7 +101,10 @@ class NodeHandler:
     def create_tasks(self, task_num):
         path = ROOT + 'output/task_seq.txt'
         self.master.task_seq += 1
-        task_list = utils.random_list(task_num, 0, 5, 3)
+        if task_num == -1:
+            task_list = settings.one_turn_list  # 只生成一次任务
+        else:
+            task_list = utils.random_list(task_num, 0, 5, 3)
         self.queue.extend(task_list)
 
         if self.master.task_seq == 1:  # 第一次写刷新文件
