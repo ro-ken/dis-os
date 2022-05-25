@@ -38,6 +38,15 @@ def write_time_end(path, title, now):
     data = title + " end time :" + str(now) + '\n'
     write_file(path, data, 'a+')
 
+# 写入当前资源
+def write_now_res(path):
+    resource = get_res()
+    cpu = "logic_num = {} ; use_ratio = {}".format(resource.cpu.logic_num,resource.cpu.use_ratio)
+    mem = "total = {} ; available = {}".format(resource.mem.total,resource.mem.available)
+    disc = "total = {} ; available = {}".format(resource.disc.total,resource.disc.available)
+    data = "cpu :: {} \n mem :: {} \n disc :: {} \n".format(cpu,mem,disc)
+    write_file(path, data, 'a+')
+
 
 def get_file_req(file_path) -> object:
     f = open(file_path, 'rb')
