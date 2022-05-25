@@ -212,13 +212,20 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         names = eval(request.names)
         frame_cnt = request.frame_cnt
 
-        path = utils.ROOT + 'output/server_frame_time.txt'
-        utils.write_time_start(path, 'frame seq = {}'.format(frame_cnt), utils.mytime(point_len=3))     # 记录时间
-        utils.write_now_res(path)   # 写入资源
+
+
+        start_time = utils.mytime(point_len=3)
 
         success, img_out = self.face_recognizer.face_recognition(img, names, frame_cnt)
 
-        utils.write_time_end(path, 'frame seq = {}'.format(frame_cnt), utils.mytime(point_len=3))       # 记录时间
+        end_time = utils.mytime(point_len=3)
+        time_slot = end_time - start_time
+        path = utils.ROOT + 'output/server_frame_time.txt'
+        # utils.write_time_start(path, 'frame seq = {}'.format(frame_cnt), utils.mytime(point_len=3))     # 记录时间
+        # utils.write_time_end(path, 'frame seq = {}'.format(frame_cnt), utils.mytime(point_len=3))       # 记录时间
+
+        utils.write_now_res(path,time_slot,frame_cnt)
+
         str_encode = utils.img_encode(img_out, '.jpg')
         reply = task_pb2.FaceRecoReply(img=str_encode, success=success)
 

@@ -38,13 +38,19 @@ def write_time_end(path, title, now):
     data = title + " end time :" + str(now) + '\n'
     write_file(path, data, 'a+')
 
+
 # 写入当前资源
-def write_now_res(path):
+def write_now_res(path, time_slot, seq):
     resource = get_res()
-    cpu = "logic_num = {} ; use_ratio = {}".format(resource.cpu.logic_num,resource.cpu.use_ratio)
-    mem = "total = {} ; available = {}".format(resource.mem.total,resource.mem.available)
-    disc = "total = {} ; available = {}".format(resource.disc.total,resource.disc.available)
-    data = "cpu :: {} \n mem :: {} \n disc :: {} \n".format(cpu,mem,disc)
+    # cpu = "logic_num = {} ; use_ratio = {}".format(resource.cpu.logic_num, resource.cpu.use_ratio)
+    # mem = "total = {} ; available = {}".format(resource.mem.total, resource.mem.available)
+    # disc = "total = {} ; available = {}".format(resource.disc.total, resource.disc.available)
+    cpu = resource.cpu.use_ratio
+    mem = resource.mem.available / resource.mem.total
+    disc = resource.disc.available / resource.disc.total
+    # data = "cpu :: {} \n mem :: {} \n disc :: {} \n".format(cpu, mem, disc)
+    data = "{} {} {} {}\n".format(seq, cpu, mem, time_slot)
+
     write_file(path, data, 'a+')
 
 
