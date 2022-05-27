@@ -17,6 +17,7 @@ class NodeHandler:
     def __init__(self, master):
         self.master = master  # 主节点
         self.queue = master.task_queue  # 节点任务队列
+        utils.init_output()
 
     # 任务开始执行
     def task_running(self):
