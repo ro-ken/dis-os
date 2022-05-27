@@ -211,8 +211,7 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         img = utils.img_decode(str_encode)
         names = eval(request.names)
         frame_cnt = request.frame_cnt
-
-
+        node_name = request.node_name
 
         start_time = utils.mytime(point_len=3)
 
@@ -220,11 +219,11 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         end_time = utils.mytime(point_len=3)
         time_slot = end_time - start_time
-        path = utils.ROOT + 'output/server_frame_time.txt'
+        path = utils.ROOT + 'output/server_frame_time_{}.txt'.format(node_name)
         # utils.write_time_start(path, 'frame seq = {}'.format(frame_cnt), utils.mytime(point_len=3))     # 记录时间
         # utils.write_time_end(path, 'frame seq = {}'.format(frame_cnt), utils.mytime(point_len=3))       # 记录时间
 
-        utils.write_now_res(path,time_slot,frame_cnt)
+        utils.write_now_res(path, time_slot, frame_cnt)
 
         str_encode = utils.img_encode(img_out, '.jpg')
         reply = task_pb2.FaceRecoReply(img=str_encode, success=success)
@@ -258,14 +257,14 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         if add_task:  # 添加任务
             self.node.allocated_task_queue.extend(tasks)  # 在对应的待执行表添加
             node.run_tasks.extend(tasks)  # 任务发送节点也添加
-            node.task_start_time = mytime()  # 开始运行，记录时间
+            node.task_start_time = utils.mytime()  # 开始运行，记录时间
             print("server :add tasks {}".format(tasks))
 
         else:  # 删除任务
             for task in tasks:
                 self.node.allocated_task_queue.remove(task)  # 在对应的待执行表移出
                 node.run_tasks.remove(task)  # 任务发送节点也移出
-                node.task_start_time = mytime()  # 运行结束，重置时间
+                node.task_start_time = utils.mytime()  # 运行结束，重置时间
                 print("server :rm tasks {}".format(task))
 
         return task_pb2.CommonReply(success=True)

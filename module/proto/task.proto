@@ -47,6 +47,7 @@ message FaceRecoRequest{
   bytes img = 1;
   string names = 2;
   int32 frame_cnt = 3;
+  string node_name = 4;
 }
 
 //人脸识别响应

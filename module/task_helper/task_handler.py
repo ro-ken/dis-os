@@ -28,7 +28,6 @@ class TaskHandler:
                           self.task_style_transfer]  # 6
         #                 task_face_recognition     # 7
 
-
     def do_task_by_ids(self, task_ids):
         for id in task_ids:
             self.do_task_by_id(id)
@@ -177,14 +176,14 @@ class TaskHandler:
         if show_result:
             utils.imshow("task_lic_detect", img_res)
 
-
     def task_face_recognition(self, frame_tuple, target_list):
         utils.client_task_start("task_face_recognition")
 
         img, seq = frame_tuple
         str_img = utils.img_encode(img, '.jpg')
         str_names = str(target_list)
-        face_req = task_pb2.FaceRecoRequest(img=str_img, names=str_names, frame_cnt=seq)
+        node_name = self.master.node.name
+        face_req = task_pb2.FaceRecoRequest(img=str_img, names=str_names, frame_cnt=seq, node_name=node_name)
         reply = self.stub.task_face_recognition(face_req)
         success = reply.success
         img_res = utils.img_decode(reply.img)
