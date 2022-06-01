@@ -179,7 +179,7 @@ class TaskHandler:
     def task_face_recognition(self, frame_tuple, target_list):
         utils.client_task_start("task_face_recognition")
 
-        img, seq = frame_tuple
+        img, seq = frame_tuple[0:2]
         str_img = utils.img_encode(img, '.jpg')
         str_names = str(target_list)
         node_name = self.master.node.name

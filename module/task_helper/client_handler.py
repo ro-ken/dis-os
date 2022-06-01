@@ -114,26 +114,26 @@ class ClientHandler:
         path = ROOT + 'output/' + name + '_frame_task_time.txt'
         frame_res_path = ROOT + 'output/frame_res/'
         utils.write_time_start(path, name, addr, 'w')
-        while not self.master.stop and not self.master.node.find_target :
+        while not self.master.stop and not self.master.node.find_target:
             if len(self.master.frame_queue) == 0:
                 await asyncio.sleep(1)
             else:
                 # print(self.task_queue)
                 frame_tuple = self.master.frame_queue.pop(0)
-                frame, seq = frame_tuple[0], frame_tuple[1]
-                utils.write_time_start(path, name + " frame seq :" + str(seq), mytime())
+                frame, seq, frame_start_time = frame_tuple
+                utils.write_time_start(path, name + " before sched frame seq :" + str(seq), frame_start_time)
+                utils.write_time_start(path, name + " before send  frame seq :" + str(seq), mytime())
                 try:
                     # res = self.task_handler.task_yolox_image(frame)
-                    success,res = self.task_handler.task_face_recognition(frame_tuple,self.master.node.target_list)
+                    success, res = self.task_handler.task_face_recognition(frame_tuple, self.master.node.target_list)
                     cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
-                    if success:     # 找到目标
+                    if success:  # 找到目标
                         self.master.node.find_target = True
                         print("find target!")
                 except:
                     self.master.frame_queue.append(frame_tuple)
                     self.disconnection()
                     break
-                utils.write_time_end(path, name + " frame seq :" + str(seq), mytime())
+                utils.write_time_end(path, name + " after send   frame seq :" + str(seq), mytime())
 
             await asyncio.sleep(0.1)  # take a break
-

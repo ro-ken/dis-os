@@ -170,9 +170,11 @@ class NodeHandler:
 
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
+
             ret, frame = utils.read_times(cap, settings.key_frame_rate)
             if ret:
-                self.master.frame_queue.append((frame, i))  # 把帧添加到任务队列里去
+                frame_start_time = utils.mytime()     # 获取帧产生的时间
+                self.master.frame_queue.append((frame, i, frame_start_time))  # 把帧添加到任务队列里去
                 self.process_vedio_stream(self.master.frame_queue)
             else:
                 break
