@@ -326,7 +326,7 @@ def main():
     Face_Recognizer_con.run()
 
 def run():
-    img = cv2.imread('test.jpg')
+    img = cv2.imread(ROOT + '/test.jpg')
     Face_Recognizer_con = Face_Recognizer()
     success, res_img = Face_Recognizer_con.face_recognition(img, ['rq'], 0)
     return res_img
