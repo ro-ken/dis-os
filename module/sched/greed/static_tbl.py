@@ -11,13 +11,19 @@ task_time_table = {"smp": task_time_smp, "ywd": task_time_ywd, "hwj": task_time_
                    "smp4": task_time_smp}
 
 # 任务运行时间随CPU负载变化的系数 y=ax+b 系数(a,b)
-# old
-# coef_smp = ((0.21, 1.83), (0.02, 0.20), (0.03, -0.01), (3.34, 38.44), (0.85, 5.9), (2.25, 12.64))
-# coef_hwj = ((0.085, 0.69), (0.015, 0.123), (0.003, 0.011), (2.506, 21.89), (0.465, 3.86), (1.165, 8.99))
-# new
-coef_smp = ((0.018, 2.147), (0.001, 0.237), (0.003, -0.004), (0.354, 41.186), (0.106, 6.113), (0.275, 13.368))
-coef_hwj = ((0.008, 1.29), (0.001, 0.647), (3.333, 0.535), (0.235, 25.919), (0.042, 5.064), (0.103, 11.544))
+vedio_coef_hwj = (-1.7288 * 10 ** (-8), 3.3566 * 10 ** (-6), -1.5542 * 10 ** (-4), 0.0069, 0.710699)
+vedio_coef_smp = (-4.1133 * 10 ** (-8), 1.8673 * 10 ** (-5), -9.666 * 10 ** (-4), 0.0249, 1.85957)
+
+# 0-5 为一般任务，6号为视频流任务
+coef_smp = (
+    (0.018, 2.147), (0.001, 0.237), (0.003, -0.004), (0.354, 41.186), (0.106, 6.113), (0.275, 13.368), vedio_coef_smp)
+coef_hwj = (
+    (0.008, 1.29), (0.001, 0.647), (3.333, 0.535), (0.235, 25.919), (0.042, 5.064), (0.103, 11.544), vedio_coef_hwj)
 
 # 比例系数表
 task_coef_table = {"smp": coef_smp, "hwj": coef_hwj, "win": coef_hwj, "win2": coef_hwj, "win3": coef_hwj,
                    "smp2": coef_smp, "smp3": coef_smp, "smp4": coef_smp}
+
+# # 比例系数表
+# vedio_task_coef_table = {"smp": vedio_coef_smp, "hwj": vedio_coef_hwj, "win": vedio_coef_hwj, "win2": vedio_coef_hwj,
+#                          "win3": vedio_coef_hwj, "smp2": vedio_coef_smp, "smp3": vedio_coef_smp, "smp4": vedio_coef_smp}

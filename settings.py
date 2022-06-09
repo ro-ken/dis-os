@@ -3,7 +3,7 @@ arch = "win"  # 本机架构：win , mac , hwj （寒武纪）, ywd （英伟达
 env = "exp"  # 环境：”dev“本机开发，”exp“，联机实验
 
 p2p = True  # 是否是对等模式
-sched_type = "loop"  # 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed  具体去sched_api.py查看
+sched_type = "cpu_greed"  # 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed  具体去sched_api.py查看
 
 node_discovery = "auto"  # 节点获取方式：man：手动配置节点ip ， auto：自动发现
 
@@ -30,5 +30,5 @@ dynamic_gen_task_num = 8  # 每次动态生成任务数量
 
 # vedio
 key_frame_rate = 10  # 每隔多少帧取一个关键帧
-total_frame_num = 0  # 要产生的帧数量
+total_frame_num = 20  # 要产生的帧数量
 target_list = ['ymh']  # 攻击目标

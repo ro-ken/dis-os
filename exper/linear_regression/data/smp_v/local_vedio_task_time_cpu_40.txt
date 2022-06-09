@@ -1,0 +1,7 @@
+local vedio task time:
+vedio task turn 0 start time :90774.27
+vedio task turn 0 end   time :90777.22
+vedio task turn 1 start time :90777.72
+vedio task turn 1 end   time :90780.53
+vedio task turn 2 start time :90781.03
+vedio task turn 2 end   time :90783.9

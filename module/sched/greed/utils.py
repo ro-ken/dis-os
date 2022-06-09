@@ -59,6 +59,17 @@ def get_init_time(node_list):
     return name_time_list
 
 # 一次函数
-def linear_func(a, b, x):
-    y = a * x + b
+def regression(coef, x):
+    y = -1
+    if len(coef) == 2:
+        y = coef[0] * x + coef[1]
+
+    elif len(coef) == 3:
+        y = coef[0] * x ** 2 + coef[1] * x + coef[2]
+
+    elif len(coef) == 4:
+        y = coef[0] * x ** 3 + coef[1] * x ** 2 + coef[2] * x + coef[3]
+
+    elif len(coef) == 5:
+        y = coef[0] * x ** 4 + coef[1] * x ** 3 + coef[2] * x ** 2 + coef[3] * x + coef[4]
     return y

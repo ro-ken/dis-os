@@ -6,12 +6,22 @@ from .utils import *
 
 # 全局贪心 + CPU调度
 # 和全局贪心差不多，就是把任务的静态运行时间从静态表改为用拟合后的一次函数计算
+
 class Scheduler(IScheduler):
 
     # 多任务调度
     def __init__(self, node):
         super().__init__(node)
         self.name_key_dict = {}
+
+    def get_node(self):
+        task = 6   # 6号任务为人脸识别
+        self.name_key_dict = get_node_names(self.nodes)   # 先知道有哪些结点，把名字取出来
+        node_task_time = self.get_nodes_task_time_by_cpu(self.nodes, task)        # 获取当前节点运行任务所需时间
+        print(node_task_time)
+        node_name = self.select_min_time_node(node_task_time, task)         # 选择一个节点，
+
+        return self.nodes[self.name_key_dict[node_name]]     # 返回node对象
 
     def multi_task_sched(self, task_list, node_list):
         self.name_key_dict = get_node_names(node_list)
@@ -43,13 +53,23 @@ class Scheduler(IScheduler):
 
     # 根据节点CPU换算任务应该运行多久
     def get_node_task_time(self, node_name, task):
-        a, b = task_coef_table[node_name][task]  # 取出系数
+        coef = task_coef_table[node_name][task]  # 取出系数
         node = self.nodes[self.name_key_dict[node_name]]  # 获取节点
         cpu = node.res.cpu.use_ratio  # cpu的利用率   可能超过100%
         x = cpu / node.res.cpu.logic_num  # 归一化处理 ，压缩到（0-100%）
-        y = linear_func(a, b, x)  # 任务应该运行的时间
-        # print("node={},task={},a={},b={},cpu={},num={},x={},y={}".format(node_name,task,a,b,cpu,node.res.cpu.logic_num,x,y))
+        y = regression(coef, x)  # 任务应该运行的时间
         return y
+
+
+    # 获取节点所需运行时间的表
+    def get_nodes_task_time_by_cpu(self,node_list, task):
+        node_task_time = {}  # 统计花费的时间
+        for node in node_list.values():
+            client = node.client  # 结点待运行的任务存与client的frame_queue中
+            task_num = len(client.frame_queue)  # 获取剩余帧数
+            single_task_time = self.get_node_task_time(node.name,task)
+            node_task_time[node.name] = task_num * single_task_time  # 计算时间
+        return node_task_time
 
     # 获取当前最小时间的节点 返回最小时间节点的name
     def select_min_time_node(self, node_task_time, task) -> str:
@@ -63,3 +83,4 @@ class Scheduler(IScheduler):
                 min_name = name
 
         return min_name
+
