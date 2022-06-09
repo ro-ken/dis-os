@@ -1,25 +1,41 @@
 # packge
 import time
 
-from cv2 import cv2
-
 # app
 import settings
 from app.app_api import *
-from module.proto import task_pb2, task_pb2_grpc
+from module.proto import task_pb2
+from module.proto import task_pb2_grpc
+
 # tool
 from tools import utils
 
+# image handle
+from cv2 import cv2
 
 # grpc server端实现proto定义的服务
 class TaskService(task_pb2_grpc.TaskServiceServicer):
+    """ grpc server能够支持的远程服务调用
+
+    主要目的是实现节点间任务数据传输和节点状态同步, 每一类任务都需要不同类型和组合的数据, 
+    因此对于每一个特定的任务都要定义不同的远程服务来支持对任务数据的接收和解组
+
+    Attributes:
+        node: class Node, 一个节点的抽象, 同时也是grpc server在其上运行的节点
+        face_recognizer: 人脸识别器, 目前还不知到用来干啥
+
+
+    """
+
 
     def __init__(self, node):
-        self.node = node  # server依附的node
-        self.face_recognizer = face_recognition.Face_Recognizer()  # 人脸识别器
+        """initial class with class Node"""
+        self.node = node  
+        self.face_recognizer = face_recognition.Face_Recognizer()  
 
-    # 测试grpc server服务是否成功运行
+
     def task_test(self, request, context):
+        """测试grpc server服务是否成功运行"""
         utils.server_task_start("task_test")
 
         # print("收到请求：", request)
@@ -28,19 +44,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_test")
         return reply
 
-    '''
-    function:   task_transfer_file
-    describe:   request方向response方发送request节点上风格迁移应用所需的.bak文件?【该函数已被废弃?】
-    input:      
-                request         - protobuf 的 message File 类
-                    attribute:
-                    - string file_name  - 文件名
-                    - bytes file_data   - 文件数据
-    output:
-                protobuf 的 message CommonReply类
-    '''
 
     def task_transfer_file(self, request, context):
+        """风格迁移文件传输远程服务调用函数"""
         utils.server_task_start("task_transfer_file")
 
         path = ROOT + request.file_name + '.bak'
@@ -50,18 +56,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_transfer_file")
         return reply
 
-    '''
-    function:   send_image【yolox应用专用】【兼容性不强啊庆庆】【该函数早期版本没删?】
-    describe:   request方向response方发送图片给yolox应用进行处理, 处理完毕后在response方显示处理后的图像
-    input:      
-                request         - protobuf 的 message Image 类
-                    attribute:
-                    - bytes img - 图片的字节流
-    output:
-                protobuf 的 message CommonReply类
-    '''
 
     def send_image(self, request, context):
+        """yolox图像处理任务远程服务调用函数【早期用来传递图片给yolox, 该函数已不用】"""
         # 任务开始运行提示
         utils.server_task_start("send_image")
 
@@ -78,18 +75,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("send_image")
         return task_pb2.CommonReply(success=True)
 
-    '''
-    function:   task_yolox_image【yolox应用专用】
-    describe:   request方向response方发送图片给yolox应用进行处理, 返回处理完毕后的图像给request方
-    input:      
-                request         - protobuf 的 message Image 类
-                    attribute:
-                    - bytes img - 图片的字节流
-    output:
-                protobuf 的 message Image
-    '''
 
     def task_yolox_image(self, request, context):
+        """yolox图像处理任务远程函数调用服务"""
         utils.server_task_start("task_yolox_image")
 
         str_encode = request.img
@@ -101,18 +89,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_yolox_image")
         return reply
 
-    '''
-    function:   task_yolox_video【yolox应用专用】【处理视频】
-    describe:   双向stream, request方向解析视频为image stream, 向response方请求yolox处理, 处理完毕后返回image stream
-    input:      
-                request_iterator    - protobuf 的 message Image 类的yield迭代器, yield单次迭代返回request
-                    attribute:
-                     - bytes img - 图片的字节流
-    output:
-                protobuf 的 message Image steam
-    '''
 
     def task_yolox_vedio(self, request_iterator, context):
+        """yolox视频处理任务远程函数调用服务"""
         utils.server_task_start("task_yolox_vedio")
 
         for image in request_iterator:
@@ -127,7 +106,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         utils.server_task_end("task_yolox_vedio")
 
+
     def task_yolo5(self, request, context):
+        """yolo5任务远程函数调用服务"""
         utils.server_task_start("task_yolo5")
 
         in_path = ROOT + 'app/yolo_5/input/' + request.file_name
@@ -140,7 +121,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_yolo5")
         return img_req
 
+
     def task_style_transfer(self, request, context):
+        """风格迁移任务远程函数调用服务"""
         utils.server_task_start("task_style_transfer")
 
         content_path = ROOT + 'app/style_transfer/input/' + request.content.file_name
@@ -154,7 +137,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_style_transfer")
         return img_req
 
+
     def task_linear_regression(self, request, context):
+        """线性回归任务远程函数调用服务"""
         utils.server_task_start("task_linear_regression")
 
         linear_regression.run()
@@ -162,7 +147,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_linear_regression")
         return task_pb2.CommonReply(success=True)
 
+
     def task_num_detect(self, request, context):
+        """数字预测任务远程函数调用服务"""
         utils.server_task_start("task_num_detect")
 
         num_detect.predict_number()
@@ -170,7 +157,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_num_detect")
         return task_pb2.CommonReply(success=True)
 
+
     def task_lic_detect(self, request, context):
+        """lic-detect任务远程函数调用服务"""
         utils.server_task_start("task_lic_detect")
 
         str_encode = request.img
@@ -182,7 +171,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_lic_detect")
         return reply
 
+
     def task_compose(self, request, context):
+        """图像合成任务远程函数调用服务"""
         utils.server_task_start("task_compose")
 
         str_encode = request.img
@@ -196,7 +187,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_compose")
         return reply
 
+
     def task_monet_transfer(self, request, context):
+        """"""
         utils.server_task_start("task_monet_transfer")
 
         monet_transfer.start()
@@ -204,7 +197,9 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_monet_transfer")
         return task_pb2.CommonReply(success=True)
 
+
     def task_face_recognition(self, request, context):
+        """人脸识别任务远程函数调用服务"""
         utils.server_task_start("task_face_recognition")
 
         str_encode = request.img
@@ -231,7 +226,27 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_face_recognition")
         return reply
 
+
     def keep_alive(self, request, context):
+        """心跳函数, 检测节点是否活跃
+
+        根据心跳频率settings.heart_rate发送心跳包, 检测节点活跃状态并发送节点负载信息
+
+        Attributes:
+            request: message HeartBeat{
+                        string name = 1;    # 节点名
+                        Address addr = 2;   # 节点地址
+                        Resource res = 3;   # 节点负载信息
+                        string tasks = 4;   # 当前节点待处理任务队列
+                    }
+        
+        Returns:
+            CommonReply: message CommonReply{
+                            bool success = 1;   # 是否收到心跳包
+                        }
+        """
+
+
         name = request.name
         addr = request.addr
         res = request.res
@@ -246,9 +261,28 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         node.name, node.res, node.tasks = name, res, tasks
         if settings.show_server_heart_res:
             print("server :get {} heartbeat time={}".format(name, int(time.time()) % 100))
+
         return task_pb2.CommonReply(success=True)
 
+
     def update_tasks(self, request, context):
+        """更新节点任务列表
+
+        添加或删除节点上的任务队列中的任务
+
+        Attributes:
+            request: message TaskPackage{
+                        bool add_task = 1;  # 添加任务为True,删减任务为False
+                        string tasks = 2;   # 任务编号, 用','隔开, 例 '1,3,4'
+                        Address addr = 3;   # 发送更新请求的节点地址
+                    }
+        Returns:
+            CommonReply: message CommonReply{
+                            bool success = 1;   # 是否收到任务更新请求
+                        }
+        """
+
+        
         addr = request.addr
         key = utils.addr_key(addr)
         node = self.node.conn_node_list.get(key)
