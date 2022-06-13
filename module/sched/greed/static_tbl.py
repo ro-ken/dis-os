@@ -6,9 +6,7 @@ task_time_hwj = (0.95, 0.27, 0.03, 25.47, 4.88, 10.48, 1000000)
 task_time_win = (0.33, 0.23, 0.01, 3.45, 1.34, 2.20, 2.95)
 
 # 静态时间表
-task_time_table = {"smp": task_time_smp, "ywd": task_time_ywd, "hwj": task_time_hwj, "win": task_time_win,
-                   "win2": task_time_win, "win3": task_time_win, "smp2": task_time_smp, "smp3": task_time_smp,
-                   "smp4": task_time_smp}
+task_time_table = {"smp": task_time_smp, "ywd": task_time_ywd, "hwj": task_time_hwj, "win": task_time_win}
 
 # 任务运行时间随CPU负载变化的系数 y=ax+b 系数(a,b)
 vedio_coef_hwj = (-1.7288 * 10 ** (-8), 3.3566 * 10 ** (-6), -1.5542 * 10 ** (-4), 0.0069, 0.710699)
@@ -21,9 +19,16 @@ coef_hwj = (
     (0.008, 1.29), (0.001, 0.647), (3.333, 0.535), (0.235, 25.919), (0.042, 5.064), (0.103, 11.544), vedio_coef_hwj)
 
 # 比例系数表
-task_coef_table = {"smp": coef_smp, "hwj": coef_hwj, "win": coef_hwj, "win2": coef_hwj, "win3": coef_hwj,
-                   "smp2": coef_smp, "smp3": coef_smp, "smp4": coef_smp}
+task_coef_table = {"smp": coef_smp, "hwj": coef_hwj, "win": coef_hwj}
 
-# # 比例系数表
-# vedio_task_coef_table = {"smp": vedio_coef_smp, "hwj": vedio_coef_hwj, "win": vedio_coef_hwj, "win2": vedio_coef_hwj,
-#                          "win3": vedio_coef_hwj, "smp2": vedio_coef_smp, "smp3": vedio_coef_smp, "smp4": vedio_coef_smp}
+'''
+    以下为向上层暴露的api函数
+'''
+
+def task_time_table_fun(name):
+    arch = name[:3] # 取前3个作为key：例 name = smp2 ，arch = smp
+    return task_time_table[arch]
+
+def task_coef_table_fun(name):
+    arch = name[:3] # 取前3个作为key：例 name = smp2 ，arch = smp
+    return task_coef_table[arch]

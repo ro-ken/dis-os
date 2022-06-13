@@ -1,5 +1,5 @@
-from .static_tbl import task_time_table
-from .static_tbl import task_coef_table
+from .static_tbl import task_time_table_fun
+from .static_tbl import task_coef_table_fun
 
 
 # 获取当前最小时间的节点 返回最小时间节点的name
@@ -8,7 +8,7 @@ def select_min_time_node(node_task_time, task) -> str:
     min_time = 10000000
     min_name = None
     for name in tmp:
-        tmp[name] += task_time_table[name][task]
+        tmp[name] += task_time_table_fun(name)[task]
         if tmp[name] < min_time:
             min_time = tmp[name]
             min_name = name
@@ -31,7 +31,7 @@ def get_node_task_time(node_list, task):
     for node in node_list.values():
         client = node.client  # 结点待运行的任务存与client的frame_queue中
         task_num = len(client.frame_queue)  # 获取剩余帧数
-        single_task_time = task_time_table[node.name][task]  # 获取单任务运行时间
+        single_task_time = task_time_table_fun(node.name)[task]  # 获取单任务运行时间
         node_task_time[node.name] = task_num * single_task_time  # 计算时间
     return node_task_time
 
@@ -52,7 +52,7 @@ def get_init_time(node_list):
         t_time = 0
         for item in task_list:
             task, cost = item[0], item[1]  # 取出任务号 和 实际运行时间
-            static_time = task_time_table[name][task]
+            static_time = task_time_table_fun(name)[task]
             cost = min(static_time, cost)  # 如果实际运行实际比预计还长，那么时间算0，不能出现负数
             t_time += static_time - cost  # 贪心时间加上去
         name_time_list[name] = t_time

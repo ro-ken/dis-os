@@ -53,7 +53,7 @@ class Scheduler(IScheduler):
 
     # 根据节点CPU换算任务应该运行多久
     def get_node_task_time(self, node_name, task):
-        coef = task_coef_table[node_name][task]  # 取出系数
+        coef = task_coef_table_fun(node_name)[task]  # 取出系数
         node = self.nodes[self.name_key_dict[node_name]]  # 获取节点
         cpu = node.res.cpu.use_ratio  # cpu的利用率   可能超过100%
         x = cpu / node.res.cpu.logic_num  # 归一化处理 ，压缩到（0-100%）
