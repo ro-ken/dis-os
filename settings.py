@@ -29,11 +29,11 @@ single_task = False  # 每次生成单个任务,若为True，后面配置无效
 dynamic_gen_task_num = 8  # 每次动态生成任务数量
 
 # vedio
-vedio_frame_rate = 10  # 每隔多少帧取一个关键帧
+key_frame_rate = 10  # 每隔多少帧取一个关键帧
 
 vedio_time_len = 5  # 要处理时间多长的视频帧 单位 min
 frame_rate = 30   # 视频帧速率 30 fps
 
-total_frame_num = (frame_rate // vedio_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
+total_frame_num = (frame_rate // key_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
 # total_frame_num = 30   # 要产生的帧数量
 target_list = ['ym']  # 攻击目标
