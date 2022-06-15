@@ -37,8 +37,9 @@ class socketserver(threading.Thread):
 
 # 动态节点服务类
 class DynNodeServer():
-    def __init__(self, node):
+    def __init__(self, node,sub_net):
         self.node = node
+        self.sub_net = sub_net
         self.ip = Const.SOCKET_UDP_SERVER_IP
         self.port = Const.SOCKET_UDP_SERVER_PORT
         self.encoding = 'utf-8'
@@ -80,10 +81,10 @@ class DynNodeServer():
         return True
 
     # 广播节点加入
-    def join_broadcast(self,name):
-        message = {'type': 'JOIN', 'node_server_ip': self.node.server_t.ip,
+    def join_broadcast(self, name, sub_net):
+        message = {'type': 'JOIN', 'node_server_ip': self.node.server_t.ip, 'sub_net': sub_net,
                    'node_server_port': self.node.server_t.port, 'name': name}
-        self.Broadcast(message,self.port)
+        self.Broadcast(message, self.port)
 
     # 结束socket server
     def KillSocketServer(self):
@@ -97,8 +98,10 @@ class DynNodeServer():
         node_ip = message['node_server_ip']
         node_port = message['node_server_port']
         name = message['name']
-        self.node.handler.new_node_join(node_ip, node_port, name) # 添加到表里
-        return True
+        sub_net = message['sub_net']
+        if self.sub_net == sub_net:     # 网段相同，同意加入
+            self.node.handler.new_node_join(node_ip, node_port, name)  # 添加到表里
+        # return True
 
     # 节点退出集群处理逻辑
     def NodeRemoveEvent(self, message, addr):

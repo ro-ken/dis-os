@@ -193,7 +193,7 @@ class NodeHandler:
     # 将本节点加入集群
     def join_cluster(self):
         if settings.node_discovery == "auto":
-            self.master.dyn_server.join_broadcast(self.master.name)
+            self.master.dyn_server.join_broadcast(self.master.name,settings.sub_net)
         else:
             self.create_node_table()  # 根据配置表连接
 

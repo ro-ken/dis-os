@@ -1,5 +1,7 @@
 arch = "smp"  # 本机架构：win , mac , hwj （寒武纪）, ywd （英伟达）, smp （树莓派）, smp2 , smp3 , ...
 
+sub_net = 1   # 子网分区  相同分区的节点可互联
+
 env = "exp"  # 环境：”dev“本机开发，”exp“，联机实验
 
 p2p = True  # 是否是对等模式

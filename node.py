@@ -31,7 +31,7 @@ class Node:
 
         # 对象属性
         self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
-        self.dyn_server = DynNodeServer(self)  # 节点动态发现的udp server
+        self.dyn_server = DynNodeServer(self,settings.sub_net)  # 节点动态发现的udp server
         self.scheduler = sched_api.Scheduler(self)  # 初始化调度器
         self.handler = node_handler.NodeHandler(self)  # 节点的辅助类，一些业务函数在里面
 
