@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+// python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. task.proto
+
+service TaskService{
+    rpc task_face_recognition(FaceRecognitionRequest)returns(FaceRecognitionReplay){}
+    rpc heartbeat(HeartBeatRequest)returns(HeartBeatReplay){}
+}
+
+message FaceRecognitionRequest {
+    int32 sequence = 1;
+    bytes img_orig = 2;
+    string target = 3;
+}
+
+message FaceRecognitionReplay {
+    int32 sequence = 1;
+    bytes img_out = 2;
+    bool success = 3;
+}
+
+message HeartBeatRequest {
+
+}
+
+message HeartBeatReplay {
+
+}
