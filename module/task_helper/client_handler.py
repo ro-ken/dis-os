@@ -1,4 +1,5 @@
 import asyncio
+import os
 import time
 
 import cv2
@@ -55,8 +56,7 @@ class ClientHandler:
         while not self.master.stop:
             try:
                 reply = self.task_handler.keep_alive()
-                if settings.show_client_heart_res:
-                    print("client heartbeat:send {}:{} time={} ".format(self.master.ip, self.master.port,
+                print("client heartbeat:send {}:{} time={} ".format(self.master.ip, self.master.port,
                                                                         int(time.time()) % 100))
             except:
                 print("keep_alive 异常")
@@ -135,5 +135,9 @@ class ClientHandler:
                     self.disconnection()
                     break
                 utils.write_time_end(path, name + " after send   frame seq :" + str(seq), mytime())
+                if seq == settings.total_frame_num - 1:
+                    if settings.env == 'exp':
+                        print('{} 张图片处理完毕'.format(seq + 1))
+                        os._exit(0)       # 测完一组数据就自动结束
 
             await asyncio.sleep(0.1)  # take a break

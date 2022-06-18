@@ -2,7 +2,7 @@ import time
 
 from cv2 import cv2
 
-import settings
+from tools import node_settings as settings
 from module.proto import task_pb2
 from settings import *
 from tools import utils
@@ -41,7 +41,7 @@ class TaskHandler:
         req = task_pb2.TaskRequest(task_id=1, task_name='task01')
         reply = self.stub.task_test(req)
 
-        if show_result:
+        if settings.show_result:
             print(reply)
 
         utils.client_task_end("task_test")
@@ -52,7 +52,7 @@ class TaskHandler:
         file_name = ROOT + 'README.md'
         req = utils.get_file_req(file_name)
         reply = self.stub.task_transfer_file(req)
-        if show_result:
+        if settings.show_result:
             print(reply)
 
         utils.client_task_end("task_transfer_file")
@@ -68,7 +68,7 @@ class TaskHandler:
 
         utils.client_task_end("task_yolox_image")
 
-        if show_result:
+        if settings.show_result:
             utils.imshow("task_yolox_image", img_res)
         return img_res
 
@@ -110,7 +110,7 @@ class TaskHandler:
 
         utils.client_task_end("task_yolo5")
 
-        if show_result:
+        if settings.show_result:
             utils.imshow("task_yolo5", img_res)
 
     def task_style_transfer(self):
@@ -127,7 +127,7 @@ class TaskHandler:
 
         utils.client_task_end("task_style_transfer")
 
-        if show_result:
+        if settings.show_result:
             utils.imshow("task_style_transfer", img_res)
 
     def task_yolox_vedio(self):
@@ -159,7 +159,7 @@ class TaskHandler:
 
         utils.client_task_end("task_compose")
 
-        if show_result:
+        if settings.show_result:
             utils.imshow("task_compose", img_res)
 
     def task_lic_detect(self):
@@ -173,7 +173,7 @@ class TaskHandler:
 
         utils.client_task_end("task_lic_detect")
 
-        if show_result:
+        if settings.show_result:
             utils.imshow("task_lic_detect", img_res)
 
     def task_face_recognition(self, frame_tuple, target_list):
@@ -190,7 +190,7 @@ class TaskHandler:
 
         utils.client_task_end("task_face_recognition")
 
-        if show_result:
+        if settings.show_result:
             utils.imshow("task_face_recognition", img_res)
         return success, img_res
 

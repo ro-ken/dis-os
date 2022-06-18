@@ -82,7 +82,7 @@ class NodeHandler:
     # 动态生成任务
     async def gen_task(self):
 
-        await asyncio.sleep(settings.wait_conn_time)  # 等待连接完成
+        await asyncio.sleep(3)  # 等待连接完成
         # 只生成一批任务
         if settings.gen_task_one_turn:
             self.create_tasks(-1)
@@ -148,8 +148,8 @@ class NodeHandler:
                 reply = node.client.stub.task_yolox_image(request)
                 str_encode = reply.img
                 img_res = utils.img_decode(str_encode)
-                if settings.show_vedio_stream:
-                    utils.imshow_vedio("vedio_stream", img_res)
+                # 实时显示
+                utils.imshow_vedio("vedio_stream", img_res)
 
             else:
                 break
@@ -163,7 +163,7 @@ class NodeHandler:
 
     # 生成任务帧
     async def gen_frame_task(self):
-        await asyncio.sleep(settings.wait_conn_time)  # 等待连接完成
+        await asyncio.sleep(3)  # 等待连接完成
         path = ROOT + '/dataset/vedio_30.mp4'
         cap = cv2.VideoCapture(path)   # 从摄像头获取视频流
         cap.set(3, 480)  # 640x480

@@ -49,7 +49,7 @@ def write_now_res(path, time_slot, seq):
     mem = resource.mem.available / resource.mem.total
     disc = resource.disc.available / resource.disc.total
     # data = "cpu :: {} \n mem :: {} \n disc :: {} \n".format(cpu, mem, disc)
-    data = "{} {} {} {}\n".format(seq, cpu, mem, time_slot)
+    data = "seq:{},cpu:{},mem:{},time:{}\n".format(seq, cpu, mem, time_slot)
 
     write_file(path, data, 'a+')
 
