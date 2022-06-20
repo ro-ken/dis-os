@@ -45,4 +45,4 @@ class TaskServer(task_pb2_grpc.TaskServiceServicer):
         return FaceRecognitionReplay
 
     def heartbeat(self, request, context):
-        return
+        return task_pb2.HeartbeatReplay

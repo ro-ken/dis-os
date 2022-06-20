@@ -4,7 +4,7 @@ syntax = "proto3";
 
 service TaskService{
     rpc task_face_recognition(FaceRecognitionRequest)returns(FaceRecognitionReplay){}
-    rpc heartbeat(HeartBeatRequest)returns(HeartBeatReplay){}
+    rpc heartbeat(HeartbeatRequest)returns(HeartbeatReplay){}
 }
 
 message FaceRecognitionRequest {
@@ -19,10 +19,10 @@ message FaceRecognitionReplay {
     bool success = 3;
 }
 
-message HeartBeatRequest {
+message HeartbeatRequest {
 
 }
 
-message HeartBeatReplay {
+message HeartbeatReplay {
 
 }
