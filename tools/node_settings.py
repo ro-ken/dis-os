@@ -11,18 +11,29 @@ if node_discovery == "man":
 
 
     name_ip = {
-        "win": '192.168.31.236',
+        "win": '10.253.240.72',
+        "win2": '192.168.31.204',
         "smp": '192.168.31.117',
-        "ywd": '192.168.31.237',
-        "hwj": '192.168.31.112'
+        "smp2": '192.168.31.190',
+        "smp3": '192.168.31.187',
+        "hwj": '192.168.31.112',
+
     }
 
     # 想要连接哪个节点就配置哪个节点
 
     node_list = [
         [name_ip["win"], 50051],
-        [name_ip["smp"], 50051]
+        # [name_ip["smp"], 50051]
     ]
 
     server_ip = name_ip[arch]
 
+    ip_name = {
+        name_ip["win"]:"win",
+        name_ip["win2"]: "win2",
+        name_ip["smp"]: "smp",
+        name_ip["smp2"]: "smp2",
+        name_ip["smp3"]: "smp3",
+        name_ip["hwj"]: "hwj"
+    }

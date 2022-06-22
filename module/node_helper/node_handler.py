@@ -202,6 +202,8 @@ class NodeHandler:
         time.sleep(0.5)
         for item in self.master.node_list:
             ip, port = item[0], item[1]
-            self.create_node_to_table(ip, port)
+            name = settings.ip_name[ip]
+            self.create_node_to_table(ip, port,name)
+            # self.create_node_to_table(ip, port)
 
 

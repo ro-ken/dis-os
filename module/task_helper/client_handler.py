@@ -119,7 +119,7 @@ class ClientHandler:
                 await asyncio.sleep(1)
             else:
                 # print(self.task_queue)
-                frame_tuple = self.master.frame_queue.pop(0)
+                frame_tuple = self.master.frame_queue[0]
                 frame, seq, frame_start_time = frame_tuple
                 utils.write_time_start(path, name + " before sched frame seq :" + str(seq), frame_start_time)
                 utils.write_time_start(path, name + " before send  frame seq :" + str(seq), mytime())
@@ -131,13 +131,24 @@ class ClientHandler:
                         self.master.node.find_target = True
                         print("find target!")
                 except:
-                    self.master.frame_queue.append(frame_tuple)
+                    # self.master.frame_queue.append(frame_tuple)
                     self.disconnection()
                     break
                 utils.write_time_end(path, name + " after send   frame seq :" + str(seq), mytime())
+                self.master.frame_queue.pop(0)
+
                 if seq == settings.total_frame_num - 1:
-                    if settings.env == 'exp':
-                        print('{} 张图片处理完毕'.format(seq + 1))
-                        os._exit(0)       # 测完一组数据就自动结束
+                    if settings.env == 'exp':       # 做实验过程中，若数据处理完毕，结束进程
+                        nodes = self.master.node.conn_node_list.values()
+                        while True:
+                            is_fin = True       # 是否结束
+                            for node in nodes:
+                                if len(node.client.frame_queue) != 0:
+                                    is_fin = False
+                            if is_fin:          # 处理完毕
+                                print('{} 张图片处理完毕'.format(seq + 1))
+                                os._exit(0)       # 测完一组数据就自动结束
+                            else:
+                                await asyncio.sleep(0.5)
 
             await asyncio.sleep(0.1)  # take a break

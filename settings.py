@@ -1,8 +1,8 @@
 import sys
-arch = "smp"  # 本机架构：win , mac , hwj （寒武纪）, ywd （英伟达）, smp （树莓派）, smp2 , smp3 , ...
-sub_net = 3   # 子网分区  相同分区的节点可互联
+arch = "win"  # 本机架构：win , mac , hwj （寒武纪）, ywd （英伟达）, smp （树莓派）, smp2 , smp3 , ...
+sub_net = 5   # 子网分区  相同分区的节点可互联
 
-node_discovery = "auto"  # 节点获取方式：man：手动配置节点ip ， auto：自动发现
+node_discovery = "man"  # 节点获取方式：man：手动配置节点ip ， auto：自动发现
 env = "exp"  # 环境：”exp“，做实验测试的环境 ， ”run“ 程序正常运行
 sched_type = "cpu_greed"  # 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed  具体去sched_api.py查看
 heart_rate = 2  # 设置心跳频率（单位/s）
@@ -15,8 +15,8 @@ key_frame_rate = 30  # 每隔多少帧取一个关键帧
 frame_rate = 30   # 视频帧速率 30 fps
 if len(sys.argv) > 1:
     vedio_time_len = int(sys.argv[1])  # 获取参数
-total_frame_num = (frame_rate // key_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
-# total_frame_num = 30   # 要产生的帧数量
+# total_frame_num = (frame_rate // key_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
+total_frame_num = 30   # 要产生的帧数量
 target_list = ['ym']  # 攻击目标
 
 # task
