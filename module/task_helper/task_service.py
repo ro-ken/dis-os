@@ -218,6 +218,10 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
 
         end_time = utils.mytime(point_len=3)
         time_slot = end_time - start_time
+
+        if time_slot < 0:
+            time_slot += 100000
+
         path = utils.ROOT + 'output/server_frame_time_{}.txt'.format(node_name)
         # utils.write_time_start(path, 'frame seq = {}'.format(frame_cnt), utils.mytime(point_len=3))     # 记录时间
         # utils.write_time_end(path, 'frame seq = {}'.format(frame_cnt), utils.mytime(point_len=3))       # 记录时间

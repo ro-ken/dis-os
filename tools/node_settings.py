@@ -8,8 +8,6 @@ udp_server_port = 10000  # udp监听端口
 
 # 以下是手动配置的ip
 if node_discovery == "man":
-
-
     name_ip = {
         "win": '10.253.240.72',
         "win2": '192.168.31.204',
@@ -17,7 +15,7 @@ if node_discovery == "man":
         "smp2": '192.168.31.190',
         "smp3": '192.168.31.187',
         "hwj": '192.168.31.112',
-
+        "vma1": "192.168.31.130"
     }
 
     # 想要连接哪个节点就配置哪个节点
@@ -30,10 +28,11 @@ if node_discovery == "man":
     server_ip = name_ip[arch]
 
     ip_name = {
-        name_ip["win"]:"win",
+        name_ip["win"]: "win",
         name_ip["win2"]: "win2",
         name_ip["smp"]: "smp",
         name_ip["smp2"]: "smp2",
         name_ip["smp3"]: "smp3",
-        name_ip["hwj"]: "hwj"
+        name_ip["hwj"]: "hwj",
+        name_ip["vma1"]: "vma1"
     }
