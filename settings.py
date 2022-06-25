@@ -10,7 +10,7 @@ sched_type = "share"  # 调度类型：simple_greed , global_greed , cpu_res , l
 
 task_type = "vedio"  # 任务的类型 tasks （产生所有任务）, vedio（产生视频流任务）
 # vedio
-vedio_time_len = 0  # 要处理时间多长的视频帧 单位/min
+vedio_time_len = 2  # 要处理时间多长的视频帧 单位/min
 
 key_frame_rate = 30  # 每隔多少帧取一个关键帧
 frame_rate = 30   # 视频帧速率 30 fps
@@ -19,6 +19,7 @@ if len(sys.argv) > 1:
 total_frame_num = (frame_rate // key_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
 # total_frame_num = 30   # 要产生的帧数量
 target_list = ['ym']  # 攻击目标
+frame_interval = 0.6    # 帧的生成间隔
 
 # task
 gen_task_one_turn = True  # 只生成一次任务

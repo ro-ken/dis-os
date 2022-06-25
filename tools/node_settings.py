@@ -7,6 +7,7 @@ udp_server_port = 10000  # udp监听端口
 heart_rate = 2  # 设置心跳频率（单位/s）
 keep_alive_time_out = 2  # 心跳超时时间（单位/s）
 
+
 # 以下是手动配置的ip
 if node_discovery == "man":
     name_ip = {
