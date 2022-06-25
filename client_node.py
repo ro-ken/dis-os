@@ -22,6 +22,7 @@ class ClientThread(threading.Thread):
         self.stub = None    # grpc 代理
         self.stop = False  # 若为True 该线程结束
         self.frame_queue = [] # 待处理帧的队列 [（帧1，序号1），（帧2，序号2）...]
+        self.frame_fin = False      # 主节点的帧是否处理完成
 
     # 启动client发送任务
     def run(self) -> None:

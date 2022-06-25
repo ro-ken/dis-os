@@ -7,15 +7,13 @@ from settings import sched_type
 
 if sched_type == "simple_greed":
     from .greed.simple_greed_sched import Scheduler
-
-if sched_type == "global_greed":
+elif sched_type == "global_greed":
     from .greed.global_greed_sched import Scheduler
-
-if sched_type == "cpu_greed":
+elif sched_type == "cpu_greed":
     from .greed.cpu_greed_sched import Scheduler
-
-if sched_type == "cpu_res":
+elif sched_type == "cpu_res":
     from .node_res.cpu_res_sched import Scheduler
-
-if sched_type == "loop":
+elif sched_type == "loop":
     from .loop.loop_sched import Scheduler
+else:
+    from .sched import IScheduler as Scheduler

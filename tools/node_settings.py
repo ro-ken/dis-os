@@ -3,8 +3,9 @@ from tools.utils import get_host_ip
 
 node_list = []
 server_ip = get_host_ip()
-
 udp_server_port = 10000  # udp监听端口
+heart_rate = 2  # 设置心跳频率（单位/s）
+keep_alive_time_out = 2  # 心跳超时时间（单位/s）
 
 # 以下是手动配置的ip
 if node_discovery == "man":
@@ -15,15 +16,13 @@ if node_discovery == "man":
         "smp2": '192.168.31.190',
         "smp3": '192.168.31.187',
         "hwj": '192.168.31.112',
-        "vma1": "192.168.31.130"
+        "vma": "192.168.31.130"
     }
 
     # 想要连接哪个节点就配置哪个节点
 
-    node_list = [
-        [name_ip["win"], 50051],
-        # [name_ip["smp"], 50051]
-    ]
+    for name in node_names:
+        node_list.append([name_ip[name], 50051])
 
     server_ip = name_ip[arch]
 
@@ -34,5 +33,5 @@ if node_discovery == "man":
         name_ip["smp2"]: "smp2",
         name_ip["smp3"]: "smp3",
         name_ip["hwj"]: "hwj",
-        name_ip["vma1"]: "vma1"
+        name_ip["vma"]: "vma"
     }

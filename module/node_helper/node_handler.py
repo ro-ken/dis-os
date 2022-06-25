@@ -24,7 +24,10 @@ class NodeHandler:
         if settings.task_type == "tasks":
             asyncio.run(self.async_task())  # 执行异步所有任务
         else:
-            asyncio.run(self.async_stream_video())  # 执行异步视频流任务
+            if settings.sched_type == 'share':
+                self.gen_frame_to_queue()
+            else:
+                asyncio.run(self.async_stream_video())  # 执行异步视频流任务
 
     # 异步协同执行
     async def async_task(self):
@@ -131,29 +134,13 @@ class NodeHandler:
         rest_tasks = utils.get_allocated_tasks(self.master.conn_node_list)
         utils.write_task_seq(path, self.master.task_seq, 'rest tasks', rest_tasks)
 
-    # 自身一个节点处理视频流并实时显示
-    def process_vedio_stream_by_self(self):
-        time.sleep(1)  # 等待连接完成
-        path = ROOT + '/dataset/test2.mp4'
-        cap = cv2.VideoCapture(0)
-        img_width = 360
-        img_height = 640
-        while True:
-            ret, frame = utils.read_times(cap, 1)
-            if ret:
-                # frame = cv2.resize(frame, (img_height, img_width))
-                str_encode = utils.img_encode(frame, '.jpg')
-                request = task_pb2.Image(img=str_encode)
-                node = self.master.scheduler.get_node()
-                reply = node.client.stub.task_yolox_image(request)
-                str_encode = reply.img
-                img_res = utils.img_decode(str_encode)
-                # 实时显示
-                utils.imshow_vedio("vedio_stream", img_res)
-
-            else:
-                break
-        cap.release()
+    def get_cap(self,src = 1):
+        path = ROOT + '/dataset/vedio_30.mp4'
+        if src == 0:
+            path = 0
+        cap = cv2.VideoCapture(path)  # 从摄像头获取视频流
+        cap.set(3, 480)  # 640x480
+        return cap
 
     # 处理视频流
     def process_vedio_stream(self,queue):
@@ -161,13 +148,27 @@ class NodeHandler:
             node = self.master.scheduler.get_node()     # 获取调度节点
             node.client.frame_queue.append(queue.pop(0))  # 把任务队列的任务分发给对应节点client执行
 
+    # 只产生关键帧到公共队列
+    def gen_frame_to_queue(self):
+        time.sleep(3)  # 等待连接完成
+        cap = self.get_cap()
+        total = settings.total_frame_num  # 总共待处理帧的数量
+        for i in range(total):
+            ret, frame = utils.read_times(cap, settings.key_frame_rate)
+            if ret:
+                frame_start_time = utils.mytime()     # 获取帧产生的时间
+                self.master.frame_queue.append((frame, i, frame_start_time))  # 把帧添加到任务队列里去
+                # self.process_vedio_stream(self.master.frame_queue)
+            else:
+                break
+            if self.master.find_target:     # 发现目标，退出
+                break
+        cap.release()
+
     # 生成任务帧
     async def gen_frame_task(self):
         await asyncio.sleep(3)  # 等待连接完成
-        path = ROOT + '/dataset/vedio_30.mp4'
-        cap = cv2.VideoCapture(path)   # 从摄像头获取视频流
-        cap.set(3, 480)  # 640x480
-
+        cap = self.get_cap()
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
 
@@ -205,5 +206,28 @@ class NodeHandler:
             name = settings.ip_name[ip]
             self.create_node_to_table(ip, port,name)
             # self.create_node_to_table(ip, port)
+
+
+    # 自身一个节点处理视频流并实时显示
+    def process_vedio_stream_by_self(self):
+        time.sleep(1)  # 等待连接完成
+        cap = self.get_cap(0)
+        while True:
+            ret, frame = utils.read_times(cap, 1)
+            if ret:
+                # frame = cv2.resize(frame, (img_height, img_width))
+                str_encode = utils.img_encode(frame, '.jpg')
+                request = task_pb2.Image(img=str_encode)
+                node = self.master.scheduler.get_node()
+                reply = node.client.stub.task_yolox_image(request)
+                str_encode = reply.img
+                img_res = utils.img_decode(str_encode)
+                # 实时显示
+                utils.imshow_vedio("vedio_stream", img_res)
+
+            else:
+                break
+        cap.release()
+
 
 
