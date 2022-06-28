@@ -7,7 +7,6 @@ udp_server_port = 10000  # udp监听端口
 heart_rate = 2  # 设置心跳频率（单位/s）
 keep_alive_time_out = 2  # 心跳超时时间（单位/s）
 
-
 # 以下是手动配置的ip
 if node_discovery == "man":
     name_ip = {
@@ -17,7 +16,8 @@ if node_discovery == "man":
         "smp2": '192.168.31.190',
         "smp3": '192.168.31.187',
         "hwj": '192.168.31.112',
-        "vma": "192.168.31.130"
+        "vma": "192.168.31.130",
+        "local": "127.0.0.1"
     }
 
     # 想要连接哪个节点就配置哪个节点
@@ -34,5 +34,6 @@ if node_discovery == "man":
         name_ip["smp2"]: "smp2",
         name_ip["smp3"]: "smp3",
         name_ip["hwj"]: "hwj",
-        name_ip["vma"]: "vma"
+        name_ip["vma"]: "vma",
+        name_ip["local"]: "local"
     }
