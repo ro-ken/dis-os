@@ -1,3 +1,4 @@
+import settings
 # 任务序号 0,1,2...
 
 task_time_smp = (2.53, 0.46, 0.01, 41.54, 7.75, 15.63, 1000000)
@@ -31,21 +32,57 @@ coef_hwj = (
 task_coef_table = {"smp": coef_smp, "hwj": coef_hwj, "win": coef_hwj, "smp2": coef_smp2, "smp3": coef_smp3,
                    "vma": coef_smp, "loc":coef_smp}
 
+'''
+    以下为传输时延
+'''
+# 默认延迟
+default_self_delay = 0.5
+default_diff_node_delay = 1.0
 
+# 本节点测量延迟
+node_self_trans_delay = {"smp": 0, "hwj": 0, "win": 0, "smp2": 0, "smp3": 0,
+                   "vma": 0, "local":0}
+
+# 未测量延迟
+unscanned_delay = {"smp": 0, "hwj": 0, "win": 0, "smp2": 0, "smp3": 0,
+                   "vma": 0, "local":0}
+
+diff_node_delay_table = {"smp": unscanned_delay, "hwj": unscanned_delay, "win": unscanned_delay, "smp2": unscanned_delay, "smp3": unscanned_delay,
+                   "vma": unscanned_delay, "local":unscanned_delay}
 
 '''
     以下为向上层暴露的api函数
 '''
 
 
+# 返回多任务处理时间表
 def task_time_table_fun(name):
     arch = name[:3]  # 取前3个作为key：例 name = smp2 ，arch = smp
     return task_time_table[arch]
 
-
+# 返回任务处理时间系数表
 def task_coef_table_fun(name):
     arch = name[:3]  # 取前3个作为key：例 name = smp2 ，arch = smp
     if arch == 'smp':  #
         return task_coef_table[name]
     else:
         return task_coef_table[arch]
+
+# 返回传输时延
+def node_trans_delay_table_fun(name):
+    # 本节点时延
+    if name == settings.arch:
+        if settings.self_delay_time > 0:
+            return settings.self_delay_time
+        elif node_self_trans_delay[name] > 0:
+            return node_self_trans_delay[name]
+        else:
+            return default_self_delay
+    # 其他节点时延
+    else:
+        if settings.diff_node_delay_time > 0:
+            return settings.diff_node_delay_time
+        elif diff_node_delay_table[settings.arch][name] > 0:
+            return diff_node_delay_table[settings.arch][name]
+        else:
+            return default_diff_node_delay

@@ -1,6 +1,6 @@
 from .static_tbl import task_time_table_fun
 from .static_tbl import task_coef_table_fun
-
+from .static_tbl import node_trans_delay_table_fun
 
 # 获取当前最小时间的节点 返回最小时间节点的name
 def select_min_time_node(node_task_time, task) -> str:

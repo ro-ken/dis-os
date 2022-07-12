@@ -2,7 +2,8 @@ from module.sched.sched import IScheduler
 from tools import utils
 from tools.utils import ROOT
 from .utils import *
-
+from .static_tbl import task_coef_table_fun
+from .static_tbl import node_trans_delay_table_fun
 
 # 全局贪心 + CPU调度
 # 和全局贪心差不多，就是把任务的静态运行时间从静态表改为用拟合后的一次函数计算
@@ -58,7 +59,12 @@ class Scheduler(IScheduler):
         cpu = node.res.cpu.use_ratio  # cpu的利用率   可能超过100%
         x = cpu / node.res.cpu.logic_num  # 归一化处理 ，压缩到（0-100%）
         y = regression(coef, x)  # 任务应该运行的时间
-        return y
+
+        delay_time = node_trans_delay_table_fun(node_name)      # 任务的传输时间
+
+        total_cost = y + delay_time     # 总的花费时间
+
+        return total_cost
 
 
     # 获取节点所需运行时间的表
