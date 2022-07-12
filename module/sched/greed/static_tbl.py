@@ -31,6 +31,8 @@ coef_hwj = (
 task_coef_table = {"smp": coef_smp, "hwj": coef_hwj, "win": coef_hwj, "smp2": coef_smp2, "smp3": coef_smp3,
                    "vma": coef_smp, "loc":coef_smp}
 
+
+
 '''
     以下为向上层暴露的api函数
 '''
