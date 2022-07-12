@@ -154,7 +154,7 @@ class NodeHandler:
         cap = self.get_cap()
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
-            cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)
+            cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)    # 每30帧取一帧
             ret, frame = cap.read()
             time.sleep(settings.frame_interval)     # 控制速度
             print(utils.mytime())
@@ -175,14 +175,20 @@ class NodeHandler:
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
 
-            ret, frame = utils.read_times(cap, settings.key_frame_rate)
+            #ret, frame = utils.read_times(cap, settings.key_frame_rate)
+
+            cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)    # 每30帧取一帧
+            ret, frame = cap.read()
+            time.sleep(settings.frame_interval)  # 控制速度
+
+
             if ret:
                 frame_start_time = utils.mytime()     # 获取帧产生的时间
                 self.master.frame_queue.append((frame, i, frame_start_time))  # 把帧添加到任务队列里去
-                self.process_vedio_stream(self.master.frame_queue)
+                self.process_vedio_stream(self.master.frame_queue)      # 分发下去
             else:
                 break
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.01)
             if self.master.find_target:     # 发现目标，退出
                 break
         cap.release()

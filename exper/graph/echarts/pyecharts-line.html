@@ -7,11 +7,11 @@
 
 </head>
 <body>
-    <div id="a2080a68d2de4eae8d931cbbaa50a12d" class="chart-container" style="width:900px; height:500px;"></div>
+    <div id="046cf8349d2f41cfb65d57e3abe49176" class="chart-container" style="width:900px; height:500px;"></div>
     <script>
-        var chart_a2080a68d2de4eae8d931cbbaa50a12d = echarts.init(
-            document.getElementById('a2080a68d2de4eae8d931cbbaa50a12d'), 'white', {renderer: 'canvas'});
-        var option_a2080a68d2de4eae8d931cbbaa50a12d = {
+        var chart_046cf8349d2f41cfb65d57e3abe49176 = echarts.init(
+            document.getElementById('046cf8349d2f41cfb65d57e3abe49176'), 'white', {renderer: 'canvas'});
+        var option_046cf8349d2f41cfb65d57e3abe49176 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -48,87 +48,107 @@
     ],
     "series": [
         {
-            "type": "bar",
-            "name": "\u5546\u5bb6A",
-            "legendHoverLink": true,
-            "data": [
-                114,
-                55,
-                27,
-                101,
-                125,
-                27,
-                105
-            ],
-            "showBackground": false,
-            "barMinHeight": 0,
-            "barCategoryGap": "20%",
-            "barGap": "30%",
-            "large": false,
-            "largeThreshold": 400,
-            "seriesLayoutBy": "column",
-            "datasetIndex": 0,
+            "type": "line",
+            "name": "smp1 + smp2",
+            "connectNulls": false,
+            "symbolSize": 4,
+            "showSymbol": true,
+            "smooth": false,
             "clip": true,
-            "zlevel": 0,
-            "z": 2,
+            "step": false,
+            "data": [
+                [
+                    "5min",
+                    8.324
+                ],
+                [
+                    "10min",
+                    2.334
+                ],
+                [
+                    "15min",
+                    147.106
+                ],
+                [
+                    "20min",
+                    184.888
+                ]
+            ],
+            "hoverAnimation": true,
             "label": {
                 "show": true,
-                "position": "right",
+                "position": "top",
                 "margin": 8
             },
-            "rippleEffect": {
+            "lineStyle": {
                 "show": true,
-                "brushType": "stroke",
-                "scale": 2.5,
-                "period": 4
-            }
+                "width": 1,
+                "opacity": 1,
+                "curveness": 0,
+                "type": "solid"
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "zlevel": 0,
+            "z": 0
         },
         {
-            "type": "bar",
-            "name": "\u5546\u5bb6B",
-            "legendHoverLink": true,
-            "data": [
-                57,
-                134,
-                137,
-                129,
-                145,
-                60,
-                49
-            ],
-            "showBackground": false,
-            "barMinHeight": 0,
-            "barCategoryGap": "20%",
-            "barGap": "30%",
-            "large": false,
-            "largeThreshold": 400,
-            "seriesLayoutBy": "column",
-            "datasetIndex": 0,
+            "type": "line",
+            "name": "smp1 + \u865a\u62df\u673a",
+            "connectNulls": false,
+            "symbolSize": 4,
+            "showSymbol": true,
+            "smooth": false,
             "clip": true,
-            "zlevel": 0,
-            "z": 2,
+            "step": false,
+            "data": [
+                [
+                    "5min",
+                    78.748
+                ],
+                [
+                    "10min",
+                    187.852
+                ],
+                [
+                    "15min",
+                    221.31
+                ],
+                [
+                    "20min",
+                    563.04
+                ]
+            ],
+            "hoverAnimation": true,
             "label": {
                 "show": true,
-                "position": "right",
+                "position": "top",
                 "margin": 8
             },
-            "rippleEffect": {
+            "lineStyle": {
                 "show": true,
-                "brushType": "stroke",
-                "scale": 2.5,
-                "period": 4
-            }
+                "width": 1,
+                "opacity": 1,
+                "curveness": 0,
+                "type": "solid"
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "zlevel": 0,
+            "z": 0
         }
     ],
     "legend": [
         {
             "data": [
-                "\u5546\u5bb6A",
-                "\u5546\u5bb6B"
+                "smp1 + smp2",
+                "smp1 + \u865a\u62df\u673a"
             ],
             "selected": {
-                "\u5546\u5bb6A": true,
-                "\u5546\u5bb6B": true
+                "smp1 + smp2": true,
+                "smp1 + \u865a\u62df\u673a": true
             },
             "show": true,
             "padding": 5,
@@ -174,13 +194,20 @@
                     "curveness": 0,
                     "type": "solid"
                 }
-            }
+            },
+            "data": [
+                "5min",
+                "10min",
+                "15min",
+                "20min"
+            ]
         }
     ],
     "yAxis": [
         {
+            "name": "\u5269\u4f59\u65f6\u95f4/s",
             "show": true,
-            "scale": false,
+            "scale": true,
             "nameLocation": "end",
             "nameGap": 15,
             "gridIndex": 0,
@@ -189,7 +216,7 @@
             "splitNumber": 5,
             "minInterval": 0,
             "splitLine": {
-                "show": false,
+                "show": true,
                 "lineStyle": {
                     "show": true,
                     "width": 1,
@@ -197,27 +224,17 @@
                     "curveness": 0,
                     "type": "solid"
                 }
-            },
-            "data": [
-                "\u886c\u886b",
-                "\u6bdb\u8863",
-                "\u9886\u5e26",
-                "\u88e4\u5b50",
-                "\u98ce\u8863",
-                "\u9ad8\u8ddf\u978b",
-                "\u889c\u5b50"
-            ]
+            }
         }
     ],
     "title": [
         {
-            "text": "Bar-\u6d4b\u8bd5\u6e32\u67d3\u56fe\u7247",
             "padding": 5,
             "itemGap": 10
         }
     ]
 };
-        chart_a2080a68d2de4eae8d931cbbaa50a12d.setOption(option_a2080a68d2de4eae8d931cbbaa50a12d);
+        chart_046cf8349d2f41cfb65d57e3abe49176.setOption(option_046cf8349d2f41cfb65d57e3abe49176);
     </script>
 </body>
 </html>

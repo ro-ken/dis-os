@@ -113,14 +113,21 @@ class ClientHandler:
         path = ROOT + 'output/' + name + '_frame_task_time.txt'
         frame_res_path = ROOT + 'output/frame_res/'
         utils.write_time_start(path, name, addr, 'w')
+
+        work_queue = self.master.frame_queue        # 调度模式下用client自己的队列作为工作队列
+        if settings.sched_type == 'share':          # 共享模式下用node的队列作为工作队列
+            work_queue = self.master.node.frame_queue
+
         while not self.master.stop and not self.master.node.find_target:
-            if len(self.master.node.frame_queue) == 0:
+
+            if len(work_queue) == 0:
                 self.master.frame_fin = True
                 await asyncio.sleep(1)
             else:
                 # print(self.task_queue)
-                # frame_tuple = self.master.node.frame_queue[0]
-                frame_tuple = self.master.node.frame_queue.pop(0)   # 弹出一帧
+                # frame_tuple = work_queue[0]
+
+                frame_tuple = work_queue.pop(0)   # 弹出一帧
                 self.master.frame_fin = False
                 frame, seq, frame_start_time = frame_tuple
                 utils.write_time_start(path, name + " before sched frame seq :" + str(seq), frame_start_time)
@@ -133,11 +140,11 @@ class ClientHandler:
                         self.master.node.find_target = True
                         print("find target!")
                 except:
-                    self.master.node.frame_queue.append(frame_tuple)
+                    work_queue.append(frame_tuple)
                     self.disconnection()
                     break
                 utils.write_time_end(path, name + " after send   frame seq :" + str(seq), mytime())
-                # self.master.frame_queue.pop(0)
+                # work_queue.pop(0)
 
                 if seq == settings.total_frame_num - 1:
                     self.master.frame_fin = True

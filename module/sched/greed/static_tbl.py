@@ -7,7 +7,7 @@ task_time_win = (0.33, 0.23, 0.01, 3.45, 1.34, 2.20, 2.95)
 
 # 静态时间表
 task_time_table = {"smp": task_time_smp, "ywd": task_time_ywd, "hwj": task_time_hwj, "win": task_time_win,
-                   "vma": task_time_smp}
+                   "vma": task_time_smp,"loc":task_time_smp}
 
 # 任务运行时间随CPU负载变化的系数 y=ax+b 系数(a,b)
 vedio_coef_hwj = (-1.7288 * 10 ** (-8), 3.3566 * 10 ** (-6), -1.5542 * 10 ** (-4), 0.0069, 0.710699)
@@ -29,7 +29,7 @@ coef_hwj = (
 
 # 比例系数表
 task_coef_table = {"smp": coef_smp, "hwj": coef_hwj, "win": coef_hwj, "smp2": coef_smp2, "smp3": coef_smp3,
-                   "vma": coef_smp}
+                   "vma": coef_smp, "loc":coef_smp}
 
 '''
     以下为向上层暴露的api函数
