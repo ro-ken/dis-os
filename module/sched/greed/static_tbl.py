@@ -42,12 +42,15 @@ default_self_delay = 0.5
 default_diff_node_delay = 1.0
 
 # 本节点测量延迟
-node_self_trans_delay = {"smp": 0, "hwj": 0, "win": 0, "smp2": 0, "smp3": 0,
+node_self_trans_delay = {"smp": 0.6096, "hwj": 0, "win": 0, "smp2": 0, "smp3": 0,
                          "vma": 0, "local": 0, "vma2": 0, "vma3": 0, "vma4": 0, "vma5": 0, "vma6": 0}
 
 # 未测量延迟
 unscanned_delay = {"smp": 0, "hwj": 0, "win": 0, "smp2": 0, "smp3": 0,
                    "vma": 0, "local": 0, "vma2": 0, "vma3": 0, "vma4": 0, "vma5": 0, "vma6": 0, }
+
+smp_delay = unscanned_delay.copy()
+smp_delay["smp2"] = 1.4423
 
 diff_node_delay_table = {"smp": unscanned_delay, "hwj": unscanned_delay, "win": unscanned_delay,
                          "smp2": unscanned_delay, "smp3": unscanned_delay,
