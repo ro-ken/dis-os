@@ -212,10 +212,10 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         frame_cnt = request.frame_cnt
         node_name = request.node_name
 
+        self.face_recognizer = face_recognition.Face_Recognizer()  # 人脸识别器
+
         start_time = utils.mytime(point_len=3)
-
         success, img_out = self.face_recognizer.face_recognition(img, names, frame_cnt)
-
         end_time = utils.mytime(point_len=3)
         time_slot = end_time - start_time
 
