@@ -1,4 +1,4 @@
-smp = {"smp": 1, "smp2": 2, "smp3": 3}
+smp = {"smp": 115, "smp2": 100}
 
 prop_tbl = {"smp": smp}
 

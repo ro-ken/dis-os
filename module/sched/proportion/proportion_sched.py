@@ -22,4 +22,6 @@ class Scheduler(IScheduler):
                 max_w = weight
                 max_node = node
 
+        print('max_node:{}  weight={}'.format(max_node.name,max_w))
+        max_node.allocated_num += 1
         return max_node
