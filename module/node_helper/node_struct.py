@@ -13,3 +13,7 @@ class NodeInfo:
 
         self.run_tasks = []         # 该节点分配给本节点的任务序列
         self.task_start_time = 0    # 该节点派发到本节点运行任务的起始时间 后面程序用 time.time()获取
+
+        # proportion  调度
+        self.allocated_num = 1      # 已分配的帧数
+

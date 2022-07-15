@@ -15,5 +15,7 @@ elif sched_type == "cpu_res":
     from .node_res.cpu_res_sched import Scheduler
 elif sched_type == "loop":
     from .loop.loop_sched import Scheduler
+elif sched_type == "prop":
+    from .proportion.proportion_sched import Scheduler
 else:
     from .sched import IScheduler as Scheduler

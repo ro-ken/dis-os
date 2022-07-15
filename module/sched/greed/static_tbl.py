@@ -42,26 +42,14 @@ default_self_delay = 0.5
 default_diff_node_delay = 1.0
 
 # 本节点测量延迟
-node_self_trans_delay = {"smp": 0.6096, "hwj": 0, "win": 0, "smp2": 0, "smp3": 0,
-                         "vma": 0, "local": 0, "vma2": 0, "vma3": 0, "vma4": 0, "vma5": 0, "vma6": 0}
 
-# 未测量延迟
-unscanned_delay = {"smp": 0, "hwj": 0, "win": 0, "smp2": 0, "smp3": 0,
-                   "vma": 0, "local": 0, "vma2": 0, "vma3": 0, "vma4": 0, "vma5": 0, "vma6": 0, }
+smp_delay = {"smp": 0.6096,"smp2":1.4423}
 
-smp_delay = unscanned_delay.copy()
-smp_delay["smp2"] = 1.4423
-
-diff_node_delay_table = {"smp": unscanned_delay, "hwj": unscanned_delay, "win": unscanned_delay,
-                         "smp2": unscanned_delay, "smp3": unscanned_delay,
-                         "vma": unscanned_delay, "local": unscanned_delay, "vma2": unscanned_delay,
-                         "vma3": unscanned_delay, "vma4": unscanned_delay, "vma5": unscanned_delay,
-                         "vma6": unscanned_delay}
+diff_node_delay_table = {"smp": smp_delay}
 
 '''
     以下为向上层暴露的api函数
 '''
-
 
 # 返回多任务处理时间表
 def task_time_table_fun(name):
@@ -81,18 +69,15 @@ def task_coef_table_fun(name):
 # 返回传输时延
 def node_trans_delay_table_fun(name):
     # 本节点时延
+    send_table = diff_node_delay_table.get(settings.arch,None)
+
+    if send_table is not None:
+        delay = send_table.get(name, -1)
+        if delay != -1:
+            return delay
+
+    # 表项里没有，用默认值
     if name == settings.arch:
-        if settings.self_delay_time > 0:
-            return settings.self_delay_time
-        elif node_self_trans_delay[name] > 0:
-            return node_self_trans_delay[name]
-        else:
-            return default_self_delay
-    # 其他节点时延
+        return default_self_delay
     else:
-        if settings.diff_node_delay_time > 0:
-            return settings.diff_node_delay_time
-        elif diff_node_delay_table[settings.arch][name] > 0:
-            return diff_node_delay_table[settings.arch][name]
-        else:
-            return default_diff_node_delay
+        return default_diff_node_delay

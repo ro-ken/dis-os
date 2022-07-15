@@ -5,11 +5,8 @@ sub_net = 5   # 子网分区  相同分区的节点可互联
 node_discovery = "man"  # 节点获取方式：man：手动配置节点ip ， auto：自动发现
 node_names = [arch]    # 若为手动配置，把要连接的节点名写上
 env = "exp"  # 环境：”exp“，做实验测试的环境 ， ”run“ 程序正常运行
-# 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed 具体去sched_api.py查看  <share>为共享队列模式
-sched_type = "cpu_greed"
-self_delay_time = 0      # 本节点到本节点的传输延迟，单位/s
-diff_node_delay_time = 0       # 本节点到其他节点的延迟，单位/s
-
+# 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed,prop 具体去sched_api.py查看  <share>为共享队列模式
+sched_type = "prop"
 
 task_type = "vedio"  # 任务的类型 tasks （产生所有任务）, vedio（产生视频流任务）
 # vedio

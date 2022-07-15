@@ -7,11 +7,11 @@
 
 </head>
 <body>
-    <div id="046cf8349d2f41cfb65d57e3abe49176" class="chart-container" style="width:900px; height:500px;"></div>
+    <div id="f77d3a09165d40dabe240946cb9b5262" class="chart-container" style="width:900px; height:500px;"></div>
     <script>
-        var chart_046cf8349d2f41cfb65d57e3abe49176 = echarts.init(
-            document.getElementById('046cf8349d2f41cfb65d57e3abe49176'), 'white', {renderer: 'canvas'});
-        var option_046cf8349d2f41cfb65d57e3abe49176 = {
+        var chart_f77d3a09165d40dabe240946cb9b5262 = echarts.init(
+            document.getElementById('f77d3a09165d40dabe240946cb9b5262'), 'white', {renderer: 'canvas'});
+        var option_f77d3a09165d40dabe240946cb9b5262 = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -138,17 +138,109 @@
             },
             "zlevel": 0,
             "z": 0
+        },
+        {
+            "type": "line",
+            "name": "smp1 + smp2\uff08\u8c03\u6574\u6743\u91cd\uff09",
+            "connectNulls": false,
+            "symbolSize": 4,
+            "showSymbol": true,
+            "smooth": false,
+            "clip": true,
+            "step": false,
+            "data": [
+                [
+                    "5min",
+                    71.29
+                ],
+                [
+                    "10min",
+                    172.7
+                ],
+                [
+                    "15min",
+                    315.2
+                ]
+            ],
+            "hoverAnimation": true,
+            "label": {
+                "show": true,
+                "position": "top",
+                "margin": 8
+            },
+            "lineStyle": {
+                "show": true,
+                "width": 1,
+                "opacity": 1,
+                "curveness": 0,
+                "type": "solid"
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "zlevel": 0,
+            "z": 0
+        },
+        {
+            "type": "line",
+            "name": "smp1 + smp2\uff08\u95ee\u9898\u89e3\u51b3\u540e\uff09",
+            "connectNulls": false,
+            "symbolSize": 4,
+            "showSymbol": true,
+            "smooth": false,
+            "clip": true,
+            "step": false,
+            "data": [
+                [
+                    "5min",
+                    28
+                ],
+                [
+                    "10min",
+                    23
+                ],
+                [
+                    "15min",
+                    41.2
+                ],
+                [
+                    "20min",
+                    54.4
+                ]
+            ],
+            "hoverAnimation": true,
+            "label": {
+                "show": true,
+                "position": "top",
+                "margin": 8
+            },
+            "lineStyle": {
+                "show": true,
+                "width": 1,
+                "opacity": 1,
+                "curveness": 0,
+                "type": "solid"
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "zlevel": 0,
+            "z": 0
         }
     ],
     "legend": [
         {
             "data": [
                 "smp1 + smp2",
-                "smp1 + \u865a\u62df\u673a"
+                "smp1 + \u865a\u62df\u673a",
+                "smp1 + smp2\uff08\u8c03\u6574\u6743\u91cd\uff09",
+                "smp1 + smp2\uff08\u95ee\u9898\u89e3\u51b3\u540e\uff09"
             ],
             "selected": {
                 "smp1 + smp2": true,
-                "smp1 + \u865a\u62df\u673a": true
+                "smp1 + \u865a\u62df\u673a": true,
+                "smp1 + smp2\uff08\u8c03\u6574\u6743\u91cd\uff09": true,
+                "smp1 + smp2\uff08\u95ee\u9898\u89e3\u51b3\u540e\uff09": true
             },
             "show": true,
             "padding": 5,
@@ -234,7 +326,7 @@
         }
     ]
 };
-        chart_046cf8349d2f41cfb65d57e3abe49176.setOption(option_046cf8349d2f41cfb65d57e3abe49176);
+        chart_f77d3a09165d40dabe240946cb9b5262.setOption(option_f77d3a09165d40dabe240946cb9b5262);
     </script>
 </body>
 </html>
