@@ -7,6 +7,7 @@ node_names = [arch]    # 若为手动配置，把要连接的节点名写上
 env = "exp"  # 环境：”exp“，做实验测试的环境 ， ”run“ 程序正常运行
 # 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed,prop 具体去sched_api.py查看  <share>为共享队列模式
 sched_type = "prop"
+smp_prop = 0
 
 task_type = "vedio"  # 任务的类型 tasks （产生所有任务）, vedio（产生视频流任务）
 # vedio
@@ -16,6 +17,9 @@ key_frame_rate = 30  # 每隔多少帧取一个关键帧
 frame_rate = 30   # 视频帧速率 30 fps
 if len(sys.argv) > 1:
     vedio_time_len = int(sys.argv[1])  # 获取参数
+if len(sys.argv) > 2:
+    smp_prop = float(sys.argv[2])  # 获取参数
+
 total_frame_num = (frame_rate // key_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
 # total_frame_num = 15   # 要产生的帧数量
 target_list = ['ym']  # 攻击目标

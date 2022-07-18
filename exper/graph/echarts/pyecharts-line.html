@@ -7,11 +7,11 @@
 
 </head>
 <body>
-    <div id="91fe45a2a381460f8d4827e08b20f763" class="chart-container" style="width:900px; height:500px;"></div>
+    <div id="f519c526eae342319b3af2a2cb0ddc3c" class="chart-container" style="width:900px; height:500px;"></div>
     <script>
-        var chart_91fe45a2a381460f8d4827e08b20f763 = echarts.init(
-            document.getElementById('91fe45a2a381460f8d4827e08b20f763'), 'white', {renderer: 'canvas'});
-        var option_91fe45a2a381460f8d4827e08b20f763 = {
+        var chart_f519c526eae342319b3af2a2cb0ddc3c = echarts.init(
+            document.getElementById('f519c526eae342319b3af2a2cb0ddc3c'), 'white', {renderer: 'canvas'});
+        var option_f519c526eae342319b3af2a2cb0ddc3c = {
     "animation": true,
     "animationThreshold": 2000,
     "animationDuration": 1000,
@@ -49,7 +49,7 @@
     "series": [
         {
             "type": "line",
-            "name": "smp1 + smp2\uff081.61:1\uff09",
+            "name": "smp1\uff1asmp2=1:1",
             "connectNulls": false,
             "symbolSize": 4,
             "showSymbol": true,
@@ -59,11 +59,19 @@
             "data": [
                 [
                     "5min",
-                    7
+                    37.33
                 ],
                 [
                     "10min",
-                    22
+                    77.74
+                ],
+                [
+                    "15min",
+                    115.5
+                ],
+                [
+                    "20min",
+                    159.99
                 ]
             ],
             "hoverAnimation": true,
@@ -87,7 +95,7 @@
         },
         {
             "type": "line",
-            "name": "smp1 + smp2\uff081.61:1\uff09(\u91cd\u6d4b)",
+            "name": "smp1\uff1asmp2=\u4e0d\u540c\u6bd4\u4f8b",
             "connectNulls": false,
             "symbolSize": 4,
             "showSymbol": true,
@@ -97,11 +105,65 @@
             "data": [
                 [
                     "5min",
-                    29
+                    3.01
                 ],
                 [
                     "10min",
-                    70
+                    9.34
+                ],
+                [
+                    "15min",
+                    9.39
+                ],
+                [
+                    "20min",
+                    44.57
+                ]
+            ],
+            "hoverAnimation": true,
+            "label": {
+                "show": true,
+                "position": "top",
+                "margin": 8
+            },
+            "lineStyle": {
+                "show": true,
+                "width": 1,
+                "opacity": 1,
+                "curveness": 0,
+                "type": "solid"
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "zlevel": 0,
+            "z": 0
+        },
+        {
+            "type": "line",
+            "name": "smp1\uff1asmp2=1.0882",
+            "connectNulls": false,
+            "symbolSize": 4,
+            "showSymbol": true,
+            "smooth": false,
+            "clip": true,
+            "step": false,
+            "data": [
+                [
+                    "5min",
+                    1.86
+                ],
+                [
+                    "10min",
+                    1.36
+                ],
+                [
+                    "15min",
+                    31.1
+                ],
+                [
+                    "20min",
+                    47.67
                 ]
             ],
             "hoverAnimation": true,
@@ -127,12 +189,14 @@
     "legend": [
         {
             "data": [
-                "smp1 + smp2\uff081.61:1\uff09",
-                "smp1 + smp2\uff081.61:1\uff09(\u91cd\u6d4b)"
+                "smp1\uff1asmp2=1:1",
+                "smp1\uff1asmp2=\u4e0d\u540c\u6bd4\u4f8b",
+                "smp1\uff1asmp2=1.0882"
             ],
             "selected": {
-                "smp1 + smp2\uff081.61:1\uff09": true,
-                "smp1 + smp2\uff081.61:1\uff09(\u91cd\u6d4b)": true
+                "smp1\uff1asmp2=1:1": true,
+                "smp1\uff1asmp2=\u4e0d\u540c\u6bd4\u4f8b": true,
+                "smp1\uff1asmp2=1.0882": true
             },
             "show": true,
             "padding": 5,
@@ -189,7 +253,7 @@
     ],
     "yAxis": [
         {
-            "name": "\u5269\u4f59\u5e27\u6570/\u5f20",
+            "name": "\u5269\u4f59\u65f6\u95f4/s",
             "show": true,
             "scale": true,
             "nameLocation": "end",
@@ -218,7 +282,7 @@
         }
     ]
 };
-        chart_91fe45a2a381460f8d4827e08b20f763.setOption(option_91fe45a2a381460f8d4827e08b20f763);
+        chart_f519c526eae342319b3af2a2cb0ddc3c.setOption(option_f519c526eae342319b3af2a2cb0ddc3c);
     </script>
 </body>
 </html>
