@@ -8,27 +8,27 @@ topic = 'time'
 
 
 if topic == 'num':
-    y1= [2.4,1.6,21,34]
-    y2= [12,29.6,31.8,76]
-    y3= [18.2,69.6,93.8]
-    y4= [10,14.2,12,27.6]
+    y1= [10,14.2,12,27.6]
+    y2= [40,96.5]
+    y3= [7,22]
+    y4= [29,70]
     title = '剩余帧数对比'
     y_name = '剩余帧数/张'
 else:
-    y1= [8.324,2.334,147.106,184.888]
-    y2= [78.748,187.852,221.31,563.04]
-    y3= [71.29,172.7,315.2]
-    y4= [28,23,41.2,54.4]
+    y1= [28,23,41.2,54.4]
+    y2=[151.625,250.95]
+    y3=[24.63,59.75]
+    y4=[83.52,127.19]
     title = '剩余时间对比'
     y_name = '剩余时间/s'
 
 line1=(
     Line() # 生成line类型图表
     .add_xaxis(['5min','10min','15min','20min'])  # 添加x轴，Faker.choose()是使用faker的随机数据生成x轴标签
-    .add_yaxis('smp1 + smp2',y1)  # 添加y轴，Faker.values()是使用faker的随机数据生成y轴数值
-    .add_yaxis('smp1 + 虚拟机',y2)
-    .add_yaxis('smp1 + smp2（调整权重）',y3)
-    .add_yaxis('smp1 + smp2（问题解决后）',y4)
+    .add_yaxis('smp1 + smp2（以前算法）',y1)
+    .add_yaxis('smp1 + smp2（1.15:1）',y2)
+    .add_yaxis('smp1 + smp2（1.61:1）',y3)
+    .add_yaxis('smp1 + smp2（1.61:1）(重测)',y4)
     .set_global_opts(
         # title_opts=opts.TitleOpts(title=title),
         yaxis_opts=opts.AxisOpts(
