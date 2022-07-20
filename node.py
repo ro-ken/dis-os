@@ -6,7 +6,7 @@ from module.node_helper import node_handler
 from module.sched import sched_api
 from tools import node_settings as settings
 from module.node_discovery.dyn_node_server import DynNodeServer
-
+from module.node_helper import vedio_handler
 
 # 分布式系统主启动类
 class Node:
@@ -24,10 +24,14 @@ class Node:
         self.node_list = settings.node_list  # 所有已知节点集合
         self.task_seq = 0  # 表示第几波任务
 
+
+
         # 视频流
         self.target_list = settings.target_list  # 攻击目标
         self.find_target = False  # 是否发现目标 （视频流处理任务）
-
+        self.target_frame = -1  # 目标帧的序号
+        self.recv_queue = []       # 接受到的任务帧序列
+        self.next_frame = 0     # 下一帧入队的序号，防止乱序
 
         # 对象属性
         self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
@@ -42,8 +46,12 @@ class Node:
         if settings.node_discovery == "auto":
             self.dyn_server.StartSocketServer()  # 启动设备发现服务器，监听有无节点加入
         self.handler.join_cluster()  # 将本节点加入集群
-
+        if settings.env == "show":
+            vedio_handler.VedioHandlerThread(self).start()  # 开启实时视频显示线程
         self.handler.task_running()     # 执行任务
+
+
+
 
 if __name__ == '__main__':
     node = Node(50051)

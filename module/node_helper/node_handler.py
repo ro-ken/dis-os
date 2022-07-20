@@ -21,6 +21,7 @@ class NodeHandler:
 
     # 任务开始执行
     def task_running(self):
+        # self.process_vedio_stream_by_self()
         if settings.task_type == "tasks":
             asyncio.run(self.async_task())  # 执行异步所有任务
         else:
@@ -42,6 +43,7 @@ class NodeHandler:
         await asyncio.gather(
             self.gen_frame_task(),  # 生成视频帧并处理
             self.do_fail_stream_task()  # 处理失败帧的任务
+            # self.show_vedio()       # 实时显示视频帧
         )
 
     # 通过调度模块方法获取节点地址, 开始进行测试
@@ -171,16 +173,15 @@ class NodeHandler:
     # 生成任务帧
     async def gen_frame_task(self):
         await asyncio.sleep(3)  # 等待连接完成
-        cap = self.get_cap()
+        cap = self.get_cap(settings.vedio_src)
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
-
-            #ret, frame = utils.read_times(cap, settings.key_frame_rate)
-
-            cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)    # 每30帧取一帧
-            ret, frame = cap.read()
+            if settings.vedio_src == 0:     # 从摄像头读取视频流
+                ret, frame = utils.read_times(cap, settings.key_frame_rate)
+            else:
+                cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)    # 每30帧取一帧
+                ret, frame = cap.read()
             time.sleep(settings.frame_interval)  # 控制速度
-
 
             if ret:
                 frame_start_time = utils.mytime()     # 获取帧产生的时间
@@ -237,6 +238,12 @@ class NodeHandler:
             else:
                 break
         cap.release()
+
+    # async def show_vedio(self):
+    #     if settings.env != "show":
+    #         return
+    #     while True:
+
 
 
 

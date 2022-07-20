@@ -17,6 +17,7 @@ class ClientHandler:
 
     def __init__(self, master, stub):
         self.master = master  # client节点
+        self.recv_queue = []
         self.task_handler = task_handler.TaskHandler(master, stub)  # 通过grpc发送任务的辅助类
 
     def task_running(self):
@@ -38,7 +39,8 @@ class ClientHandler:
     async def async_stream_video(self):
         await asyncio.gather(
             self.keep_alive(),
-            self.process_frame_task()
+            self.process_frame_task(),
+            self.frame_to_queue()
         )
 
     # 做任务测试
@@ -135,9 +137,11 @@ class ClientHandler:
                 try:
                     # res = self.task_handler.task_yolox_image(frame)
                     success, res = self.task_handler.task_face_recognition(frame_tuple, self.master.node.target_list)
+                    self.recv_queue.append((res,seq))
                     cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
                     if success:  # 找到目标
                         self.master.node.find_target = True
+                        self.master.node.target_frame = seq
                         print("find target!")
                 except:
                     work_queue.append(frame_tuple)
@@ -162,3 +166,24 @@ class ClientHandler:
                                 await asyncio.sleep(0.5)
 
             await asyncio.sleep(0.1)  # take a break
+
+    # 把视频帧放入公共队列显示
+    async def frame_to_queue(self):
+        if settings.env != "show":
+            return
+        while not self.master.stop or len(self.recv_queue) != 0:
+            if len(self.recv_queue) == 0:
+                await asyncio.sleep(0.5)
+            else:
+                item=self.recv_queue.pop(0)
+                seq = item[1]
+                while seq != self.master.node.next_frame:       # 不是下一帧序号，等待
+                    await asyncio.sleep(0.3)
+
+                self.master.node.recv_queue.append(item)
+                self.master.node.next_frame += 1
+
+
+
+
+
