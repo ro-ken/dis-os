@@ -137,12 +137,16 @@ class ClientHandler:
                 try:
                     # res = self.task_handler.task_yolox_image(frame)
                     success, res = self.task_handler.task_face_recognition(frame_tuple, self.master.node.target_list)
-                    self.recv_queue.append((res,seq))
-                    cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
+                    if settings.env == "show":
+                        self.recv_queue.append((res,seq))
+
                     if success:  # 找到目标
                         self.master.node.find_target = True
                         self.master.node.target_frame = seq
                         print("find target!")
+                    if not success and self.master.node.find_target:
+                        break       # 别的节点发现了目标，直接退出，让最后一张为目标图
+                    cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
                 except:
                     work_queue.append(frame_tuple)
                     self.disconnection()
