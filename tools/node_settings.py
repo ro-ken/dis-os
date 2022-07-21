@@ -17,6 +17,10 @@ if node_discovery == "man":
         "smp3": '192.168.31.187',
         "hwj": '192.168.31.112',
         "vma": "192.168.31.130",
+        "rpa": "192.168.31.94",
+        "rpb": "192.168.31.25",
+        "rpc": "192.168.31.243",
+
         "local": "127.0.0.1"
     }
 
@@ -35,5 +39,9 @@ if node_discovery == "man":
         name_ip["smp3"]: "smp3",
         name_ip["hwj"]: "hwj",
         name_ip["vma"]: "vma",
+        name_ip["rpa"]: "rpa",
+        name_ip["rpb"]: "rpb",
+        name_ip["rpc"]: "rpc",
+
         name_ip["local"]: "local"
     }
