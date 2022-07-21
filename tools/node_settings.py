@@ -20,6 +20,7 @@ if node_discovery == "man":
         "rpa": "192.168.31.94",
         "rpb": "192.168.31.25",
         "rpc": "192.168.31.243",
+        "rpd": "192.168.31.136",
 
         "local": "127.0.0.1"
     }
@@ -42,6 +43,7 @@ if node_discovery == "man":
         name_ip["rpa"]: "rpa",
         name_ip["rpb"]: "rpb",
         name_ip["rpc"]: "rpc",
+        name_ip["rpd"]: "rpd",
 
         name_ip["local"]: "local"
     }
