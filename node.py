@@ -43,7 +43,7 @@ class Node:
     # 各个线程启动
     def start(self):
         self.server_t.start()  # 启动服务器
-        if settings.node_discovery == "auto":
+        if settings.node_discovery == "auto" or settings.recv_udp:
             self.dyn_server.StartSocketServer()  # 启动设备发现服务器，监听有无节点加入
         self.handler.join_cluster()  # 将本节点加入集群
         if settings.env == "show":
