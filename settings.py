@@ -21,7 +21,7 @@ if len(sys.argv) > 1:
 
 total_frame_num = (frame_rate // key_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
 # total_frame_num = 15   # 要产生的帧数量
-target_list = ['r']  # 攻击目标
+target_list = ['rq']  # 攻击目标
 frame_interval = 0    # 帧的生成间隔
 
 # task
