@@ -124,7 +124,7 @@ class ClientHandler:
 
             if len(work_queue) == 0:
                 self.master.frame_fin = True
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.5)
             else:
                 # print(self.task_queue)
                 # frame_tuple = work_queue[0]

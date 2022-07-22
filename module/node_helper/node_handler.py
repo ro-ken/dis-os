@@ -153,11 +153,14 @@ class NodeHandler:
     # 只产生关键帧到公共队列
     def gen_frame_to_queue(self):
         time.sleep(3)  # 等待连接完成
-        cap = self.get_cap()
+        cap = self.get_cap(settings.vedio_src)
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
-            cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)    # 每30帧取一帧
-            ret, frame = cap.read()
+            if settings.vedio_src == 0:     # 从摄像头读取视频流
+                ret, frame = utils.read_times(cap, settings.key_frame_rate)
+            else:
+                cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)    # 每30帧取一帧
+                ret, frame = cap.read()
             time.sleep(settings.frame_interval)     # 控制速度
             print(utils.mytime())
             if ret:
