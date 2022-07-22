@@ -120,7 +120,7 @@ class ClientHandler:
         if settings.sched_type == 'share':          # 共享模式下用node的队列作为工作队列
             work_queue = self.master.node.frame_queue
 
-        while not self.master.stop and not self.master.node.find_target:
+        while not self.master.stop :
 
             if len(work_queue) == 0:
                 self.master.frame_fin = True
@@ -142,10 +142,12 @@ class ClientHandler:
 
                     if success:  # 找到目标
                         self.master.node.find_target = True
-                        self.master.node.target_frame = seq
+                        if self.master.node.target_frame == -1:
+                            self.master.node.target_frame = seq
                         print("find target!")
-                    if not success and self.master.node.find_target:
-                        break       # 别的节点发现了目标，直接退出，让最后一张为目标图
+                    if self.master.node.find_target:
+                        if seq > self.master.node.target_frame:
+                            break       # 别的节点发现了目标，直接退出，让最后一张为目标图
                     cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
                 except:
                     work_queue.append(frame_tuple)
