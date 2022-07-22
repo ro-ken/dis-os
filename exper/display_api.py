@@ -6,9 +6,7 @@ import cv2  # 导入从cv2模块
 
 path = './output/frame_res/'
 
-total_num = 10  # 总共帧数
-
-rate = 10    # 每秒播放的帧数
+rate = 6    # 每秒播放的帧数
 i = -1
 quit = False
 
