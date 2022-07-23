@@ -50,6 +50,7 @@ class Face_Recognizer:
 
         self.font = cv2.FONT_ITALIC
         self.font_chinese = ImageFont.truetype(ROOT + "/simsun.ttc", 30)
+        self.font_chinese_target = ImageFont.truetype(ROOT + "/simsun.ttc", 50)
 
     # 从 "features_all.csv" 读取录入人脸特征 / Read known faces from "features_all.csv"
     def get_face_database(self):
@@ -110,16 +111,23 @@ class Face_Recognizer:
         cv2.putText(img_rd, "Faces:  " + str(self.current_frame_face_cnt), (20, 160), self.font, 0.8, (0, 255, 0), 1,
                     cv2.LINE_AA)
 
-    def draw_name(self, img_rd):
+    def draw_name(self, img_rd , target_names):
         # 在人脸框下面写人脸名字 / Write names under rectangle
         img = Image.fromarray(cv2.cvtColor(img_rd, cv2.COLOR_BGR2RGB))
         draw = ImageDraw.Draw(img)
         for i in range(self.current_frame_face_cnt):
+            if self.current_frame_face_name_list[i] in target_names:
+                draw.text(xy=self.current_frame_face_name_position_list[i], text='目标人物出现：' + self.current_frame_face_name_list[i],
+                          font=self.font_chinese_target,
+                          fill=(255, 0, 0))
             # cv2.putText(img_rd, self.current_frame_face_name_list[i], self.current_frame_face_name_position_list[i], self.font, 0.8, (0, 255, 255), 1, cv2.LINE_AA)
-            draw.text(xy=self.current_frame_face_name_position_list[i], text=self.current_frame_face_name_list[i],
+            else:
+                draw.text(xy=self.current_frame_face_name_position_list[i], text=self.current_frame_face_name_list[i],
                       font=self.font_chinese,
                       fill=(255, 255, 0))
             img_rd = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+
+
         return img_rd
 
 
@@ -288,23 +296,33 @@ class Face_Recognizer:
                 logging.debug("Face recognition result: Unknown person")
             logging.debug("\n")
 
+##### 修改 1
+            for name in self.current_frame_face_name_list:
+                if name in target_names:
+                    reco_success = True  # 目标识别成功
+
             # 矩形框 / Draw rectangle
             for kk, d in enumerate(faces):
-                # 绘制矩形框
-                cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
-                              (255, 255, 255), 2)
+                if self.current_frame_face_name_list[k] in target_names:
+                    cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
+                                  (0, 0, 255), 5)
+                else:
+                    # 绘制矩形框
+                    cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
+                                  (255, 255, 255), 2)
+
 
         self.current_frame_face_cnt = len(faces)
 
-        for name in self.current_frame_face_name_list:
-            if name in target_names:
-                reco_success = True  # 目标识别成功
+        # for name in self.current_frame_face_name_list:
+        #     if name in target_names:
+        #         reco_success = True  # 目标识别成功
 
         # 7. 在这里更改显示的人名 / Modify name if needed
 
         self.draw_basic_note(img_rd, frame_cnt)
         # 8. 写名字 / Draw name
-        img_with_name = self.draw_name(img_rd)
+        img_with_name = self.draw_name(img_rd,target_names)
 
         return reco_success, img_with_name
 

@@ -150,7 +150,7 @@ class ClientHandler:
                             break       # 别的节点发现了目标，直接退出，让最后一张为目标图
                     cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
                 except:
-                    work_queue.append(frame_tuple)
+                    work_queue.insert(0,frame_tuple)
                     self.disconnection()
                     break
                 utils.write_time_end(path, name + " after send   frame seq :" + str(seq), mytime())
