@@ -1,8 +1,10 @@
+from tools import node_settings as settings
 from . import Const
 import socket
 import time
 import threading
 import json
+
 
 
 # socket server线程
@@ -82,8 +84,8 @@ class DynNodeServer():
 
     # 广播节点加入
     def join_broadcast(self, name, sub_net):
-        message = {'type': 'JOIN', 'node_server_ip': self.node.server_t.ip, 'sub_net': sub_net,
-                   'node_server_port': self.node.server_t.port, 'name': name}
+        message = {'type': 'JOIN', 'node_server_ip': settings.server_ip, 'sub_net': sub_net,
+                   'node_server_port': settings.server_port, 'name': name}
         self.Broadcast(message, self.port)
 
     # 结束socket server

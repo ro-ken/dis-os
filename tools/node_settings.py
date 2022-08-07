@@ -3,9 +3,10 @@ from tools.utils import get_host_ip
 
 node_list = []
 server_ip = get_host_ip()
+server_port = 50051 # grpc 端口
 udp_server_port = 10000  # udp监听端口
 heart_rate = 2  # 设置心跳频率（单位/s）
-keep_alive_time_out = 2  # 心跳超时时间（单位/s）
+keep_alive_time_out = 3  # 心跳超时时间（单位/s）
 
 # 以下是手动配置的ip
 if node_discovery == "man":

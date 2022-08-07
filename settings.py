@@ -11,8 +11,8 @@ sched_type = "loop"
 
 task_type = "vedio"  # 任务的类型 tasks （产生所有任务）, vedio（产生视频流任务）
 # vedio
-vedio_src =  0  # 视频来源 <0>为摄像头 <1>为本地视频
-vedio_time_len = 0  # 要处理时间多长的视频帧 单位/min
+vedio_src =  1  # 视频来源 <0>为摄像头 <1>为本地视频
+vedio_time_len = 10  # 要处理时间多长的视频帧 单位/min
 
 key_frame_rate = 15  # 每隔多少帧取一个关键帧
 frame_rate = 30   # 视频帧速率 30 fps
@@ -21,7 +21,7 @@ if len(sys.argv) > 1:
 
 total_frame_num = (frame_rate // key_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
 # total_frame_num = 15   # 要产生的帧数量
-target_list = ['rq']  # 攻击目标
+target_list = ['zym']  # 攻击目标
 frame_interval = 0    # 帧的生成间隔
 
 # task

@@ -8,6 +8,8 @@ from tools import node_settings as settings
 from module.node_discovery.dyn_node_server import DynNodeServer
 from module.node_helper import vedio_handler
 
+from multiprocessing import Process,Value
+
 # 分布式系统主启动类
 class Node:
 
@@ -34,7 +36,8 @@ class Node:
         self.next_frame = 0     # 下一帧入队的序号，防止乱序
 
         # 对象属性
-        self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
+        # self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
+        self.server_p = Process(target=server_node.server_process)
         self.dyn_server = DynNodeServer(self,settings.sub_net)  # 节点动态发现的udp server
         self.scheduler = sched_api.Scheduler(self)  # 初始化调度器
         self.handler = node_handler.NodeHandler(self)  # 节点的辅助类，一些业务函数在里面
@@ -42,7 +45,9 @@ class Node:
 
     # 各个线程启动
     def start(self):
-        self.server_t.start()  # 启动服务器
+        # self.server_t.start()  # 启动服务器
+        self.server_p.start()  # 启动服务器
+        # time.sleep(4)
         if settings.node_discovery == "auto" or settings.recv_udp:
             self.dyn_server.StartSocketServer()  # 启动设备发现服务器，监听有无节点加入
         self.handler.join_cluster()  # 将本节点加入集群

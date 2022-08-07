@@ -11,12 +11,15 @@ from .node_struct import NodeInfo
 from tools import utils
 from ..proto import task_pb2
 
+vedio_path = ROOT + '/dataset/target.mp4'
+
 # 处理节点业务的辅助函数
 class NodeHandler:
 
     def __init__(self, master):
         self.master = master  # 主节点
         self.queue = master.task_queue  # 节点任务队列
+        # self.init_nodelist()
         utils.init_output()
 
     # 任务开始执行
@@ -66,6 +69,11 @@ class NodeHandler:
         client_t.start()
         time.sleep(0.5)
         return client_t
+
+    # def init_nodelist(self):
+    #
+    #     for i in
+    #     new_node_join
 
     # 新节点加入集群
     def new_node_join(self, ip, port, name):
@@ -137,7 +145,7 @@ class NodeHandler:
         utils.write_task_seq(path, self.master.task_seq, 'rest tasks', rest_tasks)
 
     def get_cap(self,src = 1):
-        path = ROOT + '/dataset/vedio_30.mp4'
+        path = vedio_path
         if src == 0:
             path = 0
         cap = cv2.VideoCapture(path)  # 从摄像头获取视频流
@@ -159,7 +167,7 @@ class NodeHandler:
             if settings.vedio_src == 0:     # 从摄像头读取视频流
                 ret, frame = utils.read_times(cap, settings.key_frame_rate)
             else:
-                cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)    # 每30帧取一帧
+                cap.set(cv2.CAP_PROP_POS_FRAMES, i * 6)    # 每30帧取一帧
                 ret, frame = cap.read()
             time.sleep(settings.frame_interval)     # 控制速度
             print(utils.mytime())
@@ -182,7 +190,7 @@ class NodeHandler:
             if settings.vedio_src == 0:     # 从摄像头读取视频流
                 ret, frame = utils.read_times(cap, settings.key_frame_rate)
             else:
-                cap.set(cv2.CAP_PROP_POS_FRAMES, i * 30)    # 每30帧取一帧
+                cap.set(cv2.CAP_PROP_POS_FRAMES, i * 6)    # 每30帧取一帧
                 ret, frame = cap.read()
             time.sleep(settings.frame_interval)  # 控制速度
 
@@ -242,10 +250,8 @@ class NodeHandler:
                 break
         cap.release()
 
-    # async def show_vedio(self):
-    #     if settings.env != "show":
-    #         return
-    #     while True:
+
+
 
 
 

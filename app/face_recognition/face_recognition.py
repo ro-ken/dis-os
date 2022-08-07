@@ -303,18 +303,19 @@ class Face_Recognizer:
                 logging.debug("Face recognition result: %s",
                               self.face_name_known_list[similar_person_num])
             else:
+                # self.current_frame_face_name_list[k] = "unknow"
                 logging.debug("Face recognition result: Unknown person")
             logging.debug("\n")
 
-            # 矩形框 / Draw rectangle
-            for kk, d in enumerate(faces):
-                # 绘制矩形框
-                if self.current_frame_face_name_list[k] in target_names:
-                    cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
-                                  (0, 0, 255), 5)
-                else:
-                    cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
-                              (255, 255, 255), 2)
+        # 矩形框 / Draw rectangle
+        for kk, d in enumerate(faces):
+            # 绘制矩形框
+            if self.current_frame_face_name_list[kk] in target_names:
+                cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
+                              (0, 0, 255), 5)
+            else:
+                cv2.rectangle(img_rd, tuple([d.left(), d.top()]), tuple([d.right(), d.bottom()]),
+                          (255, 255, 255), 2)
 
         self.current_frame_face_cnt = len(faces)
 

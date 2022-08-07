@@ -214,8 +214,8 @@ class TaskHandler:
         return reply
 
     def get_node_addr(self):
-        ip = self.master.node.server_t.ip
-        port = self.master.node.server_t.port
+        ip = settings.server_ip
+        port = settings.server_port
         addr = task_pb2.Address(ip=ip, port=port)
         return addr
 

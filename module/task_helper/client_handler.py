@@ -21,7 +21,7 @@ class ClientHandler:
         self.task_handler = task_handler.TaskHandler(master, stub)  # 通过grpc发送任务的辅助类
 
     def task_running(self):
-        time.sleep(1)  # 等node把表项先创建好
+        time.sleep(5)  # 等node把表项先创建好,多进程情况下等待子进程创建
 
         if settings.task_type == "tasks":
             asyncio.run(self.async_tasks())

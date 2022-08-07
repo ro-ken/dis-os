@@ -3,11 +3,11 @@ import threading
 from concurrent import futures
 import grpc
 
-import settings
 from tools.node_settings import *
 from module.proto import task_pb2_grpc, task_pb2
 # tool
 from module.task_helper.task_service import TaskService
+from module.task_helper.task_service2 import TaskService2
 
 # model
 
@@ -15,6 +15,21 @@ from module.task_helper.task_service import TaskService
     Class:      ServerThread
     功能：      线程, 封装grpc的服务器启动代码, 继承threading模块的Thread类, 重写了run方法,
 '''
+
+def server_process():
+    # 初始化 grpc server
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # 10个线程池，每个线程池为一个client服务
+    service = TaskService2()  # grpc实现的服务
+    task_pb2_grpc.add_TaskServiceServicer_to_server(service, server)  # 注册进去
+
+    server.add_insecure_port("[::]:50051")
+
+    # 运行grpc server
+    server.start()
+    print("server start... ip = {} , port = 50051\n".format(server_ip))
+    server.wait_for_termination()
+    print("server 进程结束！！！")
+
 
 
 class ServerThread(threading.Thread):
