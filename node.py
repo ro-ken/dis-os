@@ -52,7 +52,8 @@ class Node:
             self.dyn_server.StartSocketServer()  # 启动设备发现服务器，监听有无节点加入
         self.handler.join_cluster()  # 将本节点加入集群
         if settings.env == "show":
-            vedio_handler.VedioHandlerThread(self).start()  # 开启实时视频显示线程
+            # vedio_handler.VedioHandlerThread(self).start()  # 开启实时视频显示线程
+            Process(target=vedio_handler.vedio_show_process).start()    # 多进程
         self.handler.task_running()     # 执行任务
 
 
