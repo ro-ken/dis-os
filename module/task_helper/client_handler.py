@@ -129,9 +129,17 @@ class ClientHandler:
                 # print(self.task_queue)
                 # frame_tuple = work_queue[0]
 
-                frame_tuple = work_queue.pop(0)   # 弹出一帧
+                frame_tuple = work_queue.popleft()   # 弹出一帧
                 self.master.frame_fin = False
                 frame, seq, frame_start_time = frame_tuple
+                if settings.sched_type == 'share' and settings.real_time:
+                    self.master.node.lock.acquire()         # 加一把互斥锁，防止乱序
+                    seq = self.master.node.frame_process_seq
+                    self.master.node.frame_process_seq += 1
+                    self.master.node.lock.release()
+                data = {"seq":seq,"find":False}
+                self.master.node.pipe.send(data)
+                print("==========times = {} ==========".format(seq))
                 utils.write_time_start(path, name + " before sched frame seq :" + str(seq), frame_start_time)
                 utils.write_time_start(path, name + " before send  frame seq :" + str(seq), mytime())
                 try:
@@ -144,6 +152,8 @@ class ClientHandler:
                         self.master.node.find_target = True
                         if self.master.node.target_frame == -1:
                             self.master.node.target_frame = seq
+                            data = {"seq": seq, "find": True}
+                            self.master.node.pipe.send(data)
                         print("find target!")
                     if self.master.node.find_target:
                         if seq > self.master.node.target_frame:

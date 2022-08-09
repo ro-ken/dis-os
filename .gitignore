@@ -1,5 +1,6 @@
 __pycache__/
 test/
+test.py
 exper/graph/
 output/
 dataset/vedio_30.mp4

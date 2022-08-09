@@ -7,6 +7,7 @@ import grpc
 
 from module.proto import task_pb2_grpc
 from module.task_helper import client_handler
+from collections import deque
 from module.task_helper import task_testy
 
 # 客户端线程，发送任务
@@ -21,7 +22,7 @@ class ClientThread(threading.Thread):
         self.handler = None  # 客户节点的辅助类
         self.stub = None    # grpc 代理
         self.stop = False  # 若为True 该线程结束
-        self.frame_queue = [] # 待处理帧的队列 [（帧1，序号1），（帧2，序号2）...]
+        self.frame_queue = deque() # 待处理帧的队列 [（帧1，序号1），（帧2，序号2）...]
         self.frame_fin = False      # 主节点的帧是否处理完成
 
     # 启动client发送任务

@@ -11,7 +11,7 @@ from .node_struct import NodeInfo
 from tools import utils
 from ..proto import task_pb2
 
-vedio_path = ROOT + '/dataset/target.mp4'
+vedio_path = ROOT + '/dataset/' + settings.vedio_name
 
 # 处理节点业务的辅助函数
 class NodeHandler:
@@ -29,6 +29,9 @@ class NodeHandler:
             asyncio.run(self.async_task())  # 执行异步所有任务
         else:
             if settings.sched_type == 'share':
+                if settings.real_time:
+                    data = self.master.pipe.recv()  # 管道没有东西会阻塞，收到消息放开
+                    # if data["code"] == 1:
                 self.gen_frame_to_queue()
             else:
                 asyncio.run(self.async_stream_video())  # 执行异步视频流任务
@@ -107,7 +110,7 @@ class NodeHandler:
         task_num = 1 if settings.single_task else settings.dynamic_gen_task_num
 
         while True:
-            print("==========times = {} ==========".format(self.master.task_seq))
+            # print("==========times = {} ==========".format(self.master.task_seq))
             self.create_tasks(task_num)
             await asyncio.sleep(settings.dynamic_gen_task_rate)
 
@@ -156,7 +159,7 @@ class NodeHandler:
     def process_vedio_stream(self,queue):
         while len(queue) > 0 and len(self.master.conn_node_list) > 0:
             node = self.master.scheduler.get_node()     # 获取调度节点
-            node.client.frame_queue.append(queue.pop(0))  # 把任务队列的任务分发给对应节点client执行
+            node.client.frame_queue.append(queue.popleft())  # 把任务队列的任务分发给对应节点client执行
 
     # 只产生关键帧到公共队列
     def gen_frame_to_queue(self):
@@ -170,9 +173,12 @@ class NodeHandler:
                 cap.set(cv2.CAP_PROP_POS_FRAMES, i * 6)    # 每30帧取一帧
                 ret, frame = cap.read()
             time.sleep(settings.frame_interval)     # 控制速度
-            print(utils.mytime())
+            # print(utils.mytime())
             if ret:
                 frame_start_time = utils.mytime()     # 获取帧产生的时间
+                if settings.real_time:
+                    if len(self.master.frame_queue) >= len(self.master.conn_node_list):
+                        self.master.frame_queue.popleft()
                 self.master.frame_queue.append((frame, i, frame_start_time))  # 把帧添加到任务队列里去
                 # self.process_vedio_stream(self.master.frame_queue)
             else:
