@@ -232,7 +232,7 @@ class TaskService2(task_pb2_grpc.TaskServiceServicer):
         str_encode = utils.img_encode(img_out, '.jpg')
         reply = task_pb2.FaceRecoReply(img=str_encode, success=success)
 
-        print("=========== frame seq : {} ==============".format(frame_cnt))
+        # print("=========== frame seq : {} ==============".format(frame_cnt))
         utils.server_task_end("task_face_recognition")
         return reply
 
@@ -249,7 +249,7 @@ class TaskService2(task_pb2_grpc.TaskServiceServicer):
         # else:
         #     node = self.node.conn_node_list.get(key)
         # node.name, node.res, node.tasks = name, res, tasks
-        print("server :get {} heartbeat time={}".format(name, int(time.time()) % 100))
+        # print("server :get {} heartbeat time={}".format(name, int(time.time()) % 100))
         return task_pb2.CommonReply(success=True)
 
     # def update_tasks(self, request, context):

@@ -29,7 +29,7 @@ class NodeHandler:
             asyncio.run(self.async_task())  # 执行异步所有任务
         else:
             if settings.sched_type == 'share':
-                if settings.real_time:
+                if settings.conn_uav:
                     data = self.master.pipe.recv()  # 管道没有东西会阻塞，收到消息放开
                     # if data["code"] == 1:
                 self.gen_frame_to_queue()

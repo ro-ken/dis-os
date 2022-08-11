@@ -57,8 +57,8 @@ class ClientHandler:
         while not self.master.stop:
             try:
                 reply = self.task_handler.keep_alive()
-                print("client heartbeat:send {}:{} time={} ".format(self.master.ip, self.master.port,
-                                                                        int(time.time()) % 100))
+                # print("client heartbeat:send {}:{} time={} ".format(self.master.ip, self.master.port,
+                #                                                         int(time.time()) % 100))
             except:
                 print("keep_alive 异常")
                 self.disconnection()
@@ -137,9 +137,10 @@ class ClientHandler:
                     seq = self.master.node.frame_process_seq
                     self.master.node.frame_process_seq += 1
                     self.master.node.lock.release()
-                data = {"seq":seq,"find":False}
-                self.master.node.pipe.send(data)
-                print("==========times = {} ==========".format(seq))
+                if settings.conn_uav:
+                    data = {"seq":seq,"find":False}
+                    self.master.node.pipe.send(data)
+                print("==========frames seq = {} ==========".format(seq))
                 utils.write_time_start(path, name + " before sched frame seq :" + str(seq), frame_start_time)
                 utils.write_time_start(path, name + " before send  frame seq :" + str(seq), mytime())
                 try:
@@ -152,9 +153,10 @@ class ClientHandler:
                         self.master.node.find_target = True
                         if self.master.node.target_frame == -1:
                             self.master.node.target_frame = seq
-                            data = {"seq": seq, "find": True}
-                            self.master.node.pipe.send(data)
-                        print("find target!")
+                            if settings.conn_uav:
+                                data = {"seq": seq, "find": True}
+                                self.master.node.pipe.send(data)
+                            print("find target!")
                     if self.master.node.find_target:
                         if seq > self.master.node.target_frame:
                             break       # 别的节点发现了目标，直接退出，让最后一张为目标图

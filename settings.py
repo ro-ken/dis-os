@@ -9,10 +9,11 @@ env = "exp"  # 环境：”exp“，做实验测试的环境 ， ”run“ 程�
 # 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed,prop 具体去sched_api.py查看  <share>为共享队列模式
 sched_type = "share"
 real_time = True        # 如果sched_type采取<share>公共队列的方式，此标志位有效，True表示没来得及处理的帧会丢弃，只处理最新的帧
+conn_uav = True         # 主树莓派要驱动小车，设置此标志为True
 
 task_type = "vedio"  # 任务的类型 tasks （产生所有任务）, vedio（产生视频流任务）
 # vedio
-vedio_src =  1  # 视频来源 <0>为摄像头 <1>为本地视频
+vedio_src =  0  # 视频来源 <0>为摄像头 <1>为本地视频
 vedio_name = "vedio_30.mp4"    # 如果是视频读取，打开对应的视频
 vedio_time_len = 10  # 要处理时间多长的视频帧 单位/min
 
@@ -23,7 +24,7 @@ if len(sys.argv) > 1:
 
 total_frame_num = (frame_rate // key_frame_rate) * 60 * vedio_time_len  # 要产生的帧数量
 # total_frame_num = 15   # 要产生的帧数量
-target_list = ['zym']  # 攻击目标
+target_list = ['rq']  # 攻击目标
 frame_interval = 0    # 帧的生成间隔
 
 # task

@@ -57,8 +57,9 @@ class Node:
         if settings.env == "show":
             # vedio_handler.VedioHandlerThread(self).start()  # 开启实时视频显示线程
             Process(target=vedio_handler.vedio_show_process).start()  # 实时视频显示进程
-        self.pipe, pipe = Pipe()    # 申请两个管道
-        Process(target=communication.conn_vehicle,args=(pipe,)).start()  # 连接小车进程
+        if settings.vedio_time_len > 0 and settings.conn_uav:   # 开启进程连接小车
+            self.pipe, pipe = Pipe()    # 申请两个管道
+            Process(target=communication.conn_vehicle,args=(pipe,)).start()  # 连接小车进程
         self.handler.task_running()  # 执行任务
 
 
