@@ -30,6 +30,8 @@ class Node:
         self.node_list = settings.node_list  # 所有已知节点集合
         self.task_seq = 0  # 表示第几波任务
         self.lock = threading.Lock()
+        self.vehicle_pipe = None    # 和小车通信模块的管道
+        self.server_pipe = None    # 和grpc server进程模块的管道
 
         # 视频流
         self.target_list = settings.target_list  # 攻击目标
@@ -41,11 +43,12 @@ class Node:
 
         # 对象属性
         # self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
-        self.server_p = Process(target=server_node.server_process)
+        self.server_pipe, server_pipe = Pipe()  # 申请两个管道
+        self.server_p = Process(target=server_node.server_process,args=(server_pipe,))
         self.dyn_server = DynNodeServer(self, settings.sub_net)  # 节点动态发现的udp server
         self.scheduler = sched_api.Scheduler(self)  # 初始化调度器
         self.handler = node_handler.NodeHandler(self)  # 节点的辅助类，一些业务函数在里面
-        self.pipe = None    # 和小车通信模块的管道
+
 
     # 各个线程启动
     def start(self):
@@ -58,8 +61,8 @@ class Node:
             # vedio_handler.VedioHandlerThread(self).start()  # 开启实时视频显示线程
             Process(target=vedio_handler.vedio_show_process).start()  # 实时视频显示进程
         if settings.vedio_time_len > 0 and settings.conn_uav:   # 开启进程连接小车
-            self.pipe, pipe = Pipe()    # 申请两个管道
-            Process(target=communication.conn_vehicle,args=(pipe,)).start()  # 连接小车进程
+            self.vehicle_pipe, vehicle_pipe = Pipe()    # 申请两个管道
+            Process(target=communication.conn_vehicle,args=(vehicle_pipe,)).start()  # 连接小车进程
         self.handler.task_running()  # 执行任务
 
 

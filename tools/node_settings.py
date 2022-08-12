@@ -10,6 +10,8 @@ vehicle_main_ip = "192.168.1.105"
 vehicle_coop_ip = "192.168.1.110"
 vehicle_local_ip = "192.168.1.109"
 
+
+print_heartbeat = True   # 打印输出实时心跳
 heart_rate = 2  # 设置心跳频率（单位/s）
 keep_alive_time_out = 3  # 心跳超时时间（单位/s）
 

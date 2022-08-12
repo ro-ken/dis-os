@@ -19,7 +19,6 @@ class NodeHandler:
     def __init__(self, master):
         self.master = master  # 主节点
         self.queue = master.task_queue  # 节点任务队列
-        # self.init_nodelist()
         utils.init_output()
 
     # 任务开始执行
@@ -30,9 +29,10 @@ class NodeHandler:
         else:
             if settings.sched_type == 'share':
                 if settings.conn_uav:
-                    data = self.master.pipe.recv()  # 管道没有东西会阻塞，收到消息放开
+                    data = self.master.vehicle_pipe.recv()  # 管道没有东西会阻塞，收到消息放开
                     # if data["code"] == 1:
-                self.gen_frame_to_queue()
+                asyncio.run(self.async_stream_video_share())  # 执行异步视频流任务
+                # self.gen_frame_to_queue()
             else:
                 asyncio.run(self.async_stream_video())  # 执行异步视频流任务
 
@@ -41,16 +41,41 @@ class NodeHandler:
         await asyncio.gather(
             self.gen_task(),  # 生成任务
             self.do_task(),  # 处理任务
-            self.do_fail_task()  # 处理失败的任务
+            self.do_fail_task(),  # 处理失败的任务
+            self.update_conn_list()
         )
 
     # 异步协同执行处理视频流
     async def async_stream_video(self):
         await asyncio.gather(
             self.gen_frame_task(),  # 生成视频帧并处理
-            self.do_fail_stream_task()  # 处理失败帧的任务
+            self.do_fail_stream_task(),  # 处理失败帧的任务
+            self.update_conn_list()
             # self.show_vedio()       # 实时显示视频帧
         )
+
+    # 异步协同执行处理视频流
+    async def async_stream_video_share(self):
+        await asyncio.gather(
+            self.gen_frame_to_queue(),
+            self.update_conn_list()
+            # self.show_vedio()       # 实时显示视频帧
+        )
+
+    # 实时获取server进程keepalive的心跳包，更新连接表
+    async def update_conn_list(self):
+        node = self.master
+        while True:
+            if node.server_pipe.poll(): # 判断管道是否有东西
+                data = node.server_pipe.recv()
+                # 没有则创建，有则更新
+                if data['key'] not in node.conn_node_list.keys():
+                    node_item = node.handler.new_node_join(data['addr'].ip, data['addr'].port, data['name'])
+                else:
+                    node_item = node.conn_node_list.get(data['key'])
+                node_item.name, node_item.res, node_item.tasks = data['name'], data['res'], data['tasks']
+            else:
+                await asyncio.sleep(0.5)
 
     # 通过调度模块方法获取节点地址, 开始进行测试
     async def do_task(self):
@@ -73,10 +98,6 @@ class NodeHandler:
         time.sleep(0.5)
         return client_t
 
-    # def init_nodelist(self):
-    #
-    #     for i in
-    #     new_node_join
 
     # 新节点加入集群
     def new_node_join(self, ip, port, name):
@@ -162,8 +183,8 @@ class NodeHandler:
             node.client.frame_queue.append(queue.popleft())  # 把任务队列的任务分发给对应节点client执行
 
     # 只产生关键帧到公共队列
-    def gen_frame_to_queue(self):
-        time.sleep(3)  # 等待连接完成
+    async def gen_frame_to_queue(self):
+        await asyncio.sleep(3)  # 等待连接完成
         cap = self.get_cap(settings.vedio_src)
         total = settings.total_frame_num  # 总共待处理帧的数量
         for i in range(total):
@@ -183,6 +204,7 @@ class NodeHandler:
                 # self.process_vedio_stream(self.master.frame_queue)
             else:
                 break
+            await asyncio.sleep(0.01)
             if self.master.find_target:     # 发现目标，退出
                 break
         cap.release()

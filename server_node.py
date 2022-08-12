@@ -16,10 +16,10 @@ from module.task_helper.task_service2 import TaskService2
     功能：      线程, 封装grpc的服务器启动代码, 继承threading模块的Thread类, 重写了run方法,
 '''
 
-def server_process():
+def server_process(pipe):
     # 初始化 grpc server
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))  # 10个线程池，每个线程池为一个client服务
-    service = TaskService2()  # grpc实现的服务
+    service = TaskService2(pipe)  # grpc实现的服务
     task_pb2_grpc.add_TaskServiceServicer_to_server(service, server)  # 注册进去
 
     server.add_insecure_port("[::]:50051")

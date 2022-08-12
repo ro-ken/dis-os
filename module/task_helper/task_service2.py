@@ -4,7 +4,7 @@ import time
 from cv2 import cv2
 
 # app
-import settings
+from tools import node_settings as settings
 from app.app_api import *
 from module.proto import task_pb2, task_pb2_grpc
 # tool
@@ -14,9 +14,10 @@ from tools import utils
 # grpc server端实现proto定义的服务
 class TaskService2(task_pb2_grpc.TaskServiceServicer):
 
-    def __init__(self):
+    def __init__(self,pipe):
         # self.node = node  # server依附的node
         self.face_recognizer = face_recognition.Face_Recognizer()  # 人脸识别器
+        self.pipe = pipe
 
     # 测试grpc server服务是否成功运行
     def task_test(self, request, context):
@@ -243,13 +244,10 @@ class TaskService2(task_pb2_grpc.TaskServiceServicer):
         tasks = eval(request.tasks)
         key = utils.addr_key(addr)
 
-        # # 没有则创建，有则更新
-        # if key not in self.node.conn_node_list.keys():
-        #     node = self.node.handler.new_node_join(addr.ip, addr.port, name)
-        # else:
-        #     node = self.node.conn_node_list.get(key)
-        # node.name, node.res, node.tasks = name, res, tasks
-        # print("server :get {} heartbeat time={}".format(name, int(time.time()) % 100))
+        self.pipe.send({"res":res,"tasks":tasks,"key":key,"name":name,"addr":addr})
+
+        if settings.print_heartbeat:
+            print("server :get {} heartbeat time={}".format(name, int(time.time()) % 100))
         return task_pb2.CommonReply(success=True)
 
     # def update_tasks(self, request, context):
