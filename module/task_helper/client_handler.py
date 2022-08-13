@@ -21,7 +21,7 @@ class ClientHandler:
         self.task_handler = task_handler.TaskHandler(master, stub)  # 通过grpc发送任务的辅助类
 
     def task_running(self):
-        time.sleep(5)  # 等node把表项先创建好,多进程情况下等待子进程创建
+        time.sleep(settings.client_wait_process_start_time)  # 等node把表项先创建好,多进程情况下等待子进程创建
 
         if settings.task_type == "tasks":
             asyncio.run(self.async_tasks())
@@ -138,8 +138,10 @@ class ClientHandler:
                     seq = self.master.node.frame_process_seq
                     self.master.node.frame_process_seq += 1
                     self.master.node.lock.release()
+                    frame_tuple = (frame, seq, frame_start_time)
                 if settings.conn_uav:
                     data = {"seq":seq,"find":False}
+                    print("client send num",data)
                     self.master.node.vehicle_pipe.send(data)
                 print("==========frames seq = {} ==========".format(seq))
                 utils.write_time_start(path, name + " before sched frame seq :" + str(seq), frame_start_time)

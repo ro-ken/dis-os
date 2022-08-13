@@ -6,14 +6,15 @@ server_ip = get_host_ip()
 server_port = 50051 # grpc 端口
 udp_server_port = 10000  # udp监听端口
 vehicle_port = 1234       # 小车server端口
-vehicle_main_ip = "192.168.1.105"
-vehicle_coop_ip = "192.168.1.110"
+vehicle_main_ip = "192.168.1.110"
+vehicle_coop_ip = "192.168.1.105"
 vehicle_local_ip = "192.168.1.109"
 
 
-print_heartbeat = True   # 打印输出实时心跳
-heart_rate = 2  # 设置心跳频率（单位/s）
-keep_alive_time_out = 3  # 心跳超时时间（单位/s）
+print_heartbeat = False   # 打印输出实时心跳
+heart_rate = 5  # 设置心跳频率（单位/s）
+keep_alive_time_out = 6  # 心跳超时时间（单位/s）
+client_wait_process_start_time = 7  # 客户端等待服务器进程初始化时间
 
 # 以下是手动配置的ip
 if node_discovery == "man":

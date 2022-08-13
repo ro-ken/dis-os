@@ -73,6 +73,7 @@ def conn_vehicle_udp(pipe):
 
         elif scb.stage == 2:
             data = scb.pipe.recv()
+            print("scb recv num", data)
             seq = data["seq"]
             if data["find"]:
                 data = str({"code": 2, "num": seq})

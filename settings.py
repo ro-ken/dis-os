@@ -5,11 +5,11 @@ sub_net = 5   # 子网分区  相同分区的节点可互联
 node_discovery = "man"  # 节点获取方式：man：手动配置节点ip ， auto：自动发现
 node_names = [arch]    # 若为手动配置，把要连接的节点名写上
 recv_udp = True         # 是否接受udp节点发现报文
-env = "exp"  # 环境：”exp“，做实验测试的环境 ， ”run“ 程序正常运行，"show",验收演示模式
+env = "show"  # 环境：”exp“，做实验测试的环境 ， ”run“ 程序正常运行，"show",验收演示模式
 # 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed,prop 具体去sched_api.py查看  <share>为共享队列模式
 sched_type = "share"
 real_time = True        # 如果sched_type采取<share>公共队列的方式，此标志位有效，True表示没来得及处理的帧会丢弃，只处理最新的帧
-conn_uav = False         # 主树莓派要驱动小车，设置此标志为True
+conn_uav = True         # 主树莓派要驱动小车，设置此标志为True
 
 task_type = "vedio"  # 任务的类型 tasks （产生所有任务）, vedio（产生视频流任务）
 # vedio
