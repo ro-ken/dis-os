@@ -53,14 +53,11 @@ class TaskTesty:
         self.solution(win=[5], mac=[5], smp=[5], hwj=[5], ywd=[5])
         utils.write_time_end(path, arch + ' task_5', mytime())
 
-        utils.write_time_start(path, arch + ' task_6', mytime())
-        self.solution(win=[6], mac=[6], smp=[6], hwj=[6], ywd=[6])
-        utils.write_time_end(path, arch + ' task_6', mytime())
-
         if arch == "win":
-            utils.write_time_start(path, arch + ' task_7', mytime())
-            self.solution(win=[7], mac=[7], smp=[7], hwj=[7], ywd=[7])
-            utils.write_time_end(path, arch + ' task_7', mytime())
+            utils.write_time_start(path, arch + ' task_6', mytime())
+            self.solution(win=[6], mac=[6], smp=[6], hwj=[6], ywd=[6])
+            utils.write_time_end(path, arch + ' task_6', mytime())
+
 
     # 应用测试, 测试应用调用时间、消耗资源(CPU、内存), 结果保存在 ./oputput/out_time.txt文件下
     def five_solution(self):

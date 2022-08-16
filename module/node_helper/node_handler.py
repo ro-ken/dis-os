@@ -29,8 +29,9 @@ class NodeHandler:
         else:
             if settings.sched_type == 'share':
                 if settings.conn_uav:
-                    data = self.master.vehicle_pipe.recv()  # 管道没有东西会阻塞，收到消息放开
-                    # if data["code"] == 1:
+                    while not self.master.start_vedio_process:  # 若为False 等待，为True跳出
+                        time.sleep(1)
+                    # data = self.master.vehicle_pipe.recv()  # 管道没有东西会阻塞，收到消息放开
                 asyncio.run(self.async_stream_video_share())  # 执行异步视频流任务
                 # self.gen_frame_to_queue()
             else:

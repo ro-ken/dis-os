@@ -30,7 +30,7 @@ class Node:
         self.node_list = settings.node_list  # 所有已知节点集合
         self.task_seq = 0  # 表示第几波任务
         self.lock = threading.Lock()
-        self.vehicle_pipe = None    # 和小车通信模块的管道
+        self.vehicle_deque = deque()    # 和小车通信模块的管道
         self.server_pipe = None    # 和grpc server进程模块的管道
 
         # 视频流
@@ -40,6 +40,7 @@ class Node:
         self.recv_queue = []  # 接受到的任务帧序列
         self.next_frame = 0  # 下一帧入队的序号，防止乱序
         self.frame_process_seq = 0  # real_time 模式下，记录处理的帧的序号
+        self.start_vedio_process = False    # 是否启动视频流任务
 
         # 对象属性
         # self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程
@@ -58,11 +59,9 @@ class Node:
             self.dyn_server.StartSocketServer()  # 启动设备发现服务器，监听有无节点加入
         self.handler.join_cluster()  # 将本节点加入集群
         if settings.env == "show":
-            # vedio_handler.VedioHandlerThread(self).start()  # 开启实时视频显示线程
             Process(target=vedio_handler.vedio_show_process).start()  # 实时视频显示进程
         if settings.vedio_time_len > 0 and settings.conn_uav:   # 开启进程连接小车
-            self.vehicle_pipe, vehicle_pipe = Pipe()    # 申请两个管道
-            Process(target=communication.conn_vehicle,args=(vehicle_pipe,)).start()  # 连接小车进程
+            threading.Thread(target=communication.conn_vehicle,args=(self,)).start()  # 连接小车进程
         self.handler.task_running()  # 执行任务
 
 

@@ -21,8 +21,10 @@ class ClientHandler:
         self.task_handler = task_handler.TaskHandler(master, stub)  # 通过grpc发送任务的辅助类
 
     def task_running(self):
-        time.sleep(settings.client_wait_process_start_time)  # 等node把表项先创建好,多进程情况下等待子进程创建
 
+        data = self.master.node.server_pipe.recv()
+        if data == "ok":
+            print("client task running!")
         if settings.task_type == "tasks":
             asyncio.run(self.async_tasks())
         else:
@@ -45,11 +47,16 @@ class ClientHandler:
 
     # 做任务测试
     def task_test(self):
+
+        data = self.master.node.server_pipe.recv()
+        if data == "ok":
+            print("client task running!")
+
         testy = TaskTesty(self.task_handler)
         # testy.do_all_task()
         # self.task_handler.task_yolox_image()
-        testy.test_yolox_time()
-        # testy.per_task_time()
+        # testy.test_yolox_time()
+        testy.per_task_time()
 
     # 保持连接
     async def keep_alive(self):
@@ -142,7 +149,7 @@ class ClientHandler:
                 if settings.conn_uav:
                     data = {"seq":seq,"find":False}
                     print("client send num",data)
-                    self.master.node.vehicle_pipe.send(data)
+                    self.master.node.vehicle_deque.append(data)
                 print("==========frames seq = {} ==========".format(seq))
                 utils.write_time_start(path, name + " before sched frame seq :" + str(seq), frame_start_time)
                 utils.write_time_start(path, name + " before send  frame seq :" + str(seq), mytime())
@@ -158,7 +165,7 @@ class ClientHandler:
                             self.master.node.target_frame = seq
                             if settings.conn_uav:
                                 data = {"seq": seq, "find": True}
-                                self.master.node.vehicle_pipe.send(data)
+                                self.master.node.vehicle_deque.append(data)
                             print("find target!")
                     if self.master.node.find_target:
                         if seq > self.master.node.target_frame:

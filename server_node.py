@@ -26,6 +26,7 @@ def server_process(pipe):
 
     # 运行grpc server
     server.start()
+    pipe.send("ok")     # server启动完毕发送一条消息，client可以发送心跳了
     print("server start... ip = {} , port = 50051\n".format(server_ip))
     server.wait_for_termination()
     print("server 进程结束！！！")
