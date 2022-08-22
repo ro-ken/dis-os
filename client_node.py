@@ -32,6 +32,7 @@ class ClientThread(threading.Thread):
             self.stub = stub
             self.handler = client_handler.ClientHandler(self, stub)
 
+            time.sleep(1)   # 等待把表项初始化
             self.handler.task_running()             # 任务运行
             # self.handler.task_test()              # 任务测试
 

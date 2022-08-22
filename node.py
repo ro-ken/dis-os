@@ -41,6 +41,7 @@ class Node:
         self.next_frame = 0  # 下一帧入队的序号，防止乱序
         self.frame_process_seq = 0  # real_time 模式下，记录处理的帧的序号
         self.start_vedio_process = False    # 是否启动视频流任务
+        self.server_started = False         # 服务器启动
 
         # 对象属性
         # self.server_t = server_node.ServerThread(self, settings.server_ip, port)  # 节点的 server 线程

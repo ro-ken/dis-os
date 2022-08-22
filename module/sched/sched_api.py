@@ -17,5 +17,7 @@ elif sched_type == "loop":
     from .loop.loop_sched import Scheduler
 elif sched_type == "prop":
     from .proportion.proportion_sched import Scheduler
+elif sched_type == "prop2":
+    from .proportion2.proportion_sched import Scheduler
 else:
     from .sched import IScheduler as Scheduler

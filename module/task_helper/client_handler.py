@@ -21,10 +21,8 @@ class ClientHandler:
         self.task_handler = task_handler.TaskHandler(master, stub)  # 通过grpc发送任务的辅助类
 
     def task_running(self):
-
-        data = self.master.node.server_pipe.recv()
-        if data == "ok":
-            print("client task running!")
+        while not self.master.node.server_started:      # 等待server启动完毕
+            time.sleep(1)
         if settings.task_type == "tasks":
             asyncio.run(self.async_tasks())
         else:
@@ -48,9 +46,8 @@ class ClientHandler:
     # 做任务测试
     def task_test(self):
 
-        data = self.master.node.server_pipe.recv()
-        if data == "ok":
-            print("client task running!")
+        while not self.master.node.server_started:      # 等待server启动完毕
+            time.sleep(1)
 
         testy = TaskTesty(self.task_handler)
         # testy.do_all_task()
@@ -58,15 +55,15 @@ class ClientHandler:
         # testy.test_yolox_time()
         testy.per_task_time()
 
-    # 保持连接
+    # 客户端每隔一段时间发送心跳包
     async def keep_alive(self):
 
         while not self.master.stop:
             try:
-                reply = self.task_handler.keep_alive()
                 if settings.print_heartbeat:
                     print("client heartbeat:send {}:{} time={} ".format(self.master.ip, self.master.port,
                                                                         int(time.time()) % 100))
+                reply = self.task_handler.keep_alive()
             except:
                 print("keep_alive 异常")
                 self.disconnection()

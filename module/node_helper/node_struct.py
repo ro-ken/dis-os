@@ -16,4 +16,8 @@ class NodeInfo:
 
         # proportion  调度
         self.allocated_num = 1      # 已分配的帧数
+        self.can_allocated = True   # 该节点是否可以分配任务
+        self.rank = -1              # 强弱排名，到时候会选择几个较强的节点
+
+
 

@@ -23,6 +23,11 @@ class NodeHandler:
 
     # 任务开始执行
     def task_running(self):
+        data = self.master.server_pipe.recv()      # 等待server启动完毕
+        if data == "ok":
+            print("node handler running!")
+            self.master.server_started = True
+
         # self.process_vedio_stream_by_self()
         if settings.task_type == "tasks":
             asyncio.run(self.async_task())  # 执行异步所有任务
@@ -32,6 +37,7 @@ class NodeHandler:
                     while not self.master.start_vedio_process:  # 若为False 等待，为True跳出
                         time.sleep(1)
                     # data = self.master.vehicle_pipe.recv()  # 管道没有东西会阻塞，收到消息放开
+
                 asyncio.run(self.async_stream_video_share())  # 执行异步视频流任务
                 # self.gen_frame_to_queue()
             else:
@@ -66,6 +72,8 @@ class NodeHandler:
     # 实时获取server进程keepalive的心跳包，更新连接表
     async def update_conn_list(self):
         node = self.master
+        while node.server_started is False:
+            time.sleep(1)
         while True:
             if node.server_pipe.poll(): # 判断管道是否有东西
                 data = node.server_pipe.recv()
@@ -100,9 +108,14 @@ class NodeHandler:
         return client_t
 
 
+# todo
+
+
     # 新节点加入集群
     def new_node_join(self, ip, port, name):
         node = self.create_node_to_table(ip, port, name)
+        if settings.sched_type == "prop2":
+            self.master.scheduler.sort_node_list()
         key = utils.gen_node_key(ip, port)
         print("新节点接入 addr={},name={}".format(key, name))
         print("当前连接节点：{}".format(self.master.conn_node_list.keys()))
@@ -115,6 +128,7 @@ class NodeHandler:
         # 生成一个表项添加到节点列表
         node = NodeInfo(key, client_t, name)
         self.master.conn_node_list[key] = node
+
         return node
 
     # 动态生成任务
@@ -256,6 +270,8 @@ class NodeHandler:
             name = settings.ip_name[ip]
             self.create_node_to_table(ip, port,name)
             # self.create_node_to_table(ip, port)
+        if settings.sched_type == "prop2":
+            self.master.scheduler.sort_node_list()
 
 
     # 自身一个节点处理视频流并实时显示
