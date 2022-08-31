@@ -14,10 +14,10 @@ conn_uav = False         # 主树莓派要驱动小车，设置此标志为True
 task_type = "vedio"  # 任务的类型 tasks （产生所有任务）, vedio（产生视频流任务）
 # vedio
 vedio_src =  0  # 视频来源 <0>为摄像头 <1>为本地视频
-vedio_name = "target.mp4"    # 如果是视频读取，打开对应的视频
+vedio_name = "vedio_5.mp4"    # 如果是视频读取，打开对应的视频
 vedio_time_len = 10  # 要处理时间多长的视频帧 单位/min
 
-key_frame_rate = 15  # 每隔多少帧取一个关键帧
+key_frame_rate = 30  # 每隔多少帧取一个关键帧
 frame_rate = 30   # 视频帧速率 30 fps
 if len(sys.argv) > 1:
     vedio_time_len = int(sys.argv[1])  # 获取参数

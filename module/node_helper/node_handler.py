@@ -107,10 +107,6 @@ class NodeHandler:
         time.sleep(0.5)
         return client_t
 
-
-# todo
-
-
     # 新节点加入集群
     def new_node_join(self, ip, port, name):
         node = self.create_node_to_table(ip, port, name)

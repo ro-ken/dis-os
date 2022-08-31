@@ -7,8 +7,8 @@ server_port = 50051 # grpc 端口
 udp_server_port = 10000  # udp监听端口
 vehicle_port = 1234       # 小车server端口
 vehicle_main_ip = "192.168.1.103"
-vehicle_coop_ip = "192.168.1.110"
 vehicle_local_ip = "192.168.1.109"
+vehicle_coop_ip = ["192.168.1.110"]     # 从车ip列表
 
 
 print_heartbeat = False   # 打印输出实时心跳
@@ -23,7 +23,8 @@ if node_discovery == "man":
         "smp": '192.168.31.117',
         "smp2": '192.168.31.190',
         "smp3": '192.168.31.187',
-        "hwj": '192.168.31.167',
+        "hwj": '192.168.31.112',
+        "ywd": '192.168.31.237',
         "vma": "192.168.31.130",
         "rpa": "192.168.31.94",
         "rpb": "192.168.31.25",
@@ -40,18 +41,7 @@ if node_discovery == "man":
 
     server_ip = name_ip[arch]
 
-    ip_name = {
-        name_ip["win"]: "win",
-        name_ip["win2"]: "win2",
-        name_ip["smp"]: "smp",
-        name_ip["smp2"]: "smp2",
-        name_ip["smp3"]: "smp3",
-        name_ip["hwj"]: "hwj",
-        name_ip["vma"]: "vma",
-        name_ip["rpa"]: "rpa",
-        name_ip["rpb"]: "rpb",
-        name_ip["rpc"]: "rpc",
-        name_ip["rpd"]: "rpd",
+    ip_name = {}    # ip 到name 的映射
 
-        name_ip["local"]: "local"
-    }
+    for name in name_ip:
+        ip_name[name_ip[name]] = name

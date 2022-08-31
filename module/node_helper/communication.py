@@ -53,15 +53,18 @@ def conn_vehicle(node):
 
     server = UDPServer(vehicle_local_ip, vehicle_port)  # 负责接受的服务器
     main = UDPClient(server,vehicle_main_ip, vehicle_port)  # 连接主车客户端
-    coop = UDPClient(server,vehicle_coop_ip, vehicle_port)  # 连接从车客户端
-
+    coops = []
+    for coop_ip in vehicle_coop_ip:
+        coop = UDPClient(server,coop_ip, vehicle_port)  # 连接从车客户端
+        coops.append(coop)
 
     while True:
         if scb.stage == 0:
             print("stage {}".format(scb.stage))
             data = str({"code": 100,"ip_port":server.ip_port})
             main.send_recv(data)
-            coop.send_recv(data)
+            for coop in coops:
+                coop.send_recv(data)
 
             scb.stage += 1
             print("client and server init finished! ")
@@ -103,7 +106,10 @@ def conn_vehicle(node):
 
         elif scb.stage == 3:
             data = str({"code": 3, "pos": scb.target_pos})
-            coop.send_recv(data)  # 告诉从车目标人物的位置
+            for coop in coops:
+                coop.send(data)  # 告诉从车目标人物的位置
+            for _ in coops:
+                server.recv()
             print("coop vehicle already in target position!")
             time.sleep(3)  # 模拟攻击目标等待时间
             scb.stage += 1
@@ -113,10 +119,12 @@ def conn_vehicle(node):
             data = str({"code": 5, "pos": scb.door_pos})
 
             main.send(data)  # 告诉小车当前获取图片的序号
-            coop.send(data)  # 告诉小车当前获取图片的序号
+            for coop in coops:
+                coop.send(data)  # 告诉小车当前获取图片的序号
             print("发送出入口位置完毕！")
-            reply = server.recv()  # 两个车回到初始位置会发送达到消息
-            reply = server.recv()  # 依次接受即可
+            server.recv()  # 两个车回到初始位置会发送达到消息
+            for _ in coops:
+                server.recv()  # 依次接受即可
             scb.stage += 1  # 结束了
 
         else:

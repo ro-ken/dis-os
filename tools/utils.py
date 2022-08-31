@@ -1,7 +1,7 @@
 import socket
 
 import numpy as np
-from cv2 import cv2
+import cv2
 from .io_utils import *
 from .random_num import random_list
 from module.proto import task_pb2

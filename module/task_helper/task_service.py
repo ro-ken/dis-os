@@ -1,7 +1,7 @@
 # packge
 import time
 
-from cv2 import cv2
+import cv2
 
 # app
 from app.app_api import *

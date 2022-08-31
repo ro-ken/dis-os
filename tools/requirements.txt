@@ -1,17 +1,13 @@
 
-# grpc
 grpcio
-opencv_python
+opencv_python>=4.6.0.66
 psutil
 pyyaml
 
-# ai 
 pandas
 seaborn
 sklearn
 matplotlib
-
-#yolox
 
 numpy
 torch>=1.7

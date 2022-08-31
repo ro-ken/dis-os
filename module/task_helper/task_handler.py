@@ -1,6 +1,6 @@
 import time
 
-from cv2 import cv2
+import cv2
 
 from tools import node_settings as settings
 from module.proto import task_pb2
