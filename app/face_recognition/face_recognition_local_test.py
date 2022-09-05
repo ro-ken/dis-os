@@ -105,7 +105,7 @@ class Face_Recognizer:
                     cv2.LINE_AA)
         cv2.putText(img_rd, "Q: Quit", (20, 450), self.font, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
 
-    def draw_basic_note(self, img_rd, frame_cnt,target_names):
+    def draw_basic_note(self, img_rd, frame_cnt):
         cv2.putText(img_rd, "Frame:  " + str(frame_cnt), (20, 100), self.font, 0.8, (0, 255, 0), 1,
                     cv2.LINE_AA)
         cv2.putText(img_rd, "Faces:  " + str(self.current_frame_face_cnt), (20, 160), self.font, 0.8, (0, 255, 0), 1,
@@ -320,7 +320,7 @@ class Face_Recognizer:
 
         # 7. 在这里更改显示的人名 / Modify name if needed
 
-        self.draw_basic_note(img_rd, frame_cnt,target_names)
+        self.draw_basic_note(img_rd, frame_cnt)
         # 8. 写名字 / Draw name
         img_with_name = self.draw_name(img_rd,target_names)
 

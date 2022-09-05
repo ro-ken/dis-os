@@ -2,6 +2,7 @@ import settings
 from module.sched.sched import IScheduler
 from .static_tbl import prop_tbl_api
 from .static_tbl import *
+from threading import Lock
 
 
 # 增强的比例分配，选取前面能用的进行分配
@@ -11,9 +12,11 @@ class Scheduler(IScheduler):
     def __init__(self, node):
         super().__init__(node)
         self.send_node = settings.arch      # 发送节点
+        self.lock = Lock()      # 下面两个函数不能交替运行
 
     # 实现接口,选择权重最大的节点进行分配
     def get_node(self):
+        self.lock.acquire()
 
         max_w = 0   # 最大权值
         max_node = None  # 最大权值的节点
@@ -28,11 +31,16 @@ class Scheduler(IScheduler):
 
         print('max_node:{}  weight={}'.format(max_node.name,max_w))
         max_node.allocated_num += 1
+
+        self.lock.release()
         return max_node
 
 
     # 按照性能强弱排序所有已连接的表
     def sort_node_list(self):
+
+        self.lock.acquire()
+
         for node in self.nodes.values():
             node.rank = -1  # 重置排名
             node.allocated_num = 1  # 重置分配帧数
@@ -51,3 +59,5 @@ class Scheduler(IScheduler):
             if max_node is not None:
                 max_node.rank = i
                 print("rank {} :{}".format(i,max_node.name))
+
+        self.lock.release()

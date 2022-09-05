@@ -1,8 +1,8 @@
 import sys
 arch = "local"  # 本机架构：win , mac , hwj （寒武纪）, ywd （英伟达）, smp （树莓派）, smp2 , smp3 , ...
-sub_net = 5   # 子网分区  相同分区的节点可互联
-
+nets = "ro_mi"      # ro_mi,704,tx1,连得那个路由器，用的什么ip 在node_settings配置
 node_discovery = "man"  # 节点获取方式：man：手动配置节点ip ， auto：自动发现
+sub_net = 5   # 子网分区  相同分区的节点可互联,node_discovery = "auto"时有效
 node_names = [arch]    # 若为手动配置，把要连接的节点名写上
 recv_udp = True         # 是否接受udp节点发现报文
 env = "show"  # 环境：”exp“，做实验测试的环境 ， ”run“ 程序正常运行，"show",验收演示模式

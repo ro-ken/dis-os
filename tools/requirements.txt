@@ -22,9 +22,9 @@ tabulate
 tensorboard
 
 # pycocotools>=2.0.2
-# ×°²»ÉÏ¿ÉÓÃ£ºpip install pycocotools-windows
+# è£…ä¸ä¸Šå¯ç”¨ï¼špip install pycocotools-windows
 
-# tensorflow ½Ï´ó£¬µ¥¶À°²×°
+# tensorflow è¾ƒå¤§ï¼Œå•ç‹¬å®‰è£…
 
-# ÈËÁ³Ê¶±ğ
-# dlib ÏÈÏÂÔØcmake£¬ÔÚ°²×°£¬×°²»ÉÏ¿ÉÓÃconda°²×° conda install dlib 
+# äººè„¸è¯†åˆ«
+# dlib å…ˆä¸‹è½½cmakeï¼Œåœ¨å®‰è£…ï¼Œè£…ä¸ä¸Šå¯ç”¨condaå®‰è£… conda install dlib 

@@ -108,6 +108,8 @@ class ClientHandler:
         self.master.node.fail_task_queue.extend(self.master.task_queue)  # 把剩余的任务加入失败任务队列
         self.master.node.fail_frame_queue.extend(self.master.frame_queue)  # 把剩余的帧任务加入帧失败任务队列
         self.master.node.conn_node_list.pop(key)  # 从表中移出该节点
+        if settings.sched_type == "prop2":
+            self.master.node.scheduler.sort_node_list()
         self.master.stop = True
         print("{} client stop".format(key))
         print("当前剩余连接节点：{}".format(list(self.master.node.conn_node_list.keys())))

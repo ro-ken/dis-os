@@ -66,9 +66,6 @@ class Node:
         self.handler.task_running()  # 执行任务
 
 
-
-
-
 if __name__ == '__main__':
     Node().start()
 
