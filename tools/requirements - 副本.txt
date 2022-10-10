@@ -1,0 +1,30 @@
+
+grpcio
+opencv_python>=4.6.0.66
+psutil
+pyyaml
+
+pandas
+seaborn
+sklearn
+matplotlib
+
+numpy
+torch>=1.7
+loguru
+scikit-image
+tqdm
+torchvision
+Pillow
+thop
+ninja
+tabulate
+tensorboard
+
+# pycocotools>=2.0.2
+# 装不上可用：pip install pycocotools-windows
+
+# tensorflow 较大，单独安装
+
+# 人脸识别
+# dlib 先下载cmake，在安装，装不上可用conda安装 conda install dlib 

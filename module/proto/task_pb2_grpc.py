@@ -81,6 +81,11 @@ class TaskServiceStub(object):
                 request_serializer=task__pb2.FaceRecoRequest.SerializeToString,
                 response_deserializer=task__pb2.FaceRecoReply.FromString,
                 )
+        self.task_yolo5_v = channel.unary_unary(
+                '/TaskService/task_yolo5_v',
+                request_serializer=task__pb2.Image.SerializeToString,
+                response_deserializer=task__pb2.Rectangle.FromString,
+                )
         self.keep_alive = channel.unary_unary(
                 '/TaskService/keep_alive',
                 request_serializer=task__pb2.HeartBeat.SerializeToString,
@@ -179,6 +184,12 @@ class TaskServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def task_yolo5_v(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def keep_alive(self, request, context):
         """keep_alive
         """
@@ -259,6 +270,11 @@ def add_TaskServiceServicer_to_server(servicer, server):
                     servicer.task_face_recognition,
                     request_deserializer=task__pb2.FaceRecoRequest.FromString,
                     response_serializer=task__pb2.FaceRecoReply.SerializeToString,
+            ),
+            'task_yolo5_v': grpc.unary_unary_rpc_method_handler(
+                    servicer.task_yolo5_v,
+                    request_deserializer=task__pb2.Image.FromString,
+                    response_serializer=task__pb2.Rectangle.SerializeToString,
             ),
             'keep_alive': grpc.unary_unary_rpc_method_handler(
                     servicer.keep_alive,
@@ -500,6 +516,23 @@ class TaskService(object):
         return grpc.experimental.unary_unary(request, target, '/TaskService/task_face_recognition',
             task__pb2.FaceRecoRequest.SerializeToString,
             task__pb2.FaceRecoReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def task_yolo5_v(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TaskService/task_yolo5_v',
+            task__pb2.Image.SerializeToString,
+            task__pb2.Rectangle.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

@@ -139,19 +139,36 @@ class TaskService(task_pb2_grpc.TaskServiceServicer):
         utils.server_task_end("task_yolo5")
         return img_req
 
-    def task_style_transfer(self, request, context):
-        utils.server_task_start("task_style_transfer")
+    def task_yolo5_v(self, request, context):
+        utils.server_task_start("task_yolo5")
 
-        content_path = ROOT + 'app/style_transfer/input/' + request.content.file_name
-        utils.write_file(content_path, request.content.file_data)
-        style_path = ROOT + 'app/style_transfer/input/' + request.style.file_name
-        utils.write_file(style_path, request.style.file_data)
-        style_transfer.start(content_path, style_path)
-        out_path = ROOT + 'app/style_transfer/output/' + 'out.jpg'
-        img_req = utils.get_image_req(out_path)
+        in_path = ROOT + 'app/yolo_5/input/' + request.file_name
+        utils.write_file(in_path, request.file_data)
+        # detect.start(in_path)     # 非windows错误
+        rects = yolo_5.start(None)
 
-        utils.server_task_end("task_style_transfer")
-        return img_req
+        res = str(rects)
+        reply = task_pb2.Rectangle(rects=res)
+        # out_path = ROOT + 'app/yolo_5/output/' + request.file_name
+        # img_req = utils.get_image_req(out_path)
+
+        utils.server_task_end("task_yolo5")
+        return reply
+
+    # 很多节点运行不了tensorflow
+    # def task_style_transfer(self, request, context):
+    #     utils.server_task_start("task_style_transfer")
+    #
+    #     content_path = ROOT + 'app/style_transfer/input/' + request.content.file_name
+    #     utils.write_file(content_path, request.content.file_data)
+    #     style_path = ROOT + 'app/style_transfer/input/' + request.style.file_name
+    #     utils.write_file(style_path, request.style.file_data)
+    #     style_transfer.start(content_path, style_path)
+    #     out_path = ROOT + 'app/style_transfer/output/' + 'out.jpg'
+    #     img_req = utils.get_image_req(out_path)
+    #
+    #     utils.server_task_end("task_style_transfer")
+    #     return img_req
 
     def task_linear_regression(self, request, context):
         utils.server_task_start("task_linear_regression")

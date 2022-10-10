@@ -1,5 +1,6 @@
 import time
 
+import cv2
 from settings import *
 from tools import utils
 from tools.utils import ROOT
@@ -108,3 +109,44 @@ class TaskTesty:
             total_time += end - start
 
         print("yolox grpc avg time = {}".format(total_time / times))
+
+    def test_yolo5_v(self):
+
+        path = ROOT + 'dataset/target.mp4'
+
+        # 创建VideoCapture，传入0即打开系统默认摄像头
+        vc = cv2.VideoCapture(path)
+
+        i=0
+        while (True):
+            i+=1
+            # 读取一帧，read()方法是其他两个类方法的结合，具体文档
+            # ret为bool类型，指示是否成功读取这一帧
+            ret, frame = vc.read()
+            # 就是个处理一帧的例子，这里转为灰度图
+            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # 不断显示一帧，就成视频了
+            # 这里没有提前创建窗口，所以默认创建的窗口不可调整大小
+            # 可提前使用cv.WINDOW_NORMAL标签创建个窗口
+            print(frame.shape)
+            start = time.time()
+            self.task_handler.task_yolo5_v(img=frame)
+            end = time.time()
+            print("times {} = {}".format(i, end - start))
+            # cv2.imshow('frame', frame)
+            # # 若没有按下q键，则每1毫秒显示一帧
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
+
+        # 所有操作结束后不要忘记释放
+        vc.release()
+        cv2.destroyAllWindows()
+        # image = cv2.imread(path)
+        # cv2.imshow('testpic',image)
+        # cv2.waitKey()
+        # self.task_handler.task_yolo5_v(img=image)
+        # end = time.time()
+        # print("times {} = {}".format(i, end - start))
+        # total_time += end - start
+
+        # print("yolox grpc avg time = {}".format(total_time / times))

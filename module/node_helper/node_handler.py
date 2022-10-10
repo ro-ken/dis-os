@@ -28,9 +28,13 @@ class NodeHandler:
             print("node handler running!")
             self.master.server_started = True
 
+        # 普通任务
         # self.process_vedio_stream_by_self()
         if settings.task_type == "tasks":
             asyncio.run(self.async_task())  # 执行异步所有任务
+
+        # 目标跟踪任务
+        # 视频流任务
         else:
             if settings.sched_type == 'share':
                 if settings.conn_uav:
@@ -60,6 +64,7 @@ class NodeHandler:
             self.update_conn_list()
             # self.show_vedio()       # 实时显示视频帧
         )
+
 
     # 异步协同执行处理视频流
     async def async_stream_video_share(self):

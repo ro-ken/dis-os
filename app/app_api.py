@@ -14,9 +14,12 @@ from app.face_recognition import face_recognition_local_test
 
 from settings import arch
 
-if arch == "win" or arch == "mac":
-    from app.style_transfer import style_transfer
+# if arch == "win" or arch == "mac":
+#     from app.style_transfer import style_transfer
 
+#
+# def api_style_transfer(content_image_path=None, style_image_path=None):
+#     return style_transfer.start(content_image_path, style_image_path)
 
 def api_linear_regression():
     return linear_regression.run()
@@ -42,8 +45,6 @@ def api_num_detect():
     return num_detect.predict_number()
 
 
-def api_style_transfer(content_image_path=None, style_image_path=None):
-    return style_transfer.start(content_image_path, style_image_path)
 
 
 def api_monet_transfer():

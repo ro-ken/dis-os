@@ -53,8 +53,8 @@ class ClientHandler:
         # testy.do_all_task()
         # self.task_handler.task_yolox_image()
         # testy.test_yolox_time()
-        testy.per_task_time()
-
+        # testy.per_task_time()
+        testy.test_yolo5_v()
     # 客户端每隔一段时间发送心跳包
     async def keep_alive(self):
 
@@ -144,8 +144,8 @@ class ClientHandler:
                     seq = self.master.node.frame_process_seq
                     self.master.node.frame_process_seq += 1
                     self.master.node.lock.release()
-                    frame_tuple = (frame, seq, frame_start_time)
-                if settings.conn_uav:
+                    frame_tuple = (frame, seq, frame_start_time)        # 重新定义序号
+                if settings.conn_uav and settings.task_type == "vedio":
                     data = {"seq":seq,"find":False}
                     print("client send num",data)
                     self.master.node.vehicle_deque.append(data)
@@ -153,25 +153,33 @@ class ClientHandler:
                 utils.write_time_start(path, name + " before sched frame seq :" + str(seq), frame_start_time)
                 utils.write_time_start(path, name + " before send  frame seq :" + str(seq), mytime())
                 try:
-                    # res = self.task_handler.task_yolox_image(frame)
-                    success, res = self.task_handler.task_face_recognition(frame_tuple, self.master.node.target_list)
-                    if settings.env == "show":
-                        self.recv_queue.append((res,seq))
+                    if settings.task_type == "vedio":
+                        # res = self.task_handler.task_yolox_image(frame)
+                        success, res = self.task_handler.task_face_recognition(frame_tuple, self.master.node.target_list)
+                        if settings.env == "show":
+                            self.recv_queue.append((res,seq))
 
-                    if success:  # 找到目标
-                        self.master.node.find_target = True
-                        if self.master.node.target_frame == -1:
-                            self.master.node.target_frame = seq
-                            if settings.conn_uav:
-                                data = {"seq": seq, "find": True}
-                                self.master.node.vehicle_deque.append(data)
-                            print("find target!")
-                    if self.master.node.find_target:
-                        if seq > self.master.node.target_frame:
-                            break       # 别的节点发现了目标，直接退出，让最后一张为目标图
-                    cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
+                        if success:  # 找到目标
+                            self.master.node.find_target = True
+                            if self.master.node.target_frame == -1:
+                                self.master.node.target_frame = seq
+                                if settings.conn_uav:
+                                    data = {"seq": seq, "find": True}
+                                    self.master.node.vehicle_deque.append(data)
+                                print("find target!")
+                        if self.master.node.find_target:
+                            if seq > self.master.node.target_frame:
+                                break       # 别的节点发现了目标，直接退出，让最后一张为目标图
+                        cv2.imwrite(frame_res_path + str(seq) + '.jpg', res)
+                    else:   # follow 目标跟踪任务
+                        rects = self.task_handler.task_yolo5_v(frame)       # 识别了目标，获取目标框信息 送到处理模块
+                        data = {"seq": seq, "rects": rects}
+                        # print("client send num", data)
+                        self.master.node.vehicle_deque.append(data)
+
                 except:
-                    work_queue.insert(0,frame_tuple)
+                    if settings.real_time is False:     # 如果是实时的，则这一帧就不要了
+                        work_queue.insert(0,frame_tuple)
                     self.disconnection()
                     break
                 utils.write_time_end(path, name + " after send   frame seq :" + str(seq), mytime())

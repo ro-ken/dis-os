@@ -93,10 +93,13 @@ class Annotator:
                                      box[1] - h if outside else box[1],
                                      box[0] + w + 1,
                                      box[1] + 1 if outside else box[1] + h + 1], fill=color)
+
                 # self.draw.text((box[0], box[1]), label, fill=txt_color, font=self.font, anchor='ls')  # for PIL>8.0
                 self.draw.text((box[0], box[1] - h if outside else box[1]), label, fill=txt_color, font=self.font)
         else:  # cv2
             p1, p2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
+            # print(p1,p2)
+            # cv2.rectangle(self.im, (0,0), (1280,720), color, thickness=self.lw, lineType=cv2.LINE_AA)
             cv2.rectangle(self.im, p1, p2, color, thickness=self.lw, lineType=cv2.LINE_AA)
             if label:
                 tf = max(self.lw - 1, 1)  # font thickness

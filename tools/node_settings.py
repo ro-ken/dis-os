@@ -5,15 +5,19 @@ node_list = []
 server_ip = get_host_ip()
 server_port = 50051 # grpc 端口
 udp_server_port = 10000  # udp监听端口
-vehicle_port = 1234       # 小车server端口
-vehicle_main_ip = "192.168.1.103"
-vehicle_local_ip = "192.168.1.109"
-vehicle_coop_ip = ["192.168.1.110"]     # 从车ip列表
+vehicle_server_port = 1235       # 小车server端口
+vehicle_client_port = 1234       # 小车server端口
+vehicle_main_ip = "192.168.0.100"
+vehicle_local_ip = "192.168.0.241"
+vehicle_coop_ip = ["192.168.0.170","192.168.0.141"]     # 从车ip列表
+# vehicle_coop_ip = ["192.168.0.170"]     # 从车ip列表
 
 
 print_heartbeat = False   # 打印输出实时心跳
 heart_rate = 5  # 设置心跳频率（单位/s）
 keep_alive_time_out = 6  # 心跳超时时间（单位/s）
+frame_size = (640 , 480)
+
 
 # 以下是手动配置的ip
 if node_discovery == "man":

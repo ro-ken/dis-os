@@ -176,6 +176,23 @@ class TaskHandler:
         if settings.show_result:
             utils.imshow("task_lic_detect", img_res)
 
+    def task_yolo5_v(self, img):
+        utils.client_task_start("task_yolo5_v")
+
+        # img, seq = frame_tuple[0:2]
+        str_img = utils.img_encode(img, '.jpg')
+        req = task_pb2.Image(img=str_img)
+
+        reply = self.stub.task_yolo5_v(req)
+        strs = reply.rects
+        rects = eval(strs)
+
+        print(rects)
+        utils.client_task_end("task_yolo5")
+
+        return rects
+
+
     def task_face_recognition(self, frame_tuple, target_list):
         utils.client_task_start("task_face_recognition")
 

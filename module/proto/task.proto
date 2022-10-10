@@ -22,11 +22,17 @@ service TaskService{
 
 //  face_reco
   rpc task_face_recognition(FaceRecoRequest)returns(FaceRecoReply){}
+  rpc task_yolo5_v(Image)returns(Rectangle){}
 
 //  keep_alive
   rpc keep_alive(HeartBeat)returns(CommonReply){}
   rpc update_tasks(TaskPackage)returns(CommonReply){}
 
+}
+
+
+message Rectangle{
+  string rects = 1; //是元组列表，到时候转换回来 [[(1,2)()],[()()]]
 }
 
 message TaskPackage{
