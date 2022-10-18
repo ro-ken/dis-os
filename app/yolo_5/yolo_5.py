@@ -28,7 +28,7 @@ import argparse
 import os
 import sys
 import time
-from pathlib import Path, WindowsPath
+from pathlib import Path
 
 import cv2
 import torch
@@ -214,7 +214,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         # LOGGER.info(f"Results saved to {colorstr('bold', save_dir)}{s}")
     if update:
         strip_optimizer(weights)  # update model (to fix SourceChangeWarning)
-
+    print(rects)
     # 返回坐标集合
     return rects
 

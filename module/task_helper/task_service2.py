@@ -142,7 +142,7 @@ class TaskService2(task_pb2_grpc.TaskServiceServicer):
         return img_req
 
     def task_yolo5_v(self, request, context):
-        utils.server_task_start("task_yolo5")
+        utils.server_task_start("task_yolo5_v")
 
         in_path = ROOT + 'app/yolo_5/input/work.jpg'
         utils.write_file(in_path, request.img)      # image是否可以当做 body 传进去
@@ -154,7 +154,7 @@ class TaskService2(task_pb2_grpc.TaskServiceServicer):
         # out_path = ROOT + 'app/yolo_5/output/' + request.file_name
         # img_req = utils.get_image_req(out_path)
 
-        utils.server_task_end("task_yolo5")
+        utils.server_task_end("task_yolo5_v")
         return reply
 
     # def task_style_transfer(self, request, context):

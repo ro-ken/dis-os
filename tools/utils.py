@@ -174,7 +174,9 @@ def init_output():
     if os.path.exists(OUTPUT) is False:
         os.mkdir(OUTPUT)
 
+    yolo5_output = ROOT + 'app/yolo_5/output/'
     del_file(OUTPUT)
+    del_file(yolo5_output)
 
     FRAME_RES = OUTPUT + 'frame_res/'
 

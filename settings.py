@@ -1,6 +1,6 @@
 import sys
 arch = "local"  # 本机架构：win , mac , hwj （寒武纪）, ywd （英伟达）, smp （树莓派）, smp2 , smp3 , ...
-nets = "tx1"      # ro_mi,704,tx1,连得那个路由器，用的什么ip 在node_settings配置
+nets = "ro_mi"      # ro_mi,704,tx1,连得那个路由器，用的什么ip 在node_settings配置
 node_discovery = "man"  # 节点获取方式：man：手动配置节点ip ， auto：自动发现
 sub_net = 5   # 子网分区  相同分区的节点可互联,node_discovery = "auto"时有效
 node_names = [arch]    # 若为手动配置，把要连接的节点名写上
@@ -9,7 +9,7 @@ env = "show"  # 环境：”exp“，做实验测试的环境 ， ”run“ 程�
 # 调度类型：simple_greed , global_greed , cpu_res , loop,cpu_greed,prop ,prop2 具体去sched_api.py查看  <share>为共享队列模式
 sched_type = "share"
 real_time = True        # 如果sched_type采取<share>公共队列的方式，此标志位有效，True表示没来得及处理的帧会丢弃，只处理最新的帧
-conn_uav = True         # 主树莓派要驱动小车，设置此标志为True
+conn_uav = False         # 主树莓派要驱动小车，设置此标志为True
 
 task_type = "follow"  # 任务的类型 tasks （产生所有任务）, vedio（产生视频流任务）,follow (目标跟踪)
 # vedio

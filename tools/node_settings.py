@@ -7,8 +7,8 @@ server_port = 50051 # grpc 端口
 udp_server_port = 10000  # udp监听端口
 vehicle_server_port = 1235       # 小车server端口
 vehicle_client_port = 1234       # 小车server端口
-vehicle_main_ip = "192.168.0.100"
-vehicle_local_ip = "192.168.0.241"
+vehicle_main_ip = "192.168.31.148"
+vehicle_local_ip = "192.168.31.204"
 vehicle_coop_ip = ["192.168.0.170","192.168.0.141"]     # 从车ip列表
 # vehicle_coop_ip = ["192.168.0.170"]     # 从车ip列表
 

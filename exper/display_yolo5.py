@@ -3,7 +3,7 @@ import os
 import time
 
 import cv2  # 导入从cv2模块
-path = '.'
+path = '../app/yolo_5/output'
 
 rate = 4    # 每秒播放的帧数
 i = -1

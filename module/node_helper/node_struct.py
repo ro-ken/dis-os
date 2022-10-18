@@ -1,5 +1,8 @@
 
+import socket
+
 # 已连接其他节点的一些信息
+
 class NodeInfo:
 
     def __init__(self, key, client, name):
@@ -20,4 +23,33 @@ class NodeInfo:
         self.rank = -1              # 强弱排名，到时候会选择几个较强的节点
 
 
+# udp的client和server
 
+class UDPClient:
+    def __init__(self, server, ip, port):
+        self.server = server  # 负责接受的server
+        self.ip_port = (ip, port)
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
+
+    # 发送消息
+    def send(self, msg):
+        print("send data", msg)
+        self.client.sendto(msg.encode(), self.ip_port)
+
+    # 发送并接受
+    def send_recv(self, msg):
+        self.send(msg)
+        data = self.server.recv()
+        return data
+
+
+class UDPServer:
+    def __init__(self, ip, port):
+        self.ip_port = (ip, port)
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, 0)
+        self.server.bind(self.ip_port)
+
+    def recv(self):
+        data = self.server.recv(1024).strip().decode()
+        print("recv data:", data)
+        return data

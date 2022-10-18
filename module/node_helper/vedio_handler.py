@@ -12,10 +12,11 @@ from tools.utils import ROOT
 
 
 def vedio_show_process():
-    path = ROOT + './output/frame_res/'
+    path = ROOT + 'app/yolo_5/output'
 
-    rate = 6  # 每秒播放的帧数
+    rate = 4  # 每秒播放的帧数
     i = -1
+    delay = int(1000 // rate)
 
     while True:
         i += 1
@@ -29,7 +30,7 @@ def vedio_show_process():
         image = cv2.imread(next_file)  # 读取图像
         cv2.imshow("image", image)  # 显示图像
         # cv2.waitKey(1000//rate)  # 默认为0，无限等待
-        if cv2.waitKey(1000 // rate) & 0xFF == ord('q'):
+        if cv2.waitKey(delay) & 0xFF == ord('q'):
             break
 
     cv2.destroyAllWindows()  # 释放所有窗口
