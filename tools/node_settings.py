@@ -5,11 +5,12 @@ node_list = []
 server_ip = get_host_ip()
 server_port = 50051 # grpc 端口
 udp_server_port = 10000  # udp监听端口
-vehicle_server_port = 1235       # 小车server端口
-vehicle_client_port = 1234       # 小车server端口
-vehicle_main_ip = "192.168.31.148"
-vehicle_local_ip = "192.168.31.204"
-vehicle_coop_ip = ["192.168.0.170","192.168.0.141"]     # 从车ip列表
+vehicle_server_port = 1235              # node程序  端口
+vehicle_target_follow_port = 1245       # 目标跟随程序端口
+vehicle_client_port = 1234              # 小车ros 控制端端口
+vehicle_main_ip = "192.168.31.148"      # 主小车ip
+vehicle_local_ip = "192.168.31.204"     # 运行此程序的ip
+vehicle_coop_ip = ["192.168.31.194","192.168.31.195"]     # 从车ip列表
 # vehicle_coop_ip = ["192.168.0.170"]     # 从车ip列表
 
 
@@ -25,6 +26,7 @@ if node_discovery == "man":
     if nets == "ro_mi":
         name_ip = {
             "win": '192.168.31.204',
+            "tx1": '192.168.31.148',
             "smp": '192.168.31.117',
             "smp2": '192.168.31.190',
             "smp3": '192.168.31.187',
