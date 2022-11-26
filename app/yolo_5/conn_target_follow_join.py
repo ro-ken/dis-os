@@ -66,7 +66,7 @@ class StatusControlBlock:
         self.speed_max = 0.3  # 太快容易撞
         self.back_speed = -0.15  # 后退速度
         self.turn = 0.3  # 转向速度 (rad/s)
-        self.t = 0.7  # 两张图片的时间间隔 (s)
+        self.t = 1.2  # 两张图片的时间间隔 (s)
         self.half_rad = 0.7  # 半角弧度
         self.base_w = self.mid_x * 0.6  # 基准框宽度 (像素)
         self.bash_y = 1  # 基准距离 (m )
@@ -211,6 +211,8 @@ if __name__ == '__main__':
     scb.server.recv()       # 等待主程序发开始信号
     scb.stop = False        # 程序状态变为开始
     cap = cv2.VideoCapture(0)  # 从摄像头获取视频流
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
     s = time.time()
     while not scb.stop:
         ret, frame = cap.read()

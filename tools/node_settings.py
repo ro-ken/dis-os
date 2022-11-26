@@ -8,13 +8,13 @@ udp_server_port = 10000  # udp监听端口
 vehicle_server_port = 1235              # node程序  端口
 vehicle_target_follow_port = 1245       # 目标跟随程序端口
 vehicle_client_port = 1234              # 小车ros 控制端端口
-vehicle_main_ip = "192.168.31.148"      # 主小车ip
-vehicle_local_ip = "192.168.31.204"     # 运行此程序的ip
-vehicle_coop_ip = ["192.168.31.194","192.168.31.195"]     # 从车ip列表
-# vehicle_coop_ip = ["192.168.0.170"]     # 从车ip列表
+vehicle_main_ip = "192.168.1.56"      # 主小车ip
+vehicle_local_ip = "192.168.1.56"     # 运行此程序的ip
+#vehicle_coop_ip = ["192.168.31.194","192.168.31.195"]     # 从车ip列表
+vehicle_coop_ip = ["192.168.1.170"]     # 从车ip列表
 
 
-print_heartbeat = False   # 打印输出实时心跳
+print_heartbeat = True   # 打印输出实时心跳
 heart_rate = 5  # 设置心跳频率（单位/s）
 keep_alive_time_out = 6  # 心跳超时时间（单位/s）
 frame_size = (640 , 480)

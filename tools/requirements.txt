@@ -27,4 +27,5 @@ tensorboard
 # tensorflow 较大，单独安装
 
 # 人脸识别
-# dlib 先下载cmake，在安装，装不上可用conda安装 conda install dlib 
+# dlib 先下载cmake，在安装，装不上可用conda安装 conda install dlib
+# 强制使用cpu运行模型 <pip install -v --install-option="--no" --install-option="DLIB_USE_CUDA" dlib>
